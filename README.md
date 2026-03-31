@@ -14,7 +14,7 @@
 
     2.2. Temporizador
 
-    2.3.Pantalla táctil 
+    2.3. Pantalla táctil 
 
 3. **Autómata**
 
@@ -61,4 +61,4 @@ El temporizador se usará en las siguientes circunstancias:
 La pantalla táctil la usaremos para el Menú y la pantalla de Gameover, donde habrá varios botones. El de START que iniciará el juego y cambiará al estado Partida, el de RESTART en Gameover para pasar al estado partida, y el de MENÚ en Gameover para pasar al estado Menú.
 
 ## **3. Autómata**
-![Automata]()
+![Automata](<img width="4768" height="3253" alt="Autómata_juego" src="https://github.com/user-attachments/assets/61d66414-4862-4b54-8824-04109728f4de" />)
