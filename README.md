@@ -24,7 +24,7 @@
 Nuestro juego va a ser una versión adaptada y con posiblemente menos funciones que el juego **Centipede** creado en 1981 para máquinas recreativas y más adelante adaptada para la Atari 2600.
 
 <p align="center">
-  <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2F59%2Fd9%2F84%2F59d984e8aab55cab62f73ae6a0a045d7--logo-color-centipedes.jpg&f=1&nofb=1&ipt=096b4644639209c7ffa43e533ea9cac8fa6a68eb1f5e27c00efdb443319ac6a5" alt="Centipede Logo" width="80%">
+  <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2F59%2Fd9%2F84%2F59d984e8aab55cab62f73ae6a0a045d7--logo-color-centipedes.jpg&f=1&nofb=1&ipt=096b4644639209c7ffa43e533ea9cac8fa6a68eb1f5e27c00efdb443319ac6a5](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp10110887.jpg&f=1&nofb=1&ipt=e0c42ce25cd123942dc5fe45694c085694237481f29d94bbbbe3d913c32000fb)" alt="Centipede Logo" width="80%">
 </p>
 
 ### **1.2. Funcionamiento del juego**
