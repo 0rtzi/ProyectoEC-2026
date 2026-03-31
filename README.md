@@ -23,21 +23,20 @@
 # **1.Descripción del juego** {#1.descripción-del-juego}
 
 ## **1.1.Juego** {#1.1.juego}
-
-    Nuestro juego va a ser una versión adaptada y con posiblemente menos funciones que el juego **Centipede** creado en 1981 para máquinas recreativas y más adelante adaptada para la Atari 2600\.
+Nuestro juego va a ser una versión adaptada y con posiblemente menos funciones que el juego **Centipede** creado en 1981 para máquinas recreativas y más adelante adaptada para la Atari 2600.
 
 ![][image1]
 
 ## **1.2.Funcionamiento del juego** {#1.2.funcionamiento-del-juego}
 
-    El juego Centipede se basa en un protagonista (una nave) la cual dispara rayos con los que disparar a diferentes elementos en pantalla. El objetivo principal del juego es sobrevivir y conseguir la mayor cantidad de puntos posibles disparando a los enemigos (el ciempiés, la araña, etc.)
+El juego Centipede se basa en un protagonista (una nave) la cual dispara rayos con los que disparar a diferentes elementos en pantalla. El objetivo principal del juego es sobrevivir y conseguir la mayor cantidad de puntos posibles disparando a los enemigos (el ciempiés, la araña, etc.)
 
-    Entre los enemigos, el ciempiés, es el primero que implementaremos y en caso de que tengamos tiempo posiblemente la araña también. El ciempiés va bajando por la pantalla cambiando de dirección cada vez que se choca con una seta. La forma de eliminarlos es dispararles a la cabeza para quitarles una unidad de la longitud de su cuerpo. En caso de disparar a cualquier otra parte del cuerpo, esta parte desaparece pero el ciempiés se divide en dos.
+Entre los enemigos, el ciempiés, es el primero que implementaremos y en caso de que tengamos tiempo posiblemente la araña también. El ciempiés va bajando por la pantalla cambiando de dirección cada vez que se choca con una seta. La forma de eliminarlos es dispararles a la cabeza para quitarles una unidad de la longitud de su cuerpo. En caso de disparar a cualquier otra parte del cuerpo, esta parte desaparece pero el ciempiés se divide en dos.
 
-    El movimiento de la araña en cambio es más errático. Esta se mueve en diagonal por la parte inferior de la pantalla, 
+El movimiento de la araña en cambio es más errático. Esta se mueve en diagonal por la parte inferior de la pantalla, 
 
-    Las setas se generan cuando das un disparo a cualquiera de los enemigos y aparece en la posición donde ha recibido el golpe el enemigo, cuando pierdes una vida (se regeneran las que se habían quitado) o cuando cambias de dificultad (te pasas la pantalla). Puedes hacer desaparecer las setas al dispararles 4 veces. Estas irán cambiando de aspecto cuantas más veces le des disparos.  
-    La nave puede moverse en dos dimensiones, es decir, arriba, abajo, derecha e izquierda. Cuando recibe un golpe pierde una vida y se reinicia la pantalla en la que ha perdido dicha vida. Cada vez que terminas con un enemigo se te suman puntos al contador el cual indica la calidad de la partida que se ha jugado. Cuantos más puntos mejor.
+Las setas se generan cuando das un disparo a cualquiera de los enemigos y aparece en la posición donde ha recibido el golpe el enemigo, cuando pierdes una vida (se regeneran las que se habían quitado) o cuando cambias de dificultad (te pasas la pantalla). Puedes hacer desaparecer las setas al dispararles 4 veces. Estas irán cambiando de aspecto cuantas más veces le des disparos.  
+La nave puede moverse en dos dimensiones, es decir, arriba, abajo, derecha e izquierda. Cuando recibe un golpe pierde una vida y se reinicia la pantalla en la que ha perdido dicha vida. Cada vez que terminas con un enemigo se te suman puntos al contador el cual indica la calidad de la partida que se ha jugado. Cuantos más puntos mejor.
 
 # 
 
@@ -45,13 +44,13 @@
 
 ## **2.1.Teclado** {#2.1.teclado}
 
-    El movimiento del personaje estará manejado por las teclas **arriba, abajo, derecha e izquierda** en modo de **encuesta** ya que el personaje tiene que moverse continuamente.
+El movimiento del personaje estará manejado por las teclas **arriba, abajo, derecha e izquierda** en modo de **encuesta** ya que el personaje tiene que moverse continuamente.
 
-    En cambio el disparo, **tecla A**, se hará mediante sincronización por **interrupción**. Es decir, el jugador decidirá cuándo disparar exactamente, al igual que puede no disparar por toda la partida.
+En cambio el disparo, **tecla A**, se hará mediante sincronización por **interrupción**. Es decir, el jugador decidirá cuándo disparar exactamente, al igual que puede no disparar por toda la partida.
 
 ## **2.2.Temporizador** {#2.2.temporizador}
 
-    El temporizador se usará en las siguientes circunstancias:
+El temporizador se usará en las siguientes circunstancias:
 
 * **Golpe del personaje:** Cuando el personaje principal (la nave) reciba un golpe y por lo tanto pierda una vida, se activará un timer de 5 segundos por el que la pantalla se actualiza, los enemigos reaparecen y da tiempo a ejecutar una animación de destrucción de la nave.  
 * **Estado Gameover:** Cuando el estado del juego sea Gameover, entonces se creará un temporizador que cuente 10 segundos. Cuando pasen los 10 segundos se cambiará al Menú.  
@@ -63,7 +62,7 @@
 
 ## **2.3.Pantalla táctil** {#2.3.pantalla-táctil}
 
-    La pantalla táctil la usaremos para el Menú y la pantalla de Gameover, donde habrá varios botones. El de START que iniciará el juego y cambiará al estado Partida, el de RESTART en Gameover para pasar al estado partida, y el de MENÚ en Gameover para pasar al estado Menú.
+La pantalla táctil la usaremos para el Menú y la pantalla de Gameover, donde habrá varios botones. El de START que iniciará el juego y cambiará al estado Partida, el de RESTART en Gameover para pasar al estado partida, y el de MENÚ en Gameover para pasar al estado Menú.
 
 # 
 
