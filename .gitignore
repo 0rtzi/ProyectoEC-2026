@@ -35,6 +35,7 @@
 *.i*86
 *.x86_64
 *.hex
+*.nds
 
 # Debug files
 *.dSYM/
@@ -54,5 +55,6 @@ dkms.conf
 # debug information files
 *.dwo
 
-# Ignorar configuraciones locales del editor (Visual Studio Code)
+# Ignorar configuraciones locales del editor (Visual Studio Code) y carpeta build
 .vscode/
+build/
