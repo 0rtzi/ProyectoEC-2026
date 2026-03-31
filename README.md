@@ -24,7 +24,7 @@
 
 ## **1.1.Juego** {#1.1.juego}
 
-    Nuestro juego va a ser una versión adaptada y con posiblemente menos funciones que el juego **Centipede** creado en 1981 para máquinas recreativas y más adelante adaptada para la Atari 2600\.
+Nuestro juego va a ser una versión adaptada y con posiblemente menos funciones que el juego **Centipede** creado en 1981 para máquinas recreativas y más adelante adaptada para la Atari 2600.
 
 ![][image1]
 
