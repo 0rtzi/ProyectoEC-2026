@@ -23,6 +23,10 @@
 # **1.Descripción del juego** {#1.descripción-del-juego}
 
 ## **1.1.Juego** {#1.1.juego}
+<<<<<<< HEAD
+=======
+
+>>>>>>> de5a17eecf7f81fc74597c7b2ce8d225e6529549
 Nuestro juego va a ser una versión adaptada y con posiblemente menos funciones que el juego **Centipede** creado en 1981 para máquinas recreativas y más adelante adaptada para la Atari 2600.
 
 ![][image1]
