@@ -12,6 +12,7 @@ Código desarrollado basado en el ejemplo "Simple sprite demo" de dovoto y en ot
 #include "sprites.h"
 #include "definiciones.h"
 
+u16* gfxprota;
 u16* gfxspider;
 u16* gfxchampi;
 u16* gfxcenticuerpo;
@@ -22,6 +23,7 @@ u16* gfxcabeza;
 void memoriaReserva()
 {
 	/* Por cada sprite que se quiera incluir en la pantalla principal hay que hacer algo equivalente a lo que sigue */
+	gfxprota= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxspider= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxchampi= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxcenticuerpo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
@@ -58,14 +60,34 @@ void EstablecerPaletaPrincipal() {
 	SPRITE_PALETTE[23] = RGB15(24, 31, 16);
 }
 
-/* Definición de un sprite de 16x16 píxeles para dibujar la araña */
 /* Por la forma que tienen de trabajar los bancos de memoria, la imagen del sprite se divide en bloques de 8x8 píxeles. Los primeros 64 (8x8) píxeles que indicamos
 aparecerán en el cuadrante superior izquierdo de la imagen del sprite, los siguientes 64 en el cuadrante superior derecho, los siguientes en el cuadrante inferior izquierdo y los
 últimos en el cuadrante inferior derecho */
 
+u8 prota[256] =
+{
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	 //	0	0	0	0	0	0	3	0	0	3	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	3	0	0	3	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	3	0	0	0	0	3	0	0	0	0	0
+0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	3	0	0	0	0	3	0	0	0	0	0
+0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	3	0	0	0	0	3	0	0	0	0	0
+0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	3	0	0	0	0	0	0	3	0	0	0	0
+0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	3	0	0	0	0	0	0	3	0	0	0	0
+0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	3	0	0	0	0	0	0	0	0	3	0	0	0
+0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	3	0	0	0	0	0	0	0	0	3	0	0	0
+0	,	0	,	0	,	3	,	3	,	3	,	3	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	3	0	0	0	0	0	0	0	0	0	0	3	0	0
+0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	 //	0	0	3	0	0	0	0	0	0	0	0	0	0	3	0	0
+0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	 //	0	0	3	0	0	0	0	0	0	0	0	0	0	3	0	0
+0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	 //	0	0	0	3	3	3	3	3	3	3	3	3	3	0	0	0
+3	,	3	,	3	,	3	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+
+};
+
 u8 spider[256] = 
 {
-	0	,	0	,	0	,	0	,	0	,	0	,	0	,	12	,	0	,	0	,	0	,	0	,	0	,	0	,	12	,	12	,	 //	0	0	0	0	0	0	0	12	12	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	12	,	0	,	0	,	0	,	0	,	0	,	0	,	12	,	12	,	 //	0	0	0	0	0	0	0	12	12	0	0	0	0	0	0	0
 0	,	12	,	0	,	0	,	0	,	0	,	12	,	12	,	12	,	12	,	12	,	0	,	0	,	2	,	23	,	2	,	 //	0	0	0	0	0	0	12	12	12	12	0	0	0	0	0	0
 12	,	0	,	12	,	12	,	2	,	23	,	2	,	0	,	14	,	0	,	0	,	2	,	23	,	2	,	23	,	2	,	 //	0	12	0	0	0	0	12	12	12	12	0	0	0	0	12	0
 0	,	0	,	0	,	23	,	2	,	23	,	2	,	0	,	0	,	0	,	0	,	2	,	23	,	2	,	23	,	2	,	 //	12	12	12	0	0	2	23	2	23	2	23	0	0	12	12	12
@@ -86,7 +108,7 @@ u8 spider[256] =
 
 u8 champi[256] = 
 {
-	0	,	0	,	0	,	0	,	0	,	15	,	15	,	20	,	0	,	0	,	0	,	0	,	15	,	20	,	20	,	15	,	 //	0	0	0	0	0	15	15	20	15	15	20	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	15	,	15	,	20	,	0	,	0	,	0	,	0	,	15	,	20	,	20	,	15	,	 //	0	0	0	0	0	15	15	20	15	15	20	0	0	0	0	0
 0	,	0	,	0	,	20	,	15	,	15	,	15	,	15	,	0	,	0	,	15	,	20	,	15	,	15	,	15	,	15	,	 //	0	0	0	0	15	20	20	15	15	15	20	15	0	0	0	0
 0	,	0	,	15	,	20	,	15	,	15	,	15	,	0	,	14	,	15	,	15	,	20	,	15	,	20	,	15	,	15	,	 //	0	0	0	20	15	15	15	15	15	15	20	15	15	0	0	0
 0	,	20	,	20	,	15	,	15	,	15	,	15	,	0	,	0	,	15	,	15	,	15	,	15	,	20	,	20	,	20	,	 //	0	0	15	20	15	15	15	15	15	20	15	20	20	20	0	0
@@ -107,7 +129,7 @@ u8 champi[256] =
 
 u8 centicuerpo[256] = 
 {
-	0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
+0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
 0	,	0	,	8	,	17	,	8	,	8	,	8	,	8	,	0	,	8	,	17	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
 8	,	17	,	8	,	17	,	17	,	8	,	8	,	0	,	14	,	17	,	8	,	17	,	8	,	8	,	17	,	17	,	 //	0	0	8	17	8	8	8	8	8	8	8	8	17	8	0	0
 8	,	17	,	8	,	17	,	8	,	17	,	8	,	0	,	0	,	17	,	8	,	17	,	8	,	17	,	8	,	17	,	 //	0	8	17	8	17	17	17	17	17	17	17	17	8	17	8	0
@@ -128,7 +150,7 @@ u8 centicuerpo[256] =
 
 u8 cabeza[256]=
 {
-	0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
+0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
 0	,	0	,	8	,	17	,	17	,	17	,	17	,	17	,	0	,	8	,	17	,	17	,	6	,	6	,	6	,	17	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
 8	,	17	,	17	,	17	,	6	,	6	,	6	,	0	,	14	,	8	,	8	,	17	,	6	,	6	,	6	,	17	,	 //	0	0	8	17	17	17	17	17	17	17	17	17	17	8	0	0
 0	,	0	,	0	,	8	,	17	,	17	,	17	,	0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	8	,	 //	0	8	17	17	6	6	6	17	17	17	17	17	17	3	8	0
@@ -161,6 +183,46 @@ int i;
 	}
 }
 
+void MostrarProta(int indice, int x, int y)
+{
+oamSet(&oamMain, // main graphics engine context
+	indice,           // oam index (0 to 127)  
+	x, y,   // x and y pixel location of the sprite
+	0,                    // priority, lower renders last (on top)
+	0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+	SpriteSize_16x16,     
+	SpriteColorFormat_256Color, 
+	gfxprota,// +16*16/2,      // pointer to the loaded graphics
+	-1,                  // sprite rotation data  
+	false,               // double the size when rotating?
+	false,			// hide the sprite?
+	false, false, // vflip, hflip
+	false	// apply mosaic
+	); 
+	  
+oamUpdate(&oamMain);  
+};
+
+void BorrarProta(int indice, int x, int y)
+{
+oamSet(&oamMain, // main graphics engine context
+	indice,           // oam index (0 to 127)  
+	x, y,   // x and y pixel location of the sprite
+	0,                    // priority, lower renders last (on top)
+	0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+	SpriteSize_16x16,     
+	SpriteColorFormat_256Color, 
+	gfxprota,// +16*16/2,      // pointer to the loaded graphics
+	-1,                  // sprite rotation data  
+	false,               // double the size when rotating?
+	false,			// hide the sprite?
+	false, false, // vflip, hflip
+	false	// apply mosaic
+	); 
+	  
+oamUpdate(&oamMain);  
+};
+
 /* Esta función dibuja una araña en la posición x, y de pantalla. A cada rombo que se quiera mostrar en pantalla se le debe asignar un índice distinto, un valor entre 0 y 126 */
 
 void MostrarSpider(int indice, int x, int y)
@@ -176,7 +238,7 @@ oamSet(&oamMain, // main graphics engine context
 		gfxspider,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
-		false,			// hide the sprite?
+		true,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
 		); 
