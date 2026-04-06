@@ -9,28 +9,28 @@
 
 #include "fondos.h"
 #include "graficos.h"
-#include "Puerta.h"
-#include "PuertaAbierta.h"
+#include "FondoPrueba.h"
+#include "GameOver.h"
 
 /* Se elige el canal de DMA que se utilizará para copiar las imágenes en memoria */
 static const int DMA_CHANNEL = 3;
 
 /* Para cada fondo que se quiera visualizar hay que escribir un procedimiento como el siguiente */
 
-void visualizarPuerta() {
+void visualizarFondoPrueba() {
 	
 	dmaCopyHalfWords(DMA_CHANNEL,
-                     PuertaBitmap, // Variable que se genera automáticamente 
+                     FondoPruebaBitmap, // Variable que se genera automáticamente 
                      (uint16 *)BG_BMP_RAM(0), // Dirección del fondo principal 
-                     PuertaBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
+                     FondoPruebaBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
 }
 
-void visualizarPuertaAbierta() {
-		
-    dmaCopyHalfWords(DMA_CHANNEL,
-                     PuertaAbiertaBitmap, // Variable que se genera automáticamente
-                     (uint16 *)BG_BMP_RAM(0), // Dirección del fondo principal
-                     PuertaAbiertaBitmapLen); // Longitud en bytes, variable que se genera automáticamente
+void visualizarGameOver() {
+	
+	dmaCopyHalfWords(DMA_CHANNEL,
+                     GameOverBitmap, // Variable que se genera automáticamente 
+                     (uint16 *)BG_BMP_RAM(0), // Dirección del fondo principal 
+                     GameOverBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
 }
 
 /***********************2025-2026*******************************/

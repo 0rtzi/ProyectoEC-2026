@@ -26,7 +26,7 @@ void juego()
 	int i=9;
 	int tecla=0;
 
-	ESTADO=ESPERA;
+	ESTADO=MENU;
 	
 	// Escribe en la fila 22 columna 5 de la pantalla	
 	//iprintf("\x1b[22;5HPrueba de escritura");
@@ -57,16 +57,34 @@ void juego()
 		
       /*******************************EN LA 1.ACTIVIDAD *****************************************/
 		/* Si el estado es ESPERA: codificar aquí la encuesta del teclado, sacar por pantalla la tecla que se ha pulsado, y si se pulsa la tecla START cambiar de estado */
-		if (ESTADO == ESPERA){
+		if (ESTADO == MENU){
 			if (TeclaDetectada()) {
 				tecla = TeclaPulsada();
 				iprintf("\x1b[23;5HSe ha pulsado la tecla: %d", tecla);
-				if (tecla==START) {
-					iprintf("\x1b[23;5HSe ha cerrado la puerta");
-					ESTADO = CERRADA;
-					visualizarPuerta();
-					PonerEnMarchaTempo();
+				if (tecla == A){
+					ESTADO = PARTIDA;
+					visualizarFondoPrueba();
 				}
+			}
+		}
+		else if (ESTADO == PARTIDA){
+			tecla = TeclaPulsada();
+			if(tecla == B){
+				ESTADO = GAMEOVER;
+				visualizarGameOver();
+				BorrarSpider();
+				BorrarChampi(2);
+				BorrarChampi(3);
+				BorrarChampi(4);
+				BorrarCenticuerpo(5);
+				BorrarCabeza(6);
+			}
+		}
+		else if (ESTADO == GAMEOVER){
+			tecla = TeclaPulsada();
+			if(tecla == START){
+				ESTADO = MENU;
+				visualizarFondoPrueba();
 			}
 		}
 	}

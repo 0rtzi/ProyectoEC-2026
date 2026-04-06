@@ -4,8 +4,8 @@
 fondos.h
 -------------------------------------*/
 
-extern void visualizarPuerta();
-extern void visualizarPuertaAbierta();
+extern void visualizarFondoPrueba();
+extern void visualizarGameOver();
 
 /***********************2025-2026*******************************/
 

@@ -12,60 +12,75 @@ rutinasAtencion.c
 #include "sprites.h"
 
 int ESTADO; // Para controlar el estado del autómata en que esté
-int seg3;   // Para ver si pasan tres segundos
 
 void RutAtencionTeclado ()
 {
-if (ESTADO == CERRADA)
+if (ESTADO == MENU)
 {	
-	if (TeclaPulsada()==A)
-	{
-		ESTADO=ABIERTA;
-		visualizarPuertaAbierta();
-		seg3=0;
-		MostrarRombo(1, 5, 5);
-		MostrarRomboGrande(2, 100, 100);
+	if (TeclaPulsada() == A){ 
+		ESTADO = PARTIDA;
+		visualizarFondoPrueba();
+		MostrarSpider(1, 5, 5);
+		MostrarChampi(2, 30, 30);
+		MostrarChampi(3, 30, 60);
+		MostrarChampi(4, 30, 90);
+		MostrarCenticuerpo(5, 80, 60);
+		MostrarCabeza(6, 60, 60);
+
+	}
+}
+else if (ESTADO == PARTIDA)
+{
+	if (TeclaPulsada() == B){ //esto lo he puesto para ver si cambia bien
+		ESTADO=GAMEOVER;
+		visualizarGameOver();
+		BorrarSpider(1, 5, 5);
+		BorrarChampi(2, 30, 30);
+		BorrarChampi(3, 30, 60);
+		BorrarChampi(4, 30, 90);
+		BorrarCenticuerpo(5, 80, 60);
+		BorrarCabeza(6, 60, 60);
+
+	}
+}
+else if (ESTADO == GAMEOVER)
+{
+	if(TeclaPulsada() == START){
+		ESTADO = MENU;
+		visualizarFondoPrueba();
 	}
 }
 }
 
-void RutAtencionTempo()
+/* void RutAtencionTempo()
 {
 	static int tick=0;
-	static int seg=0;
 	
 
-	if (ESTADO!=ESPERA)
+	if (ESTADO!=MENU)
 	{
 		tick++; 
 		if (tick==5)
 		{
-			seg++;
-			iprintf("\x1b[13;5HSegundos que han pasado=%d", seg);
 			tick=0;
-			if (ESTADO == ABIERTA)
+			if (ESTADO == GAMEOVER)
 			{
-				seg3++;
-				if (seg3==3)
-				{
-					visualizarPuerta();
-					seg3=0;
-					ESTADO=CERRADA;
-					BorrarRombo(1, 5, 5);
-					BorrarRomboGrande(2, 100, 100);
-				}
+				visualizarGameOver();
+				ESTADO=PARTIDA;
+				BorrarSpider(1, 5, 5);
+				BorrarChampi(2, 30, 30);
 			}
 					
 		}
 	}
 	
-}
+} */
 
 void EstablecerVectorInt()
 {
 // A COMPLETAR POR USTEDES
 	irqSet(IRQ_KEYS, RutAtencionTeclado);
-	irqSet(IRQ_TIMER0, RutAtencionTempo);
+	// irqSet(IRQ_TIMER0, RutAtencionTempo);
 }
 
 /***********************2025-2026*******************************/
