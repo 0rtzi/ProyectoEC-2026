@@ -43,7 +43,14 @@ extern disparo disparos[10];
 extern int disp_cont_espera_mov;
 extern int disp_cont_espera_mov_min;
 
+extern int disp_cont_espera;
+extern int disp_cont_espera_min;
+
+extern int disp_pixel_mov;
+
 extern void CrearDisparo();
+
+extern void MoverDisparos();
 
 /* TODO: Programar función cargar prota. 
 Tras recibir un golpe recarga el personaje en la posición X=122 Y=160;

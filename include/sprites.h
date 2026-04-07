@@ -19,14 +19,19 @@ extern void GuardarSpritesMemoria();
 /* Carga en memoria los Sprites dibujados */
 
 extern void MostrarProta(int indice, int x, int y);
-/* Esta función dibuja una araña en la posición de pantalla x,y.*/
+/* Esta función dibuja al protagonista en la posición de pantalla x,y.*/
 
 extern void BorrarProta(int indice, int x, int y);
 /* Esta función borra de la pantalla al protagonista con el índice que se le indique como parámetro */
 
+extern void MostrarDisparo(int indice, int x, int y);
+/* Esta función dibuja un disparo en la posición de pantalla x,y.*/
+
+extern void BorrarDisparo(int indice, int x, int y);
+/* Esta función borra de la pantalla el disparo con el índice que se le indique como parámetro */
+
 extern void MostrarSpider(int indice, int x, int y);
 /* Esta función dibuja una araña en la posición de pantalla x,y.*/
-
 
 extern void BorrarSpider(int indice, int x, int y);
 /* Esta función borra de la pantalla la araña con el índice que se le indique como parámetro */

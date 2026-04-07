@@ -270,6 +270,7 @@ int i;
 	for(i = 0; i < 16 * 16 / 2; i++) 
 	{	
 		gfxprota[i] = sprite_prota[i*2] | (sprite_prota[(i*2)+1]<<8);
+		gfxdisparo[i] = sprite_disparo[i*2] | (sprite_disparo[(i*2)+1]<<8);
 		gfxspider[i] = sprite_spider[i*2] | (sprite_spider[(i*2)+1]<<8);		
 		gfxchampi[i] = sprite_champi[i*2] | (sprite_champi[(i*2)+1]<<8);
 		gfxcenticuerpo[i] = centicuerpo[i*2] | (centicuerpo[(i*2)+1]<<8);

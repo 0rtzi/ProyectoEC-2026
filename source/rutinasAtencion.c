@@ -48,30 +48,29 @@ void InicializarValoresProta(){
 // Actualiza la posición del protagonista
 void ActualizarPosicionProta() {
 	if (TeclaDetectada()){
-		prota_cont_espera_mov=0;
-		int tecla = TeclaPulsada();
-		if (tecla==ARRIBA){
+		int teclas = ~TECLAS_DAT & 0x03ff;
+		if (teclas & (1 << ARRIBA)){
 			if (prota.Y>144){
 				BorrarProta(0, prota.X, prota.Y);
 				prota.Y-=prota_pixel_mov;
 				MostrarProta(0, prota.X, prota.Y);
 			}
 		}
-		else if (tecla==ABAJO){
+		else if (teclas & (1 << ABAJO)){
 			if (prota.Y<176){
 				BorrarProta(0, prota.X, prota.Y);
 				prota.Y+=prota_pixel_mov;
 				MostrarProta(0, prota.X, prota.Y);
 			}
 		}
-		else if (tecla==IZQUIERDA){
+		else if (teclas & (1 << IZQUIERDA)){
 			if (prota.X>0){
 				BorrarProta(0, prota.X, prota.Y);
 				prota.X-=prota_pixel_mov;
 				MostrarProta(0, prota.X, prota.Y);
 			}
 		}
-		else if (tecla==DERECHA){
+		else if (teclas & (1 << DERECHA)){
 			if (prota.X<240){
 				BorrarProta(0, prota.X, prota.Y);
 				prota.X+=prota_pixel_mov;
@@ -84,14 +83,58 @@ void ActualizarPosicionProta() {
     
 }
 
+	//DISPAROS
+
+disparo disparos[10] = {0};
+
+int disp_cont_espera_mov = 0;
+int disp_cont_espera_mov_min = 1;
+
+int disp_pixel_mov = 2;
+
+int disp_cont_espera = 0;
+int disp_cont_espera_min = 64;
+
+void CrearDisparo(){
+	int i = 0;
+	while (i < 10 && disparos[i].activo!=0){
+		i++;
+	}
+	if (i < 10){
+		disp_cont_espera = 0;
+		InhibirIntTecla(A);
+		disparos[i].activo = 1;
+		disparos[i].X = prota.X;
+		disparos[i].Y = prota.Y - 12;
+		MostrarDisparo(1+i,disparos[i].X,disparos[i].Y);
+	}
+	
+}
+
+void MoverDisparos(){
+	int i;
+	for (i = 0; i < 10;i++){
+		if (disparos[i].activo == 1){
+			BorrarDisparo(1+i,disparos[i].X,disparos[i].Y);
+			disparos[i].Y -= disp_pixel_mov;
+
+			if (disparos[i].Y < -16) { 
+                disparos[i].activo = 0;
+            } else {
+                MostrarDisparo(1+i, disparos[i].X, disparos[i].Y);
+            }
+		}
+	}
+}
+
 	// SETAS
-casillaSeta matriz_setas[12][16];
+casillaSeta matriz_setas[12][16] = {0};
 
 volatile int seta_cont_espera_mostrar = 0;
 int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
 
 void InicializarValoresSetas() {
-	int ultId = 1;
+	int ultId = 0;
 	int i;
 	for (i=0; i<9; i++){
 		int j;
@@ -102,7 +145,7 @@ void InicializarValoresSetas() {
 				}
 				matriz_setas[i][j].sprite_id=ultId;
 				matriz_setas[i][j].vidas=4;
-				MostrarChampi(1+ultId,j*16,i*16);
+				MostrarChampi(11+ultId,j*16,i*16);
 				//iprintf("\x1b[23;5HPosición seta: %d",ultId);
 				seta_cont_espera_mostrar = 0;
 				ultId++;
@@ -121,7 +164,7 @@ void RutAtencionTeclado ()
 		ACCION = CARGANDO_FONDO;
 	}
 	else if (tecla == A){
-		//CrearDisparo();
+		CrearDisparo();
 	}
 }
 
@@ -152,7 +195,23 @@ void RutAtencionTempo()
 				prota_cont_espera_mov++;
 			}
 			else {
+				prota_cont_espera_mov=0;
 				ActualizarPosicionProta();
+			}
+
+			if (disp_cont_espera_mov < disp_cont_espera_mov_min){
+				disp_cont_espera_mov++;
+			}
+			else {
+				disp_cont_espera_mov = 0;
+				MoverDisparos();
+			}
+
+			if (disp_cont_espera < disp_cont_espera_min) {
+				disp_cont_espera++;
+			}
+			else {
+				HabilitarIntTecla(A);
 			}
 		}
 		else if (ACCION == PAUSA){

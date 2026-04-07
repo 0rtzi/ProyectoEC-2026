@@ -33,7 +33,7 @@ void juego()
 /* Si se quiere visualizar el valor de una variable escribir %d dentro de las comillas y el nombre de la variable fuera de las comillas */
 	//iprintf("\x1b[23;5HPrueba de escritura con variable. Valor=%d", i);
 
-	ConfigurarTeclado(0x4001);
+	ConfigurarTeclado(0x4009);
 	//ConfigurarTemporizador(57344, 0x0041); //Temporizador a 64 ticks por segundo.
 	ConfigurarTemporizador(61440,0x0041); //Temporizador a 128 ticks por segundo.
 	EstablecerVectorInt();

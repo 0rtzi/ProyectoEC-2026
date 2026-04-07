@@ -75,6 +75,12 @@ void HabilitarIntTeclado()
 	HabilitarInterrupciones(); // IME=1;
 }
 
+void HabilitarIntTecla(int tecla){
+	DeshabilitarInterrrupciones();
+	TECLAS_CNT |= (1 << tecla);
+	HabilitarInterrupciones();
+}
+
 void InhibirIntTeclado()
 {
 
@@ -89,6 +95,12 @@ void InhibirIntTeclado()
 	IE &= ~0x1000;
 	HabilitarInterrupciones(); // IME=1;
 }  
+
+void InhibirIntTecla(int tecla){
+	DeshabilitarInterrrupciones();
+	TECLAS_CNT &= ~(1 << tecla);
+	HabilitarInterrupciones();
+}
 
 void HabilitarIntTempo()
 {
