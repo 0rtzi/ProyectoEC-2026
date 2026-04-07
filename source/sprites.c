@@ -17,7 +17,10 @@ u16* gfxdisparo;
 u16* gfxspider;
 u16* gfxchampi;
 u16* gfxcenticuerpo;
-u16* gfxcabeza;
+u16* gfxcabezaizq;
+u16* gfxcabezabajo;
+u16* gfxcabezadrcha;
+u16* gfxcabezarriba;
 
 
 /* Reservar memoria para cada sprite que se quiera mostrar en pantalla */
@@ -29,7 +32,10 @@ void memoriaReserva()
 	gfxspider= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxchampi= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxcenticuerpo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxcabeza= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxcabezaizq= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxcabezabajo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxcabezadrcha= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxcabezarriba= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 }
 
 /* A cada uno de los 256 valores que puede tomar un píxel en la PALETA PRINCIPAL
@@ -171,7 +177,7 @@ u8 centicuerpo[256] =
 
 };
 
-u8 cabeza[256]=
+u8 cabezaizq[256]=
 {
 0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
 0	,	0	,	8	,	17	,	17	,	17	,	17	,	17	,	0	,	8	,	17	,	17	,	6	,	6	,	6	,	17	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
@@ -191,6 +197,69 @@ u8 cabeza[256]=
 17	,	17	,	17	,	17	,	8	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
 
 };
+
+u8 cabezabajo[256]=
+{
+	0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
+0	,	0	,	8	,	3	,	17	,	17	,	17	,	17	,	0	,	8	,	17	,	17	,	3	,	17	,	17	,	17	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
+8	,	17	,	17	,	17	,	17	,	3	,	17	,	0	,	14	,	17	,	17	,	17	,	8	,	17	,	3	,	17	,	 //	0	0	8	3	17	17	17	17	17	17	17	17	3	8	0	0
+8	,	17	,	17	,	17	,	8	,	8	,	17	,	0	,	0	,	17	,	17	,	17	,	17	,	8	,	8	,	17	,	 //	0	8	17	17	3	17	17	17	17	17	17	3	17	17	8	0
+8	,	8	,	8	,	8	,	0	,	0	,	0	,	0	,	0	,	17	,	17	,	17	,	8	,	0	,	0	,	0	,	 //	8	17	17	17	17	3	17	17	17	17	3	17	17	17	17	8
+17	,	17	,	17	,	17	,	3	,	8	,	0	,	0	,	17	,	17	,	17	,	3	,	17	,	17	,	8	,	0	,	 //	8	17	17	17	8	17	3	17	17	3	17	8	17	17	17	8
+17	,	17	,	3	,	17	,	17	,	17	,	17	,	8	,	17	,	3	,	17	,	8	,	17	,	17	,	17	,	8	,	 //	8	17	17	17	8	8	17	17	17	17	8	8	17	17	17	8
+17	,	17	,	8	,	8	,	17	,	17	,	17	,	8	,	17	,	8	,	8	,	17	,	17	,	17	,	17	,	8	,	 //	8	17	17	17	17	8	8	17	17	8	8	17	17	17	17	8
+8	,	17	,	17	,	17	,	17	,	17	,	8	,	8	,	8	,	17	,	17	,	6	,	6	,	6	,	17	,	8	,	 //	8	17	17	17	17	17	8	8	8	8	17	17	17	17	17	8
+8	,	17	,	17	,	6	,	6	,	6	,	17	,	8	,	8	,	17	,	17	,	6	,	6	,	6	,	17	,	8	,	 //	8	17	17	6	6	6	17	8	8	17	6	6	6	17	17	8
+0	,	8	,	17	,	17	,	17	,	17	,	8	,	8	,	0	,	0	,	8	,	17	,	17	,	8	,	0	,	0	,	 //	8	17	17	6	6	6	17	8	8	17	6	6	6	17	17	8
+0	,	0	,	0	,	8	,	17	,	8	,	0	,	0	,	0	,	0	,	0	,	0	,	8	,	0	,	0	,	0	,	 //	8	17	17	6	6	6	17	8	8	17	6	6	6	17	17	8
+8	,	8	,	17	,	17	,	17	,	17	,	17	,	8	,	8	,	17	,	6	,	6	,	6	,	17	,	17	,	8	,	 //	0	8	17	17	17	17	8	8	8	8	17	17	17	17	8	0
+8	,	17	,	6	,	6	,	6	,	17	,	17	,	8	,	8	,	17	,	6	,	6	,	6	,	17	,	17	,	8	,	 //	0	0	8	17	17	8	0	0	0	0	8	17	17	8	0	0
+8	,	8	,	17	,	17	,	17	,	17	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	8	,	0	,	0	,	 //	0	0	0	8	17	8	0	0	0	0	8	17	8	0	0	0
+0	,	0	,	8	,	17	,	8	,	0	,	0	,	0	,	0	,	0	,	0	,	8	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	8	0	0	0	0	0	0	8	0	0	0	0
+
+};
+
+u8 cabezadrcha[256]=
+{
+	0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
+0	,	0	,	8	,	17	,	17	,	17	,	17	,	17	,	0	,	8	,	3	,	17	,	17	,	17	,	17	,	17	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
+8	,	17	,	17	,	3	,	17	,	8	,	8	,	0	,	14	,	17	,	17	,	17	,	3	,	17	,	8	,	8	,	 //	0	0	8	17	17	17	17	17	17	17	17	17	17	8	0	0
+8	,	17	,	17	,	17	,	17	,	3	,	17	,	0	,	0	,	17	,	17	,	17	,	17	,	17	,	17	,	17	,	 //	0	8	3	17	17	17	17	17	17	6	6	6	17	17	8	0
+8	,	8	,	8	,	8	,	0	,	0	,	0	,	0	,	0	,	17	,	17	,	17	,	8	,	0	,	0	,	0	,	 //	8	17	17	3	17	8	8	17	17	6	6	6	17	17	17	8
+17	,	17	,	17	,	17	,	17	,	8	,	0	,	0	,	17	,	6	,	6	,	6	,	17	,	17	,	8	,	0	,	 //	8	17	17	17	3	17	8	8	17	6	6	6	17	8	8	0
+17	,	6	,	6	,	6	,	17	,	17	,	17	,	8	,	17	,	6	,	6	,	6	,	17	,	8	,	8	,	0	,	 //	8	17	17	17	17	3	17	8	8	17	17	17	8	0	0	0
+8	,	17	,	17	,	17	,	8	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	 //	8	17	17	17	17	17	17	17	8	8	8	8	8	0	0	0
+8	,	17	,	17	,	17	,	17	,	17	,	17	,	17	,	8	,	17	,	17	,	17	,	17	,	3	,	17	,	8	,	 //	8	17	17	17	17	17	17	17	8	8	8	8	8	0	0	0
+8	,	17	,	17	,	17	,	3	,	17	,	8	,	8	,	8	,	17	,	17	,	3	,	17	,	8	,	8	,	17	,	 //	8	17	17	17	17	3	17	8	8	17	17	17	8	0	0	0
+0	,	8	,	3	,	17	,	17	,	17	,	17	,	17	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	17	,	 //	8	17	17	17	3	17	8	8	17	6	6	6	17	8	8	0
+0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	 //	8	17	17	3	17	8	8	17	17	6	6	6	17	17	17	8
+8	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	8	,	0	,	0	,	0	,	 //	0	8	3	17	17	17	17	17	17	6	6	6	17	17	8	0
+17	,	6	,	6	,	6	,	17	,	8	,	8	,	0	,	17	,	6	,	6	,	6	,	17	,	17	,	17	,	8	,	 //	0	0	8	17	17	17	17	17	17	17	17	17	17	8	0	0
+17	,	6	,	6	,	6	,	17	,	17	,	8	,	0	,	17	,	17	,	17	,	17	,	17	,	8	,	0	,	0	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
+17	,	17	,	17	,	17	,	8	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
+
+};
+
+u8 cabezarriba[256]=
+{
+	0	,	0	,	0	,	0	,	8	,	0	,	0	,	0	,	0	,	0	,	0	,	8	,	17	,	8	,	0	,	0	,	 //	0	0	0	0	8	0	0	0	0	0	0	8	0	0	0	0
+0	,	0	,	8	,	17	,	17	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	8	,	8	,	 //	0	0	0	8	17	8	0	0	0	0	8	17	8	0	0	0
+8	,	17	,	17	,	6	,	6	,	6	,	17	,	0	,	14	,	17	,	17	,	6	,	6	,	6	,	17	,	8	,	 //	0	0	8	17	17	8	0	0	0	0	8	17	17	8	0	0
+8	,	17	,	17	,	6	,	6	,	6	,	17	,	0	,	0	,	17	,	17	,	17	,	17	,	17	,	8	,	8	,	 //	0	8	17	17	17	17	8	8	8	8	17	17	17	17	8	0
+0	,	0	,	0	,	8	,	0	,	0	,	0	,	0	,	0	,	0	,	8	,	17	,	8	,	0	,	0	,	0	,	 //	8	17	17	6	6	6	17	8	8	17	6	6	6	17	17	8
+0	,	0	,	8	,	17	,	17	,	8	,	0	,	0	,	8	,	8	,	17	,	17	,	17	,	17	,	8	,	0	,	 //	8	17	17	6	6	6	17	8	8	17	6	6	6	17	17	8
+8	,	17	,	6	,	6	,	6	,	17	,	17	,	8	,	8	,	17	,	6	,	6	,	6	,	17	,	17	,	8	,	 //	8	17	17	6	6	6	17	8	8	17	6	6	6	17	17	8
+8	,	17	,	6	,	6	,	6	,	17	,	17	,	8	,	8	,	8	,	17	,	17	,	17	,	17	,	17	,	8	,	 //	8	17	17	17	17	17	8	8	8	8	17	17	17	17	17	8
+8	,	17	,	17	,	17	,	17	,	8	,	8	,	17	,	8	,	17	,	17	,	17	,	8	,	8	,	17	,	17	,	 //	8	17	17	17	17	8	8	17	17	8	8	17	17	17	17	8
+8	,	17	,	17	,	17	,	8	,	17	,	3	,	17	,	8	,	17	,	17	,	17	,	17	,	3	,	17	,	17	,	 //	8	17	17	17	8	8	17	17	17	17	8	8	17	17	17	8
+0	,	8	,	17	,	17	,	3	,	17	,	17	,	17	,	0	,	0	,	8	,	3	,	17	,	17	,	17	,	17	,	 //	8	17	17	17	8	17	3	17	17	3	17	8	17	17	17	8
+0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	 //	8	17	17	17	17	3	17	17	17	17	3	17	17	17	17	8
+17	,	8	,	8	,	17	,	17	,	17	,	17	,	8	,	17	,	17	,	8	,	8	,	17	,	17	,	17	,	8	,	 //	0	8	17	17	3	17	17	17	17	17	17	3	17	17	8	0
+17	,	3	,	17	,	8	,	17	,	17	,	17	,	8	,	17	,	17	,	3	,	17	,	17	,	17	,	17	,	8	,	 //	0	0	8	3	17	17	17	17	17	17	17	17	3	8	0	0
+17	,	17	,	17	,	3	,	17	,	17	,	8	,	0	,	17	,	17	,	17	,	17	,	3	,	8	,	0	,	0	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
+17	,	17	,	17	,	17	,	8	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
+
+};
 /* Carga en memoria cada uno de los sprites que hemos dibujado */
 
 void GuardarSpritesMemoria(){ 
@@ -203,7 +272,10 @@ int i;
 		gfxspider[i] = spider[i*2] | (spider[(i*2)+1]<<8);		
 		gfxchampi[i] = champi[i*2] | (champi[(i*2)+1]<<8);
 		gfxcenticuerpo[i] = centicuerpo[i*2] | (centicuerpo[(i*2)+1]<<8);
-		gfxcabeza[i]=cabeza[i*2] | (cabeza[(i*2)+1]<<8);
+		gfxcabezaizq[i]=cabezaizq[i*2] | (cabezaizq[(i*2)+1]<<8);
+		gfxcabezabajo[i]=cabezabajo[i*2] | (cabezabajo[(i*2)+1]<<8);
+		gfxcabezadrcha[i]=cabezadrcha[i*2] | (cabezadrcha[(i*2)+1]<<8);
+		gfxcabezarriba[i]=cabezarriba[i*2] | (cabezarriba[(i*2)+1]<<8);
 	}
 }
 
@@ -416,7 +488,7 @@ oamUpdate(&oamMain);
 
 }
 
-void MostrarCabeza(int indice, int x, int y)
+void MostrarCabezaIzq(int indice, int x, int y)
 { 
  
 oamSet(&oamMain, // main graphics engine context
@@ -426,7 +498,7 @@ oamSet(&oamMain, // main graphics engine context
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabeza,// +16*16/2,      // pointer to the loaded graphics
+		gfxcabezaizq,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
@@ -437,7 +509,7 @@ oamSet(&oamMain, // main graphics engine context
 oamUpdate(&oamMain);  
 }
 
-void BorrarCabeza(int indice, int x, int y)
+void BorrarCabezaIzq(int indice, int x, int y)
 {
 
 oamSet(&oamMain, // main graphics engine context
@@ -447,7 +519,133 @@ oamSet(&oamMain, // main graphics engine context
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabeza,// +16*16/2,      // pointer to the loaded graphics
+		gfxcabezaizq,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		true,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
+		); 
+oamUpdate(&oamMain); 
+
+}
+
+void MostrarCabezaBajo(int indice, int x, int y)
+{ 
+ 
+oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxcabezabajo,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		false,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
+		); 
+	  
+oamUpdate(&oamMain);  
+}
+
+void BorrarCabezaBajo(int indice, int x, int y)
+{
+
+oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxcabezabajo,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		true,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
+		); 
+oamUpdate(&oamMain); 
+
+}
+
+void MostrarCabezaDrcha(int indice, int x, int y)
+{ 
+ 
+oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxcabezadrcha,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		false,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
+		); 
+	  
+oamUpdate(&oamMain);  
+}
+
+void BorrarCabezaDrcha(int indice, int x, int y)
+{
+
+oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxcabezadrcha,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		true,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
+		); 
+oamUpdate(&oamMain); 
+
+}
+
+void MostrarCabezaRriba(int indice, int x, int y)
+{ 
+ 
+oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxcabezarriba,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		false,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
+		); 
+	  
+oamUpdate(&oamMain);  
+}
+
+void BorrarCabezaRriba(int indice, int x, int y)
+{
+
+oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxcabezarriba,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
