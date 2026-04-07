@@ -45,11 +45,32 @@ extern void MostrarCenticuerpo(int indice, int x, int y);
 extern void BorrarCenticuerpo(int indice, int x, int y);
 /* Esta función borra de la pantalla parte del cuerpo con el índice que se le indique como parámetro */
 
-extern void MostrarCabeza(int indice, int x, int y);
-/* Esta función dibuja la cabeza del gusano en la posición de pantalla x,y.*/
+extern void MostrarCabezaIzq(int indice, int x, int y);
+/* Esta función dibuja la cabeza mirando hacia la izq del gusano en la posición de pantalla x,y.*/
 
 
-extern void BorrarCabeza(int indice, int x, int y);
+extern void BorrarCabezaIzq(int indice, int x, int y);
+/* Esta función borra de la pantalla la cabeza con el índice que se le indique como parámetro */
+
+extern void MostrarCabezaBajo(int indice, int x, int y);
+/* Esta función dibuja la cabeza mirando hacia abajo del gusano en la posición de pantalla x,y.*/
+
+
+extern void BorrarCabezaBajo(int indice, int x, int y);
+/* Esta función borra de la pantalla la cabeza con el índice que se le indique como parámetro */
+
+extern void MostrarCabezaDrcha(int indice, int x, int y);
+/* Esta función dibuja la cabeza mirando hacia la derecha del gusano en la posición de pantalla x,y.*/
+
+
+extern void BorrarCabezaDrcha(int indice, int x, int y);
+/* Esta función borra de la pantalla la cabeza con el índice que se le indique como parámetro */
+
+extern void MostrarCabezaRriba(int indice, int x, int y);
+/* Esta función dibuja la cabeza mirando hacia arriba del gusano en la posición de pantalla x,y.*/
+
+
+extern void BorrarCabezaRriba(int indice, int x, int y);
 /* Esta función borra de la pantalla la cabeza con el índice que se le indique como parámetro */
 
 /***********************2025-2026*******************************/
