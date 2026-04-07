@@ -28,22 +28,11 @@ void juego()
 	int tecla=0;
 
 	ESTADO=PARTIDA;
-	
-	// Escribe en la fila 22 columna 5 de la pantalla	
-	//iprintf("\x1b[22;5HPrueba de escritura");
+	ACCION=JUEGO;
 
 /* Si se quiere visualizar el valor de una variable escribir %d dentro de las comillas y el nombre de la variable fuera de las comillas */
 	//iprintf("\x1b[23;5HPrueba de escritura con variable. Valor=%d", i);
 
-	//******************************* EN LA 2.ACTIVIDAD ********************************//
-        // LLAMADAS A REALIZAR (ORDEN RECOMENDADO):
-	// Configurar el teclado.
-	// Configurar el temporizador.
-	// Establecer las rutinas de atención a interrupciones.
-	// Habilitar las interrupciones del teclado.
-	// Habilitar las interrupciones del temporizador.
-	// Habilitar interrupciones.
-	//******************************************************************************//
 	ConfigurarTeclado(0x4001);
 	//ConfigurarTemporizador(57344, 0x0041); //Temporizador a 64 ticks por segundo.
 	ConfigurarTemporizador(61440,0x0041); //Temporizador a 128 ticks por segundo.
@@ -56,9 +45,6 @@ void juego()
 
 	while(1)
 	{	
-		
-      /*******************************EN LA 1.ACTIVIDAD *****************************************/
-		/* Si el estado es ESPERA: codificar aquí la encuesta del teclado, sacar por pantalla la tecla que se ha pulsado, y si se pulsa la tecla START cambiar de estado */
 		if (ESTADO == MENU){
 			if (TeclaDetectada()) {
 				tecla = TeclaPulsada();
@@ -70,8 +56,34 @@ void juego()
 			}
 		}
 		else if (ESTADO == PARTIDA){
-			if (TeclaPulsada()==START){
-				// Posible menú de pausa?
+			switch(ACCION) {
+				case CARGANDO_FONDO:
+					visualizarFondoPrueba();
+					ACCION = CARGANDO_PROTA;
+					break;
+				
+				case CARGANDO_PROTA:
+					InicializarValoresProta();
+					ACCION = CARGANDO_SETAS;
+					break;
+
+				case CARGANDO_SETAS:
+					InicializarValoresSetas();
+					ACCION = JUEGO;
+					HabilitarIntTeclado();
+					break;
+				
+				case JUEGO:
+
+					break;
+
+				case PAUSA:
+
+					break;
+
+				case LIMPIANDO_PANTALLA:
+
+					break;
 			}
 		}
 		else if (ESTADO == GAMEOVER){
@@ -82,7 +94,6 @@ void juego()
 			}
 		}
 	}
-	// Inhibir las interrupciones al final
 	DeshabilitarInterrrupciones();
 }
 

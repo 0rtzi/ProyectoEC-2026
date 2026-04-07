@@ -8,7 +8,8 @@ void juego();
 //GENERALES
 
 
-
+    //Limpiar pantalla
+    void LimpiarPantalla();
     // Random
 int randomInt(int min, int max);
 
@@ -30,17 +31,31 @@ extern void InicializarValoresProta();
 
 extern void ActualizarPosicionProta();
 
+/* TODO: Programar función cargar prota. 
+Tras recibir un golpe recarga el personaje en la posición X=122 Y=160;
+
+*/
+extern void CargarProta();
+
 
 // SETAS
-extern int matriz_setas[12][16];
+typedef struct {
+    int sprite_id;
+    int vidas;
+} casillaSeta;
 
-extern int seta_cont_espera_mostrar;
+extern casillaSeta matriz_setas[12][16];
+
+extern volatile int seta_cont_espera_mostrar;
 
 extern int seta_cont_espera_mostrar_max;
 
 extern void InicializarValoresSetas();
 
+// CIMEPIÉS
+typedef struct {
 
+} parteCiempies;
 
 /***********************2025-2026*******************************/
 

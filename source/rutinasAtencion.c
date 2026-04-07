@@ -14,6 +14,8 @@ rutinasAtencion.c
 
 //Definición de variables globales.
 int ESTADO; // Para controlar el estado del autómata en que esté
+int ACCION; // Accion en la que se encuentra en el estado partida
+
 int tick = 0;
 static unsigned int semilla_interna = 12345;
 
@@ -33,8 +35,9 @@ int prota_cont_espera_mov_min = 1;
 int prota_pixel_mov = 2;
 
 void InicializarValoresProta(){
+	ACCION = CARGANDO_PROTA;
 	prota.vidas=3;
-	prota.X=128;
+	prota.X=122;
 	prota.Y=160;
 	prota.puntos=0;
 	prota_cont_espera_mov = 0;
@@ -82,23 +85,28 @@ void ActualizarPosicionProta() {
 }
 
 	// SETAS
-int matriz_setas[12][16];
+casillaSeta matriz_setas[12][16];
 
-int seta_cont_espera_mostrar = 0;
+volatile int seta_cont_espera_mostrar = 0;
 int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
 
 void InicializarValoresSetas() {
-	int ultNumAsig=2;
+	int ultId = 1;
 	int i;
 	for (i=0; i<9; i++){
 		int j;
 		for (j=0; j<16; j++){
 			if (randomInt(0,7)==0){
-				matriz_setas[i][j]=4;
-				MostrarChampi(ultNumAsig,j*16,i*16);
-				ultNumAsig++;
+				while (seta_cont_espera_mostrar < seta_cont_espera_mostrar_max){
+					//Hasta que el valor de seta_cont_espera_mostrar sea mayor o igual que seta_cont_espera_mostrar_max
+				}
+				matriz_setas[i][j].sprite_id=ultId;
+				matriz_setas[i][j].vidas=4;
+				MostrarChampi(1+ultId,j*16,i*16);
+				iprintf("\x1b[23;5HPosición seta: %d",ultId);
+				seta_cont_espera_mostrar = 0;
+				ultId++;
 			}
-			
 		}
 	}
 
@@ -107,52 +115,9 @@ void InicializarValoresSetas() {
 //RUTINAS DE ATENCIÓN
 void RutAtencionTeclado ()
 {
-	// if (ESTADO == MENU)
-	// {	
-	// 	if (TeclaPulsada() == A){ 
-	// 		ESTADO = PARTIDA;
-	// 		visualizarFondoPrueba();
-	// 		MostrarSpider(1, 5, 5);
-	// 		MostrarChampi(2, 30, 30);
-	// 		MostrarChampi(3, 30, 60);
-	// 		MostrarChampi(4, 30, 90);
-	// 		MostrarCenticuerpo(5, 80, 60);
-	// 		MostrarCabeza(6, 60, 60);
-
-	// 	}
-	// }
-	// else if (ESTADO == PARTIDA)
-	// {
-		// if (TeclaPulsada() == A){
-		// 	crear_disparo();
-	// }
-
-	// if (TeclaPulsada() == B){ //esto lo he puesto para ver si cambia bien
-	// 	ESTADO=GAMEOVER;
-	// 	visualizarGameOver();
-	// 	BorrarSpider(1, 5, 5);
-	// 	BorrarChampi(2, 30, 30);
-	// 	BorrarChampi(3, 30, 60);
-	// 	BorrarChampi(4, 30, 90);
-	// 	BorrarCenticuerpo(5, 80, 60);
-	// 	BorrarCabeza(6, 60, 60);
-
-	// 	// }
-	// }
-	// else if (ESTADO == GAMEOVER)
-	// {
-	// 	if(TeclaPulsada() == START){
-	// 		ESTADO = MENU;
-	// 		visualizarFondoPrueba();
-	// 	}
-	// }
-
 	if (TeclaPulsada() == A){
 		InhibirIntTeclado();
-		visualizarFondoPrueba();
-		InicializarValoresProta();
-		InicializarValoresSetas();
-		HabilitarIntTeclado();
+		ACCION = CARGANDO_FONDO;
 	}
 }
 
@@ -164,31 +129,33 @@ void RutAtencionTempo()
 	}
 
 	if (ESTADO==PARTIDA){
-		if (prota_cont_espera_mov < prota_cont_espera_mov_min){
-			prota_cont_espera_mov++;
-		}
-		else{
-			ActualizarPosicionProta();
-		}
-	}
+		if (ACCION == CARGANDO_FONDO){
 
-	// if (ESTADO!=MENU)
-	// {
-	// 	tick++; 
-	// 	if (tick==5)
-	// 	{
-	// 		tick=0;
-	// 		if (ESTADO == GAMEOVER)
-	// 		{
-	// 			visualizarGameOver();
-	// 			ESTADO=PARTIDA;
-	// 			BorrarSpider(1, 5, 5);
-	// 			BorrarChampi(2, 30, 30);
-	// 		}
-					
-	// 	}
-	// }
-	
+		}
+		else if (ACCION == CARGANDO_PROTA){
+
+		}
+		else if (ACCION == CARGANDO_SETAS){
+			if (seta_cont_espera_mostrar <=seta_cont_espera_mostrar_max){
+				seta_cont_espera_mostrar++;
+			}
+		}
+		else if (ACCION == CARGANDO_ENEMIGOS){
+
+		}
+		else if (ACCION == JUEGO) {
+			if (prota_cont_espera_mov < prota_cont_espera_mov_min){
+				prota_cont_espera_mov++;
+			}
+			else {
+				ActualizarPosicionProta();
+			}
+		}
+		else if (ACCION == PAUSA){
+
+		}
+		
+	}
 }
 
 void EstablecerVectorInt()
