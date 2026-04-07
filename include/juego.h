@@ -5,7 +5,11 @@ juego.h
 ---------------------------------------------------------------------------------*/
 void juego();
 
-// Random
+//GENERALES
+
+
+
+    // Random
 int randomInt(int min, int max);
 
 //PROTAGONISTA
@@ -29,6 +33,10 @@ extern void ActualizarPosicionProta();
 
 // SETAS
 extern int matriz_setas[12][16];
+
+extern int seta_cont_espera_mostrar;
+
+extern int seta_cont_espera_mostrar_max;
 
 extern void InicializarValoresSetas();
 
