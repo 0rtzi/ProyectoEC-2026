@@ -84,10 +84,15 @@ void ActualizarPosicionProta() {
 	// SETAS
 int matriz_setas[12][16];
 
+int seta_cont_espera_mostrar = 0;
+int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
+
 void InicializarValoresSetas() {
 	int ultNumAsig=2;
-	for (int i=0; i<9; i++){
-		for (int j=0; j<16; j++){
+	int i;
+	for (i=0; i<9; i++){
+		int j;
+		for (j=0; j<16; j++){
 			if (randomInt(0,7)==0){
 				matriz_setas[i][j]=4;
 				MostrarChampi(ultNumAsig,j*16,i*16);
