@@ -44,11 +44,22 @@ touchPosition PANT_DAT;
 #define L			            9
 
 // Nombres asignados a los estados
-#define MENU                     0
-#define PARTIDA                  1
-#define GAMEOVER                 2
+#define MENU                    0
+#define PARTIDA                 1
+#define GAMEOVER                2
 
 extern int ESTADO;
+
+// Nombres asignados a acciones en el estado PARTIDA
+#define CARGANDO_FONDO          0
+#define CARGANDO_PROTA          1
+#define CARGANDO_SETAS          2
+#define CARGANDO_ENEMIGOS       3
+#define JUEGO                   4
+#define PAUSA                   5
+#define LIMPIANDO_PANTALLA      6
+
+extern int ACCION;
 
 /***********************2025-2026*******************************/
 
