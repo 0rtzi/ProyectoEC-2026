@@ -13,6 +13,7 @@ Código desarrollado basado en el ejemplo "Simple sprite demo" de dovoto y en ot
 #include "definiciones.h"
 
 u16* gfxprota;
+u16* gfxdisparo;
 u16* gfxspider;
 u16* gfxchampi;
 u16* gfxcenticuerpo;
@@ -24,6 +25,7 @@ void memoriaReserva()
 {
 	/* Por cada sprite que se quiera incluir en la pantalla principal hay que hacer algo equivalente a lo que sigue */
 	gfxprota= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxdisparo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxspider= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxchampi= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxcenticuerpo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
@@ -82,6 +84,27 @@ u8 sprite_prota[256] =
 0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	 //	0	0	3	0	0	0	0	0	0	0	0	0	0	3	0	0
 0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	 //	0	0	0	3	3	3	3	3	3	3	3	3	3	0	0	0
 3	,	3	,	3	,	3	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+
+};
+
+u8 sprite_disparo[256] =
+{
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
+3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
 
 };
 
@@ -214,6 +237,46 @@ oamSet(&oamMain, // main graphics engine context
 	SpriteSize_16x16,     
 	SpriteColorFormat_256Color, 
 	gfxprota,// +16*16/2,      // pointer to the loaded graphics
+	-1,                  // sprite rotation data  
+	false,               // double the size when rotating?
+	false,			// hide the sprite?
+	false, false, // vflip, hflip
+	false	// apply mosaic
+	); 
+	  
+oamUpdate(&oamMain);  
+};
+
+void MostrarDisparo(int indice, int x, int y)
+{
+oamSet(&oamMain, // main graphics engine context
+	indice,           // oam index (0 to 127)  
+	x, y,   // x and y pixel location of the sprite
+	0,                    // priority, lower renders last (on top)
+	0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+	SpriteSize_16x16,     
+	SpriteColorFormat_256Color, 
+	gfxdisparo,// +16*16/2,      // pointer to the loaded graphics
+	-1,                  // sprite rotation data  
+	false,               // double the size when rotating?
+	false,			// hide the sprite?
+	false, false, // vflip, hflip
+	false	// apply mosaic
+	); 
+	  
+oamUpdate(&oamMain);  
+};
+
+void BorrarDisparo(int indice, int x, int y)
+{
+oamSet(&oamMain, // main graphics engine context
+	indice,           // oam index (0 to 127)  
+	x, y,   // x and y pixel location of the sprite
+	0,                    // priority, lower renders last (on top)
+	0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+	SpriteSize_16x16,     
+	SpriteColorFormat_256Color, 
+	gfxdisparo,// +16*16/2,      // pointer to the loaded graphics
 	-1,                  // sprite rotation data  
 	false,               // double the size when rotating?
 	false,			// hide the sprite?
