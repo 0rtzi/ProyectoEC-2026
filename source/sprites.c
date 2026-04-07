@@ -16,6 +16,7 @@ u16* gfxprota;
 u16* gfxdisparo;
 u16* gfxspider;
 u16* gfxchampi;
+//Ciempiés
 u16* gfxcenticuerpo;
 u16* gfxcabezaizq;
 u16* gfxcabezabajo;
@@ -43,28 +44,28 @@ void memoriaReserva()
    MODIFICAR SEGÚN LOS COLORES QUE QUERAIS UTILIZAR EN VUESTROS SPRITES */
 void EstablecerPaletaPrincipal() {
 
-	SPRITE_PALETTE[1] = RGB15(31,0,0); 
-	SPRITE_PALETTE[2] = RGB15(0,31,0); 
-	SPRITE_PALETTE[3] = RGB15(31,31,31);    
-	SPRITE_PALETTE[4] = RGB15(0, 31, 0);       
-	SPRITE_PALETTE[5] = RGB15(0, 0, 31);       
-	SPRITE_PALETTE[6] = RGB15(0, 0, 0);        
-	SPRITE_PALETTE[7] = RGB15(0, 31, 31);      
-	SPRITE_PALETTE[8] = RGB15(31, 0, 31);      
-	SPRITE_PALETTE[9] = RGB15(16, 16, 16);     
-	SPRITE_PALETTE[10] = RGB15(24, 24, 24);    
-	SPRITE_PALETTE[11] = RGB15(8, 8, 8);       
-	SPRITE_PALETTE[12] = RGB15(31, 16, 0);     
-	SPRITE_PALETTE[13] = RGB15(16, 0, 0);      
-	SPRITE_PALETTE[14] = RGB15(20, 10, 0);     
-	SPRITE_PALETTE[15] = RGB15(16, 0, 31);     
-	SPRITE_PALETTE[16] = RGB15(24, 16, 31);    
-	SPRITE_PALETTE[17] = RGB15(31, 20, 28);    
-	SPRITE_PALETTE[18] = RGB15(16, 24, 31);    
-	SPRITE_PALETTE[19] = RGB15(0, 0, 16);      
-	SPRITE_PALETTE[20] = RGB15(0, 31, 16);     
-	SPRITE_PALETTE[21] = RGB15(0, 16, 0);      
-	SPRITE_PALETTE[22] = RGB15(16, 20, 0);     
+	SPRITE_PALETTE[1] = RGB15(31,0,0);
+	SPRITE_PALETTE[2] = RGB15(0,31,0);
+	SPRITE_PALETTE[3] = RGB15(31,31,31);
+	SPRITE_PALETTE[4] = RGB15(0, 31, 0);
+	SPRITE_PALETTE[5] = RGB15(0, 0, 31);
+	SPRITE_PALETTE[6] = RGB15(0, 0, 0);
+	SPRITE_PALETTE[7] = RGB15(0, 31, 31);
+	SPRITE_PALETTE[8] = RGB15(31, 0, 31);
+	SPRITE_PALETTE[9] = RGB15(16, 16, 16);
+	SPRITE_PALETTE[10] = RGB15(24, 24, 24);
+	SPRITE_PALETTE[11] = RGB15(8, 8, 8);
+	SPRITE_PALETTE[12] = RGB15(31, 16, 0);
+	SPRITE_PALETTE[13] = RGB15(16, 0, 0);
+	SPRITE_PALETTE[14] = RGB15(20, 10, 0);
+	SPRITE_PALETTE[15] = RGB15(16, 0, 31);
+	SPRITE_PALETTE[16] = RGB15(24, 16, 31);
+	SPRITE_PALETTE[17] = RGB15(31, 20, 28);
+	SPRITE_PALETTE[18] = RGB15(16, 24, 31);
+	SPRITE_PALETTE[19] = RGB15(0, 0, 16);
+	SPRITE_PALETTE[20] = RGB15(0, 31, 16);
+	SPRITE_PALETTE[21] = RGB15(0, 16, 0);
+	SPRITE_PALETTE[22] = RGB15(16, 20, 0);
 	SPRITE_PALETTE[23] = RGB15(24, 31, 16);
 }
 
@@ -114,7 +115,7 @@ u8 sprite_disparo[256] =
 
 };
 
-u8 spider[256] = 
+u8 sprite_spider[256] = 
 {
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	12	,	0	,	0	,	0	,	0	,	0	,	0	,	12	,	12	,	 //	0	0	0	0	0	0	0	12	12	0	0	0	0	0	0	0
 0	,	12	,	0	,	0	,	0	,	0	,	12	,	12	,	12	,	12	,	12	,	0	,	0	,	2	,	23	,	2	,	 //	0	0	0	0	0	0	12	12	12	12	0	0	0	0	0	0
@@ -135,7 +136,7 @@ u8 spider[256] =
 
 };
 
-u8 champi[256] = 
+u8 sprite_champi[256] = 
 {
 0	,	0	,	0	,	0	,	0	,	15	,	15	,	20	,	0	,	0	,	0	,	0	,	15	,	20	,	20	,	15	,	 //	0	0	0	0	0	15	15	20	15	15	20	0	0	0	0	0
 0	,	0	,	0	,	20	,	15	,	15	,	15	,	15	,	0	,	0	,	15	,	20	,	15	,	15	,	15	,	15	,	 //	0	0	0	0	15	20	20	15	15	15	20	15	0	0	0	0
@@ -269,8 +270,8 @@ int i;
 	for(i = 0; i < 16 * 16 / 2; i++) 
 	{	
 		gfxprota[i] = sprite_prota[i*2] | (sprite_prota[(i*2)+1]<<8);
-		gfxspider[i] = spider[i*2] | (spider[(i*2)+1]<<8);		
-		gfxchampi[i] = champi[i*2] | (champi[(i*2)+1]<<8);
+		gfxspider[i] = sprite_spider[i*2] | (sprite_spider[(i*2)+1]<<8);		
+		gfxchampi[i] = sprite_champi[i*2] | (sprite_champi[(i*2)+1]<<8);
 		gfxcenticuerpo[i] = centicuerpo[i*2] | (centicuerpo[(i*2)+1]<<8);
 		gfxcabezaizq[i]=cabezaizq[i*2] | (cabezaizq[(i*2)+1]<<8);
 		gfxcabezabajo[i]=cabezabajo[i*2] | (cabezabajo[(i*2)+1]<<8);

@@ -17,12 +17,12 @@ int ESTADO; // Para controlar el estado del autómata en que esté
 int ACCION; // Accion en la que se encuentra en el estado partida
 
 int tick = 0;
-static unsigned int semilla_interna = 12345;
+static unsigned int semilla = 12345;
 
 int randomInt(int min, int max) {
-	semilla_interna = semilla_interna * 1103515245 + 12345;
+	semilla = semilla * 1103515245 + 12345;
 
-	unsigned int numAleatorio = (semilla_interna / 65536) % 32768;
+	unsigned int numAleatorio = (semilla / 65536) % 32768;
     int dif = max-min+1;
     return min+ (numAleatorio % dif);
 }
@@ -103,7 +103,7 @@ void InicializarValoresSetas() {
 				matriz_setas[i][j].sprite_id=ultId;
 				matriz_setas[i][j].vidas=4;
 				MostrarChampi(1+ultId,j*16,i*16);
-				iprintf("\x1b[23;5HPosición seta: %d",ultId);
+				//iprintf("\x1b[23;5HPosición seta: %d",ultId);
 				seta_cont_espera_mostrar = 0;
 				ultId++;
 			}
@@ -115,9 +115,13 @@ void InicializarValoresSetas() {
 //RUTINAS DE ATENCIÓN
 void RutAtencionTeclado ()
 {
-	if (TeclaPulsada() == A){
+	int tecla = TeclaPulsada();
+	if (tecla == START){
 		InhibirIntTeclado();
 		ACCION = CARGANDO_FONDO;
+	}
+	else if (tecla == A){
+		//CrearDisparo();
 	}
 }
 
