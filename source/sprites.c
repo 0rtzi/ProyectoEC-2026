@@ -176,6 +176,7 @@ int i;
 	//sprite de 16*16
 	for(i = 0; i < 16 * 16 / 2; i++) 
 	{	
+		gfxprota[i] = prota[i*2] | (prota[(i*2)+1]<<8);
 		gfxspider[i] = spider[i*2] | (spider[(i*2)+1]<<8);		
 		gfxchampi[i] = champi[i*2] | (champi[(i*2)+1]<<8);
 		gfxcenticuerpo[i] = centicuerpo[i*2] | (centicuerpo[(i*2)+1]<<8);

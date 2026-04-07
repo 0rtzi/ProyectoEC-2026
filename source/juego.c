@@ -17,6 +17,7 @@ y en otro ejemplo de Jaeden Ameronen
 #include "perifericos.h"
 #include "rutinasAtencion.h"
 #include "fondos.h"
+#include "juego.h"
 
 int tiempo;
 
@@ -26,7 +27,7 @@ void juego()
 	int i=9;
 	int tecla=0;
 
-	ESTADO=MENU;
+	ESTADO=PARTIDA;
 	
 	// Escribe en la fila 22 columna 5 de la pantalla	
 	//iprintf("\x1b[22;5HPrueba de escritura");
@@ -44,12 +45,11 @@ void juego()
 	// Habilitar interrupciones.
 	//******************************************************************************//
 	ConfigurarTeclado(0x4001);
-	ConfigurarTemporizador(39322, 0x0042);
+	ConfigurarTemporizador(57344, 0x0041); //Temporizador a 64 ticks por segundo.
 	EstablecerVectorInt();
 	HabilitarIntTeclado();
 	HabilitarIntTempo();
 	HabilitarInterrupciones();
-	
 
 
 	while(1)
@@ -68,16 +68,8 @@ void juego()
 			}
 		}
 		else if (ESTADO == PARTIDA){
-			tecla = TeclaPulsada();
-			if(tecla == B){
-				ESTADO = GAMEOVER;
-				visualizarGameOver();
-				BorrarSpider();
-				BorrarChampi(2);
-				BorrarChampi(3);
-				BorrarChampi(4);
-				BorrarCenticuerpo(5);
-				BorrarCabeza(6);
+			if (TeclaPulsada()==START){
+				// Posible menú de pausa?
 			}
 		}
 		else if (ESTADO == GAMEOVER){
