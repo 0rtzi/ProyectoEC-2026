@@ -31,6 +31,20 @@ extern void InicializarValoresProta();
 
 extern void ActualizarPosicionProta();
 
+//DISPAROS
+typedef struct {
+    int activo;
+    int X;
+    int Y;
+} disparo;
+
+extern disparo disparos[10];
+
+extern int disp_cont_espera_mov;
+extern int disp_cont_espera_mov_min;
+
+extern void CrearDisparo();
+
 /* TODO: Programar función cargar prota. 
 Tras recibir un golpe recarga el personaje en la posición X=122 Y=160;
 
