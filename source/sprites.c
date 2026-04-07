@@ -37,7 +37,7 @@ void EstablecerPaletaPrincipal() {
 
 	SPRITE_PALETTE[1] = RGB15(31,0,0); 
 	SPRITE_PALETTE[2] = RGB15(0,31,0); 
-	SPRITE_PALETTE[3] = RGB15(0,0,31);    
+	SPRITE_PALETTE[3] = RGB15(31,31,31);    
 	SPRITE_PALETTE[4] = RGB15(0, 31, 0);       
 	SPRITE_PALETTE[5] = RGB15(0, 0, 31);       
 	SPRITE_PALETTE[6] = RGB15(0, 0, 0);        
@@ -64,7 +64,7 @@ void EstablecerPaletaPrincipal() {
 aparecerán en el cuadrante superior izquierdo de la imagen del sprite, los siguientes 64 en el cuadrante superior derecho, los siguientes en el cuadrante inferior izquierdo y los
 últimos en el cuadrante inferior derecho */
 
-u8 prota[256] =
+u8 sprite_prota[256] =
 {
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	3	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
@@ -176,11 +176,11 @@ int i;
 	//sprite de 16*16
 	for(i = 0; i < 16 * 16 / 2; i++) 
 	{	
-		gfxprota[i] = prota[i*2] | (prota[(i*2)+1]<<8);
+		gfxprota[i] = sprite_prota[i*2] | (sprite_prota[(i*2)+1]<<8);
 		gfxspider[i] = spider[i*2] | (spider[(i*2)+1]<<8);		
 		gfxchampi[i] = champi[i*2] | (champi[(i*2)+1]<<8);
 		gfxcenticuerpo[i] = centicuerpo[i*2] | (centicuerpo[(i*2)+1]<<8);
-		gfxcabeza[i]=cabeza[i*2] | (cabeza[(i*2)+1]<<8);		
+		gfxcabeza[i]=cabeza[i*2] | (cabeza[(i*2)+1]<<8);
 	}
 }
 
