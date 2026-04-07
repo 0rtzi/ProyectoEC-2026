@@ -45,11 +45,13 @@ void juego()
 	// Habilitar interrupciones.
 	//******************************************************************************//
 	ConfigurarTeclado(0x4001);
-	ConfigurarTemporizador(57344, 0x0041); //Temporizador a 64 ticks por segundo.
+	//ConfigurarTemporizador(57344, 0x0041); //Temporizador a 64 ticks por segundo.
+	ConfigurarTemporizador(61440,0x0041); //Temporizador a 128 ticks por segundo.
 	EstablecerVectorInt();
 	HabilitarIntTeclado();
 	HabilitarIntTempo();
 	HabilitarInterrupciones();
+	PonerEnMarchaTempo();
 
 
 	while(1)
