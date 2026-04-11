@@ -16,6 +16,9 @@ u16* gfxprota;
 u16* gfxdisparo;
 u16* gfxspider;
 u16* gfxchampi;
+u16* gfxchampi_3;
+u16* gfxchampi_2;
+u16* gfxchampi_1;
 //Ciempiés
 u16* gfxcenticuerpo;
 u16* gfxcabezaizq;
@@ -32,6 +35,9 @@ void memoriaReserva()
 	gfxdisparo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxspider= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxchampi= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxchampi_3= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxchampi_2= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxchampi_1= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxcenticuerpo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxcabezaizq= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxcabezabajo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
@@ -155,6 +161,66 @@ u8 sprite_champi[256] =
 16	,	16	,	16	,	16	,	0	,	0	,	0	,	0	,	16	,	16	,	16	,	16	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	16	16	16	16	16	16	0	0	0	0	0
 16	,	16	,	16	,	0	,	0	,	0	,	0	,	0	,	16	,	16	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	16	16	16	16	0	0	0	0	0	0
 
+};
+
+u8 sprite_champi_3[256]= //Seta con 3 vidas
+{
+0 ,  0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 15, 20, 15, 15, 15, 0, 14, 15, 15, 20, 15, 20, 15, 15, 
+0, 20, 20, 15, 15, 15, 15, 0, 0, 15, 15, 15, 15, 20, 20, 20, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+20, 20, 20, 15, 15, 15, 0, 0, 15, 20, 15, 15, 15, 15, 15, 0, 
+15, 15, 15, 15, 15, 20, 20, 0, 20, 15, 15, 15, 20, 15, 15, 15, 
+0, 15, 15, 15, 20, 15, 15, 15, 0, 0, 0, 0, 16, 16, 16, 16,
+0, 0, 0, 0, 16, 16, 16, 16, 0, 0, 0, 0, 16, 16, 16, 16,
+0, 0, 0, 0, 16, 16, 16, 16, 0, 0, 0, 0, 16, 16, 16, 16,
+0, 0, 0, 0, 0, 16, 16, 16, 0, 0, 0, 0, 0, 0, 16, 16,
+15, 20, 15, 15, 20, 15, 15, 0, 16, 16, 16, 16, 0, 0, 0, 0,
+16, 16, 16, 16, 0, 0, 0, 0, 16, 16, 16, 16, 0, 0, 0, 0,
+16, 16, 16, 16, 0, 0, 0, 0, 16, 16, 16, 16, 0, 0, 0, 0,
+16, 16, 16, 0, 0, 0, 0, 0, 16, 16, 0, 0, 0, 0, 0, 0,
+};
+
+u8 sprite_champi_2[256]= //Seta con 2 vidas
+{
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,15,15,15,20,15,15,15,0,0,0,0,16,16,16,16,
+0,0,0,0,16,16,16,16,0,0,0,0,16,16,16,16,
+0,0,0,0,16,16,16,16,0,0,0,0,16,16,16,16,
+0,0,0,0,0,16,16,16,0,0,0,0,0,0,16,16,
+15,20,15,15,20,15,15,0,16,16,16,16,0,0,0,0,
+16,16,16,16,0,0,0,0,16,16,16,16,0,0,0,0,
+16,16,16,16,0,0,0,0,16,16,16,16,0,0,0,0,
+16,16,16,0,0,0,0,0,16,16,0,0,0,0,0,0,
+};
+
+u8 sprite_champi_1[256]= //Seta con 1 vida
+{
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,16,16,16,16,0,0,0,0,16,16,16,16,
+0,0,0,0,0,16,16,16,0,0,0,0,0,0,16,16,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+16,16,16,16,0,0,0,0,16,16,16,16,0,0,0,0,
+16,16,16,0,0,0,0,0,16,16,0,0,0,0,0,0,
 };
 
 u8 centicuerpo[256] = 
@@ -313,7 +379,7 @@ oamSet(&oamMain, // main graphics engine context
 	gfxprota,// +16*16/2,      // pointer to the loaded graphics
 	-1,                  // sprite rotation data  
 	false,               // double the size when rotating?
-	false,			// hide the sprite?
+	true,			// hide the sprite?
 	false, false, // vflip, hflip
 	false	// apply mosaic
 	); 
@@ -353,7 +419,7 @@ oamSet(&oamMain, // main graphics engine context
 	gfxdisparo,// +16*16/2,      // pointer to the loaded graphics
 	-1,                  // sprite rotation data  
 	false,               // double the size when rotating?
-	false,			// hide the sprite?
+	true,			// hide the sprite?
 	false, false, // vflip, hflip
 	false	// apply mosaic
 	); 
@@ -658,6 +724,19 @@ oamUpdate(&oamMain);
 
 }
 
+void ActualizarChampis(int ind, int vidas, int x, int y){
+	u16* grafico_actual;
+	
+	if(vidas==4) grafico_actual=gfxchampi;
+	else if (vidas==3) grafico_actual=gfxchampi_3;
+	else if (vidas==2) grafico_actual=gfxchampi_2;
+	else if (vidas==1) grafico_actual=gfxchampi_1;
+	else return;
+
+	oamSet(&oamMain, ind, x, y, 0, 0, SpriteSize_16x16, SpriteColorFormat_256Color, grafico_actual, -1, false, false, false, false, false);
+	oamUpdate(&oamMain);
+
+}
 
 /***********************2025-2026*******************************/
 

@@ -4,6 +4,18 @@ extern u16* gfx;
 extern u16* gfx2;
 extern u16* gfx3;
 extern u16* gfxSub;
+extern u16* gfxprota;
+extern u16* gfxdisparo;
+extern u16* gfxspider;
+extern u16* gfxchampi;
+extern u16* gfxchampi_3;
+extern u16* gfxchampi_2;
+extern u16* gfxchampi_1;
+extern u16* gfxcenticuerpo;
+extern u16* gfxcabezaizq;
+extern u16* gfxcabezabajo;
+extern u16* gfxcabezadrcha;
+extern u16* gfxcabezarriba;
 
 extern void memoriaReserva();
 

@@ -16,6 +16,27 @@ rutinasAtencion.c
 int ESTADO; // Para controlar el estado del autómata en que esté
 int ACCION; // Accion en la que se encuentra en el estado partida
 
+int detectarColision(int x1, int y1, int x2, int y2){ //Verifica si los pixeles (16x16) se sobreponen
+	if(x1<(x2+16) && (x1+16)>x2 && y1<(y2+16) && (y1+16)>y2){
+		return 1; //colision
+	}
+	return 0;
+}
+
+int detectarColisionesSetas(int newX, int newY){
+	int r, c;
+	for (r=0; r<12; r++){
+		for(c=0;c<16;c++){
+			if(matriz_setas[r][c].vidas>0){
+				if(detectarColision(newX, newY, c*16, r*16)){
+					return 1; //choque
+				}
+			}
+		}
+	}
+	return 0; //camino limpio
+}
+
 int tick = 0;
 static unsigned int semilla = 12345;
 
@@ -111,6 +132,39 @@ void CrearDisparo(){
 	
 }
 
+void detectarColisionesDisparo(){
+	int i,r,c;
+	for(i=0;i<10;i++){
+		if(disparos[i].activo==1){
+			int colide=0;
+
+			for(r=0; r<12; r++){
+				for (c=0; c<16; c++){
+					if(matriz_setas[r][c].vidas>0){
+						if(detectarColision(disparos[i].X, disparos[i].Y, c*16, r*16)){
+							matriz_setas[r][c].vidas--;
+							disparos[i].activo=0;
+							colide=1;
+							
+							if(matriz_setas[r][c].vidas<=0){
+								BorrarChampi(11+matriz_setas[r][c].sprite_id, c*16, r*16);
+							}
+							else{
+								ActualizarChampis(11+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
+							}
+							break;
+						}
+					}
+				}
+				if(colide) break;
+			}
+			if(colide){
+				BorrarDisparo(1+i, disparos[i].X, disparos[i].Y);
+			}
+		}
+	}
+}
+
 void MoverDisparos(){
 	int i;
 	for (i = 0; i < 10;i++){
@@ -125,6 +179,7 @@ void MoverDisparos(){
             }
 		}
 	}
+	detectarColisionesDisparo();
 }
 
 	// SETAS
