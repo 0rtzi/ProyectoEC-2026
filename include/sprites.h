@@ -88,6 +88,8 @@ extern void MostrarCabezaRriba(int indice, int x, int y);
 
 
 extern void BorrarCabezaRriba(int indice, int x, int y);
+
+extern void ActualizarChampis(int ind, int vidas, int x, int y);
 /* Esta función borra de la pantalla la cabeza con el índice que se le indique como parámetro */
 
 /***********************2025-2026*******************************/
