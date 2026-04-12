@@ -16,6 +16,9 @@ rutinasAtencion.c
 int ESTADO; // Para controlar el estado del autómata en que esté
 int ACCION; // Accion en la que se encuentra en el estado partida
 
+int tick = 0;
+static unsigned int semilla = 12345;
+
 int detectarColision(int x1, int y1, int x2, int y2){ //Verifica si los pixeles (16x16) se sobreponen
 	if(x1<(x2+16) && (x1+16)>x2 && y1<(y2+16) && (y1+16)>y2){
 		return 1; //colision
@@ -36,9 +39,6 @@ int detectarColisionesSetas(int newX, int newY){
 	}
 	return 0; //camino limpio
 }
-
-int tick = 0;
-static unsigned int semilla = 12345;
 
 int randomInt(int min, int max) {
 	semilla = semilla * 1103515245 + 12345;

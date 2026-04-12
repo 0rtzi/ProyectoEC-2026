@@ -92,3 +92,4 @@ extern void BorrarCabezaRriba(int indice, int x, int y);
 
 /***********************2025-2026*******************************/
 
+//Boo
