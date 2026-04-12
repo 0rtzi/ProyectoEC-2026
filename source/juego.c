@@ -24,7 +24,7 @@ int tiempo;
 void juego()
 {	
 	// Definiciones de variables
-	int i=9;
+	//int i=9;
 	int tecla=0;
 
 	ESTADO=PARTIDA;

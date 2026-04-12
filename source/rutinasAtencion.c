@@ -19,25 +19,12 @@ int ACCION; // Accion en la que se encuentra en el estado partida
 int tick = 0;
 static unsigned int semilla = 12345;
 
-int detectarColision(int x1, int y1, int x2, int y2){ //Verifica si los pixeles (16x16) se sobreponen
-	if(x1<(x2+16) && (x1+16)>x2 && y1<(y2+16) && (y1+16)>y2){
-		return 1; //colision
+//Verifica si dos elementos tienen el mismo número en la cuadricula.
+int detectarColision(int x1, int y1, int x2, int y2) { 
+	if(x1/16 == x2/16 && y1/16 == y2/16){
+		return 1; //colisión
 	}
 	return 0;
-}
-
-int detectarColisionesSetas(int newX, int newY){
-	int r, c;
-	for (r=0; r<12; r++){
-		for(c=0;c<16;c++){
-			if(matriz_setas[r][c].vidas>0){
-				if(detectarColision(newX, newY, c*16, r*16)){
-					return 1; //choque
-				}
-			}
-		}
-	}
-	return 0; //camino limpio
 }
 
 int randomInt(int min, int max) {
@@ -132,35 +119,15 @@ void CrearDisparo(){
 	
 }
 
-void detectarColisionesDisparo(){
-	int i,r,c;
+void DetectarColisionesDisparo(){
+	int i;
 	for(i=0;i<10;i++){
-		if(disparos[i].activo==1){
-			int colide=0;
+		if (disparos[i].activo==0){
+			continue;
+		}
 
-			for(r=0; r<12; r++){
-				for (c=0; c<16; c++){
-					if(matriz_setas[r][c].vidas>0){
-						if(detectarColision(disparos[i].X, disparos[i].Y, c*16, r*16)){
-							matriz_setas[r][c].vidas--;
-							disparos[i].activo=0;
-							colide=1;
-							
-							if(matriz_setas[r][c].vidas<=0){
-								BorrarChampi(11+matriz_setas[r][c].sprite_id, c*16, r*16);
-							}
-							else{
-								ActualizarChampis(11+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
-							}
-							break;
-						}
-					}
-				}
-				if(colide) break;
-			}
-			if(colide){
-				BorrarDisparo(1+i, disparos[i].X, disparos[i].Y);
-			}
+		if (DetectarColisionesSetas(i)==1){
+			BorrarDisparo(1+i, disparos[i].X, disparos[i].Y);
 		}
 	}
 }
@@ -179,7 +146,7 @@ void MoverDisparos(){
             }
 		}
 	}
-	detectarColisionesDisparo();
+	DetectarColisionesDisparo();
 }
 
 	// SETAS
@@ -207,7 +174,30 @@ void InicializarValoresSetas() {
 			}
 		}
 	}
+}
 
+int DetectarColisionesSetas(int idDisparo){
+	int r, c;
+	for(r=0; r<12; r++){
+		for (c=0; c<16; c++){
+			if(matriz_setas[r][c].vidas<=0){
+				continue;
+			}
+			if(detectarColision(disparos[idDisparo].X+8, disparos[idDisparo].Y+8, c*16, r*16)){
+				matriz_setas[r][c].vidas--;
+				disparos[idDisparo].activo=0;
+				
+				if(matriz_setas[r][c].vidas<=0){
+					BorrarChampi(11+matriz_setas[r][c].sprite_id, c*16, r*16);
+				}
+				else{
+					ActualizarChampis(11+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
+				}
+				return 1;
+			}
+		}
+	}
+	return 0;
 }
 
 //RUTINAS DE ATENCIÓN

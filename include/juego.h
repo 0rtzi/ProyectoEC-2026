@@ -31,6 +31,12 @@ extern void InicializarValoresProta();
 
 extern void ActualizarPosicionProta();
 
+/* TODO: Programar función cargar prota. 
+Tras recibir un golpe recarga el personaje en la posición X=122 Y=160;
+
+*/
+extern void CargarProta();
+
 //DISPAROS
 typedef struct {
     int activo;
@@ -52,12 +58,7 @@ extern void CrearDisparo();
 
 extern void MoverDisparos();
 
-/* TODO: Programar función cargar prota. 
-Tras recibir un golpe recarga el personaje en la posición X=122 Y=160;
-
-*/
-extern void CargarProta();
-
+extern void DetectarColisionesDisparo();
 
 // SETAS
 typedef struct {
@@ -72,6 +73,8 @@ extern volatile int seta_cont_espera_mostrar;
 extern int seta_cont_espera_mostrar_max;
 
 extern void InicializarValoresSetas();
+
+extern int DetectarColisionesSetas(int idDisparo);
 
 // CIMEPIÉS
 typedef struct {
