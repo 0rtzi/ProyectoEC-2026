@@ -42,6 +42,20 @@ int prota_cont_espera_mov = 0;
 int prota_cont_espera_mov_min = 1;
 int prota_pixel_mov = 2;
 
+	//LOCALIZACIÓN CIEMPIES
+struct localCiempies {
+	int X; //posición X
+	int Y; //posición Y
+	int activo; //para saber si esa parte sigue viva o muerta
+};
+
+	//CREACIÓN CIEMPIES
+struct localCiempies ciempies[10]; //El ciempies tiene un tamaño de 10 unidades
+int ciem_dir=1; //1-> Ciempies va hacia la derecha y -1-> Ciempies va hacia la izquierda
+int ciem_cont_espera_mov=0; //Freno que hace con que el ciempies solo se movimiente 8 pasos por segundo
+int ciem_cont_espera_mov_min=16; //Por cuantas veces dividimos 128 (para controlar la velocidad) 
+
+
 void InicializarValoresProta(){
 	ACCION = CARGANDO_PROTA;
 	prota.vidas=3;
@@ -148,6 +162,74 @@ void MoverDisparos(){
 	}
 	DetectarColisionesDisparo();
 }
+
+void MoverCiempies(){
+	int i;
+
+	//El primer FOR es el que borra los sprites actuales para que al movimentarse, no se queden sprites congelados por la pantalla
+	for(i=0; i<10; i++){ 
+		if(ciempies[i].activo==1){ //Esa unidad esta viva?
+			if(i==0){//Estamos con la cabeza
+				if(ciem_dir==1) {//Si estamos hacia la derecha
+					BorrarCabezaDrcha(110,ciempies[0].X,ciempies[0].Y); //110 pues necesitabamos 1 para la cabeza y 9 para el cuerpo
+				}
+				else{//Si estamos hacia la izquierda
+					BorrarCabezaIzq(110,ciempies[0].X,ciempies[0].Y);
+				}
+			}
+			else{ //Estamos con otra parte del cuerpo
+				BorrarCenticuerpo(110+i,ciempies[i].X,ciempies[i].Y);
+			}
+		}
+	}
+
+	//Movimentación del cuerpo (empieza por el final)
+	for(i=9; i>0; i--){ //9 porque no incluye la cabeza
+		if(ciempies[i].activo==1){
+			ciempies[i].X=ciempies[i-1].X;
+			ciempies[i].Y=ciempies[i-1].Y;
+		}
+	}
+
+	//Movimentación de la cabeza y colisiones
+	if (ciempies[0].activo==1){
+		int newX=ciempies[0].X+(ciem_dir*16); //calcula la nueva posición de X
+		int newY=ciempies[0].Y; //calcula la nueva posición de Y
+
+		//Se choca con el limite de la pantalla o con una seta
+		if (newX<0 || newX>240 || detectarColisionesSetas(newX,newY)){
+			ciempies[0].Y +=16; //Baja 1 linea
+			ciem_dir=-ciem_dir; //Cambia de dirección horizontal
+		}
+
+		//Impide que salga de la pantalla por debajo
+		if(ciempies[0].Y>176){ 
+			ciempies[0].Y=176; //Con eso hace un zigzag infino (temporario hasta programar la colision con disparos)
+		}
+		//Camino libre
+		else { 
+			ciempies[0].X=newX;
+		}
+	}
+
+	//Dibujar los sprites en las nuevas posiciones
+	for(i=0; i<10; i++){
+		if(ciempies[i].activo==1){
+			if(i==0){ //Dibujar la cabeza
+				if(ciem_dir==1){
+					MostrarCabezaDrcha(110, ciempies[0].X, ciempies[0].Y);
+				}
+				else{
+					MostrarCabezaIzq(110, ciempies[0].X, ciempies[0].Y);
+				}
+			}
+			else{
+				MostrarCenticuerpo(110+i, ciempies[i].X, ciempies[i].Y);
+			}
+		}
+	}
+}
+
 
 	// SETAS
 casillaSeta matriz_setas[12][16] = {0};
@@ -258,6 +340,18 @@ void RutAtencionTempo()
 			else {
 				HabilitarIntTecla(A);
 			}
+
+			//Movimento CIEMPIES
+			if(ciem_cont_espera_mov<ciem_cont_espera_mov_min){
+				ciem_cont_espera_mov++;
+			}
+			else{
+				ciem_cont_espera_mov=0;
+				MoverCiempies();
+			}
+			detectarColisionesDisparo();
+			oamUpdate(&oamMain); //ActualizarSprites
+
 		}
 		else if (ACCION == PAUSA){
 
@@ -272,6 +366,18 @@ void EstablecerVectorInt()
 	irqSet(IRQ_KEYS, RutAtencionTeclado);
 	irqSet(IRQ_TIMER0, RutAtencionTempo);
 }
+
+void InicializarValoresCiempies() {
+	int i;
+	ciem_dir=1; //Va hacia la derecha al empezar el juego
+
+	for(i=0;i<10;i++){ //Revisa cada unidad del ciempies (posición 0 a 9)
+		ciempies[i].activo=1; //Esa unidad se activa
+		ciempies[i].X=-(16*i); //Cada unidad del ciempies tiene 16 pixeles, i es el trozo que vamos trabajar y empezamos con el valor negativo para esconder el ciempies en el inicio del juego
+		ciempies[i].Y=0; //Cada unidad se encuentra en una linea recta, arriba del todo en la pantalla
+	}
+}
+
 
 /***********************2025-2026*******************************/
 
