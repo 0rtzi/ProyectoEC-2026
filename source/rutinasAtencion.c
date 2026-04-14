@@ -129,7 +129,7 @@ void DetectarColisionesDisparo(){
 			continue;
 		}
 
-		if (DetectarColisionesSetas(i)==1){
+		if (DetectarColisionesSetasDisparo(i)==1){
 			BorrarDisparo(1+i, disparos[i].X, disparos[i].Y);
 		}
 	}
@@ -180,7 +180,7 @@ void InicializarValoresSetas() {
 	}
 }
 
-int DetectarColisionesSetas(int idDisparo){
+int DetectarColisionesSetasDisparo(int idDisparo){
 	int r, c;
 	for(r=0; r<12; r++){
 		for (c=0; c<16; c++){
@@ -205,24 +205,70 @@ int DetectarColisionesSetas(int idDisparo){
 }
 
 //ENEMIGOS
+int enem_cont_espera_mov=0;
+int enem_cont_espera_mov_min=16;
+
 	//CIEMPIÉS
 
-	//CREACIÓN CIEMPIES
-parteCiempies ciempies[50]; //El ciempies tiene un tamaño de 50 unidades
-int ciem_dir=1; //1-> Ciempies va hacia la derecha y -1-> Ciempies va hacia la izquierda
-int ciem_cont_espera_mov=0; //Freno que hace con que el ciempies solo se movimiente 8 pasos por segundo
-int ciem_cont_espera_mov_min=16; //Por cuantas veces dividimos 128 (para controlar la velocidad) 
+
+parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
 
 void InicializarValoresCiempies() {
 	int i;
-	ciem_dir=1; //Va hacia la derecha al empezar el juego
+	int ultind = 0;
+	int ultid = 0;
 
-	for(i=0;i<10;i++){ //Revisa cada unidad del ciempies (posición 0 a 9)
-		ciempies[i].activo=1; //Esa unidad se activa
-		ciempies[i].X=-(16*i); //Cada unidad del ciempies tiene 16 pixeles, i es el trozo que vamos trabajar y empezamos con el valor negativo para esconder el ciempies en el inicio del juego
-		ciempies[i].Y=0; //Cada unidad se encuentra en una linea recta, arriba del todo en la pantalla
+	int numCiempies = randomInt(1,5);
+
+	for (i=0;i<numCiempies;i++){
+		int longitud = randomInt(5,10);
+		if (ultind + longitud > 50) {
+			break;
+		}
+
+		int XCabeza;
+		int existe;
+		while (existe == 1){
+			XCabeza = randomInt(0,15)*16;
+			existe = 0;
+			
+			int ind;
+			for (ind = 0; ind < 50; ind + ciempies[ind].longitud ){
+				if (ciempies[ind].activo==0){
+					break;
+				}
+				if ( XCabeza == ciempies[ind].X){
+					existe = 1;
+					break;
+				}
+			}
+		}
+		
+		int j;
+		for (j = 0;j<longitud; j++){
+			ciempies[ultind].activo = 1;
+			ciempies[ultind].id = ultid;
+			ciempies[ultind].parte = j;
+			ciempies[ultind].X = XCabeza;
+			ciempies[ultind].Y = (-16)*(j+1);
+			ciempies[ultind].direccion = 3;
+			ciempies[ultind].longitud = longitud;
+
+			ultind++;
+		}
+		
+		ultid++;
 	}
+
+	// for(i=0;i<10;i++){ //Revisa cada unidad del ciempies (posición 0 a 9)
+	// 	ciempies[i].activo=1; //Esa unidad se activa
+	// 	ciempies[i].X=-(16*i); //Cada unidad del ciempies tiene 16 pixeles, i es el trozo que vamos trabajar y empezamos con el valor negativo para esconder el ciempies en el inicio del juego
+	// 	ciempies[i].Y=0; //Cada unidad se encuentra en una linea recta, arriba del todo en la pantalla
+	// }
+
+	
 }
+
 
 void MoverCiempies(){
 	int i;
@@ -258,7 +304,7 @@ void MoverCiempies(){
 		int newY=ciempies[0].Y; //calcula la nueva posición de Y
 
 		//Se choca con el limite de la pantalla o con una seta
-		if (newX<0 || newX>240 || detectarColisionesSetas(newX,newY)){
+		if (newX<0 || newX>240 || DetectarColisionesSetasDisparo(newX,newY)){
 			ciempies[0].Y +=16; //Baja 1 linea
 			ciem_dir=-ciem_dir; //Cambia de dirección horizontal
 		}
@@ -353,14 +399,14 @@ void RutAtencionTempo()
 			}
 
 			//Movimento CIEMPIES
-			if(ciem_cont_espera_mov<ciem_cont_espera_mov_min){
-				ciem_cont_espera_mov++;
+			if(enem_cont_espera_mov<enem_cont_espera_mov_min){
+				enem_cont_espera_mov++;
 			}
 			else{
-				ciem_cont_espera_mov=0;
+				enem_cont_espera_mov=0;
 				MoverCiempies();
 			}
-			detectarColisionesDisparo();
+			DetectarColisionesDisparo();
 			oamUpdate(&oamMain); //ActualizarSprites
 
 		}

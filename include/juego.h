@@ -6,8 +6,6 @@ juego.h
 void juego();
 
 //GENERALES
-
-
     //Limpiar pantalla
     void LimpiarPantalla();
     // Random
@@ -74,9 +72,13 @@ extern int seta_cont_espera_mostrar_max;
 
 extern void InicializarValoresSetas();
 
-extern int DetectarColisionesSetas(int idDisparo);
+extern int DetectarColisionesSetasDisparo(int idDisparo);
 
-// CIMEPIÉS
+// ENEMIGOS
+extern int enem_cont_espera_mov;
+extern int enem_cont_espera_mov_min;
+
+    // CIMEPIÉS
 typedef struct {
 	int activo; //para saber si esa parte sigue viva o muerta
     int id;
@@ -84,8 +86,7 @@ typedef struct {
 	int X; //posición X
 	int Y; //posición Y
     int direccion;
-    int prev;
-    int next;
+    int longitud;
 } parteCiempies;
 
 //Funciones del ciempies
