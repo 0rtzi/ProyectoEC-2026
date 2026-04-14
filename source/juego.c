@@ -76,7 +76,6 @@ void juego()
 				case CARGANDO_ENEMIGOS:
 					InicializarValoresCiempies();
 					ACCION=JUEGO;
-					HabilitarIntTeclado();
 					break;
 				
 				case JUEGO:

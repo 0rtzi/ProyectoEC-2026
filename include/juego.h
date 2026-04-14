@@ -78,8 +78,17 @@ extern int DetectarColisionesSetas(int idDisparo);
 
 // CIMEPIÉS
 typedef struct {
-
+	int activo; //para saber si esa parte sigue viva o muerta
+    int id;
+    int parte;
+	int X; //posición X
+	int Y; //posición Y
+    int direccion;
+    int prev;
+    int next;
 } parteCiempies;
 
+//Funciones del ciempies
+extern void InicializarValoresCiempies();
 /***********************2025-2026*******************************/
 

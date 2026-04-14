@@ -42,18 +42,7 @@ int prota_cont_espera_mov = 0;
 int prota_cont_espera_mov_min = 1;
 int prota_pixel_mov = 2;
 
-	//LOCALIZACIÓN CIEMPIES
-struct localCiempies {
-	int X; //posición X
-	int Y; //posición Y
-	int activo; //para saber si esa parte sigue viva o muerta
-};
 
-	//CREACIÓN CIEMPIES
-struct localCiempies ciempies[10]; //El ciempies tiene un tamaño de 10 unidades
-int ciem_dir=1; //1-> Ciempies va hacia la derecha y -1-> Ciempies va hacia la izquierda
-int ciem_cont_espera_mov=0; //Freno que hace con que el ciempies solo se movimiente 8 pasos por segundo
-int ciem_cont_espera_mov_min=16; //Por cuantas veces dividimos 128 (para controlar la velocidad) 
 
 
 void InicializarValoresProta(){
@@ -163,6 +152,78 @@ void MoverDisparos(){
 	DetectarColisionesDisparo();
 }
 
+
+	// SETAS
+casillaSeta matriz_setas[12][16] = {0};
+
+volatile int seta_cont_espera_mostrar = 0;
+int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
+
+void InicializarValoresSetas() {
+	int ultId = 0;
+	int i;
+	for (i=0; i<9; i++){
+		int j;
+		for (j=0; j<16; j++){
+			if (randomInt(0,6)==0){
+				while (seta_cont_espera_mostrar < seta_cont_espera_mostrar_max){
+					//Hasta que el valor de seta_cont_espera_mostrar sea mayor o igual que seta_cont_espera_mostrar_max
+				}
+				matriz_setas[i][j].sprite_id=ultId;
+				matriz_setas[i][j].vidas=4;
+				MostrarChampi(11+ultId,j*16,i*16);
+				//iprintf("\x1b[23;5HPosición seta: %d",ultId);
+				seta_cont_espera_mostrar = 0;
+				ultId++;
+			}
+		}
+	}
+}
+
+int DetectarColisionesSetas(int idDisparo){
+	int r, c;
+	for(r=0; r<12; r++){
+		for (c=0; c<16; c++){
+			if(matriz_setas[r][c].vidas<=0){
+				continue;
+			}
+			if(detectarColision(disparos[idDisparo].X+8, disparos[idDisparo].Y+8, c*16, r*16)){
+				matriz_setas[r][c].vidas--;
+				disparos[idDisparo].activo=0;
+				
+				if(matriz_setas[r][c].vidas<=0){
+					BorrarChampi(11+matriz_setas[r][c].sprite_id, c*16, r*16);
+				}
+				else{
+					ActualizarChampis(11+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
+				}
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+//ENEMIGOS
+	//CIEMPIÉS
+
+	//CREACIÓN CIEMPIES
+parteCiempies ciempies[50]; //El ciempies tiene un tamaño de 50 unidades
+int ciem_dir=1; //1-> Ciempies va hacia la derecha y -1-> Ciempies va hacia la izquierda
+int ciem_cont_espera_mov=0; //Freno que hace con que el ciempies solo se movimiente 8 pasos por segundo
+int ciem_cont_espera_mov_min=16; //Por cuantas veces dividimos 128 (para controlar la velocidad) 
+
+void InicializarValoresCiempies() {
+	int i;
+	ciem_dir=1; //Va hacia la derecha al empezar el juego
+
+	for(i=0;i<10;i++){ //Revisa cada unidad del ciempies (posición 0 a 9)
+		ciempies[i].activo=1; //Esa unidad se activa
+		ciempies[i].X=-(16*i); //Cada unidad del ciempies tiene 16 pixeles, i es el trozo que vamos trabajar y empezamos con el valor negativo para esconder el ciempies en el inicio del juego
+		ciempies[i].Y=0; //Cada unidad se encuentra en una linea recta, arriba del todo en la pantalla
+	}
+}
+
 void MoverCiempies(){
 	int i;
 
@@ -231,56 +292,6 @@ void MoverCiempies(){
 }
 
 
-	// SETAS
-casillaSeta matriz_setas[12][16] = {0};
-
-volatile int seta_cont_espera_mostrar = 0;
-int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
-
-void InicializarValoresSetas() {
-	int ultId = 0;
-	int i;
-	for (i=0; i<9; i++){
-		int j;
-		for (j=0; j<16; j++){
-			if (randomInt(0,7)==0){
-				while (seta_cont_espera_mostrar < seta_cont_espera_mostrar_max){
-					//Hasta que el valor de seta_cont_espera_mostrar sea mayor o igual que seta_cont_espera_mostrar_max
-				}
-				matriz_setas[i][j].sprite_id=ultId;
-				matriz_setas[i][j].vidas=4;
-				MostrarChampi(11+ultId,j*16,i*16);
-				//iprintf("\x1b[23;5HPosición seta: %d",ultId);
-				seta_cont_espera_mostrar = 0;
-				ultId++;
-			}
-		}
-	}
-}
-
-int DetectarColisionesSetas(int idDisparo){
-	int r, c;
-	for(r=0; r<12; r++){
-		for (c=0; c<16; c++){
-			if(matriz_setas[r][c].vidas<=0){
-				continue;
-			}
-			if(detectarColision(disparos[idDisparo].X+8, disparos[idDisparo].Y+8, c*16, r*16)){
-				matriz_setas[r][c].vidas--;
-				disparos[idDisparo].activo=0;
-				
-				if(matriz_setas[r][c].vidas<=0){
-					BorrarChampi(11+matriz_setas[r][c].sprite_id, c*16, r*16);
-				}
-				else{
-					ActualizarChampis(11+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
-				}
-				return 1;
-			}
-		}
-	}
-	return 0;
-}
 
 //RUTINAS DE ATENCIÓN
 void RutAtencionTeclado ()
@@ -365,17 +376,6 @@ void EstablecerVectorInt()
 // A COMPLETAR POR USTEDES
 	irqSet(IRQ_KEYS, RutAtencionTeclado);
 	irqSet(IRQ_TIMER0, RutAtencionTempo);
-}
-
-void InicializarValoresCiempies() {
-	int i;
-	ciem_dir=1; //Va hacia la derecha al empezar el juego
-
-	for(i=0;i<10;i++){ //Revisa cada unidad del ciempies (posición 0 a 9)
-		ciempies[i].activo=1; //Esa unidad se activa
-		ciempies[i].X=-(16*i); //Cada unidad del ciempies tiene 16 pixeles, i es el trozo que vamos trabajar y empezamos con el valor negativo para esconder el ciempies en el inicio del juego
-		ciempies[i].Y=0; //Cada unidad se encuentra en una linea recta, arriba del todo en la pantalla
-	}
 }
 
 
