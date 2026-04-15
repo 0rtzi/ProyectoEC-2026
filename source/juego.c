@@ -70,12 +70,12 @@ void juego()
 				case CARGANDO_SETAS:
 					InicializarValoresSetas();
 					ACCION = CARGANDO_ENEMIGOS;
-					HabilitarIntTeclado();
 					break;
-				
-				case CARGANDO_ENEMIGOS:
+					
+					case CARGANDO_ENEMIGOS:
 					InicializarValoresCiempies();
 					ACCION=JUEGO;
+					HabilitarIntTeclado();
 					break;
 				
 				case JUEGO:

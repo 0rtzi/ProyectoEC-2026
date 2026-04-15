@@ -272,66 +272,80 @@ void InicializarValoresCiempies() {
 
 void MoverCiempies(){
 	int i;
-
 	//El primer FOR es el que borra los sprites actuales para que al movimentarse, no se queden sprites congelados por la pantalla
-	for(i=0; i<10; i++){ 
+	for(i=0; i<50; i++){
 		if(ciempies[i].activo==1){ //Esa unidad esta viva?
-			if(i==0){//Estamos con la cabeza
-				if(ciem_dir==1) {//Si estamos hacia la derecha
-					BorrarCabezaDrcha(110,ciempies[0].X,ciempies[0].Y); //110 pues necesitabamos 1 para la cabeza y 9 para el cuerpo
+			if(ciempies[i].parte==0){//Estamos con la cabeza
+				int posX = ciempies[i].X;
+				int posY = ciempies[i].Y;
+
+				//FALTA HACER QUE NO SE SALGA POR ABAJO
+				if(ciempies[i].X < 0){
+					BorrarCabezaBajo(50+i,ciempies[i].X,ciempies[i].Y);
+					ciempies[i].direccion = randomInt(1,2)*2;
 				}
-				else{//Si estamos hacia la izquierda
-					BorrarCabezaIzq(110,ciempies[0].X,ciempies[0].Y);
+				else if(ciempies[i].direccion==2) {//Si estamos hacia la derecha
+					BorrarCabezaDrcha(51+i,ciempies[i].X,ciempies[i].Y); //110 pues necesitabamos 1 para la cabeza y 9 para el cuerpo
+					if(ciempies[i].X+16>240){
+						ciempies[i].Y +=16; //Baja 1 linea
+						ciempies[i].direccion=3;
+					}
 				}
+				else if(ciempies[i].direccion==4){//Si estamos hacia la izquierda
+					BorrarCabezaIzq(51+i,ciempies[i].X,ciempies[i].Y); //primero 50 o 51?? //cuando rompo la serpiente se mueven el resto de elementos para tapar el hueco de la lista??
+					if (ciempies[i].X-16<0){
+						ciempies[i].Y +=16; //Baja 1 linea
+						ciempies[i].direccion=3;
+					}
+				}
+				else if(ciempies[i].direccion==3){
+					if(ciempies[i].X+16>240){
+						ciempies[i].X -= 16;
+					}
+					elseif(ciempies[i].X-16<0){
+						ciempies[i].X += 16;
+					}
+				}
+
+				
+
+				//Impide que salga de la pantalla por debajo
+				//if(ciempies[i].Y>176){ 
+					//ciempies[i].Y=176; //Con eso hace un zigzag infino (temporario hasta programar la colision con disparos)
+				//}
+				//Camino libre
+				//else { 
+				//	ciempies[i].X=newX;
+				//}
 			}
 			else{ //Estamos con otra parte del cuerpo
-				BorrarCenticuerpo(110+i,ciempies[i].X,ciempies[i].Y);
+				BorrarCenticuerpo(51+i,ciempies[i].X,ciempies[i].Y);
+				int guardaX = ciempies[i].X;
+				int guardaY = ciempies[i].Y;
+				ciempies[i].X=posX;
+				ciempies[i].Y=posY;
+				posX = guardaX;
+				posY = guardaY;
 			}
-		}
-	}
-
-	//Movimentación del cuerpo (empieza por el final)
-	for(i=9; i>0; i--){ //9 porque no incluye la cabeza
-		if(ciempies[i].activo==1){
-			ciempies[i].X=ciempies[i-1].X;
-			ciempies[i].Y=ciempies[i-1].Y;
-		}
-	}
-
-	//Movimentación de la cabeza y colisiones
-	if (ciempies[0].activo==1){
-		int newX=ciempies[0].X+(ciem_dir*16); //calcula la nueva posición de X
-		int newY=ciempies[0].Y; //calcula la nueva posición de Y
-
-		//Se choca con el limite de la pantalla o con una seta
-		if (newX<0 || newX>240 || DetectarColisionesSetasDisparo(newX,newY)){
-			ciempies[0].Y +=16; //Baja 1 linea
-			ciem_dir=-ciem_dir; //Cambia de dirección horizontal
-		}
-
-		//Impide que salga de la pantalla por debajo
-		if(ciempies[0].Y>176){ 
-			ciempies[0].Y=176; //Con eso hace un zigzag infino (temporario hasta programar la colision con disparos)
-		}
-		//Camino libre
-		else { 
-			ciempies[0].X=newX;
 		}
 	}
 
 	//Dibujar los sprites en las nuevas posiciones
-	for(i=0; i<10; i++){
+	for(i=0; i<50; i++){
 		if(ciempies[i].activo==1){
-			if(i==0){ //Dibujar la cabeza
-				if(ciem_dir==1){
-					MostrarCabezaDrcha(110, ciempies[0].X, ciempies[0].Y);
+			if(ciempies[i].parte==0){ //Dibujar la cabeza
+				if(ciempies[i].dir==2){
+					MostrarCabezaDrcha(51+i, ciempies[0].X, ciempies[0].Y);
 				}
-				else{
-					MostrarCabezaIzq(110, ciempies[0].X, ciempies[0].Y);
+				else if(ciempies[i].dir==2){
+					MostrarCabezaIzq(51+i, ciempies[0].X, ciempies[0].Y);
+				}
+				else if(ciempies[i].dir==3){
+					MostrarCabezaBajo(51+i, ciempies[0].X, ciempies[0].Y);
 				}
 			}
 			else{
-				MostrarCenticuerpo(110+i, ciempies[i].X, ciempies[i].Y);
+				MostrarCenticuerpo(51+i, ciempies[i].X, ciempies[i].Y);
 			}
 		}
 	}
