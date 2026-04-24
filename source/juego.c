@@ -82,7 +82,7 @@ void juego()
 
 					break;
 
-				case PAUSA:
+				case MUERTE:
 
 					break;
 

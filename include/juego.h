@@ -79,6 +79,7 @@ extern int enem_cont_espera_mov;
 extern int enem_cont_espera_mov_min;
 
     // CIMEPIÉS
+extern int ciempies_pixel_mov
 typedef struct {
 	int activo; //para saber si esa parte sigue viva o muerta
     int id;

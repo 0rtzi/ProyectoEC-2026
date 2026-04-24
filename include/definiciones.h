@@ -56,7 +56,7 @@ extern int ESTADO;
 #define CARGANDO_SETAS          2
 #define CARGANDO_ENEMIGOS       3
 #define JUEGO                   4
-#define PAUSA                   5
+#define MUERTE                  5
 #define LIMPIANDO_PANTALLA      6
 
 extern int ACCION;

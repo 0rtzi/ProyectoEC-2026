@@ -209,7 +209,7 @@ int enem_cont_espera_mov=0;
 int enem_cont_espera_mov_min=16;
 
 	//CIEMPIÉS
-
+int ciempies_pixel_mov = 16;
 
 parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
 
@@ -299,11 +299,11 @@ void MoverCiempies(){
 					}
 				}
 				else if(ciempies[i].direccion==3){
-					if(ciempies[i].X+16>240){
-						ciempies[i].X -= 16;
+					if(ciempies[i].X>=240){
+						ciempies[i].X -= ciempies_pixel_mov;
 					}
-					elseif(ciempies[i].X-16<0){
-						ciempies[i].X += 16;
+					elseif(ciempies[i].X<=0){
+						ciempies[i].X += ciempies_pixel_mov;
 					}
 				}
 
@@ -424,7 +424,7 @@ void RutAtencionTempo()
 			oamUpdate(&oamMain); //ActualizarSprites
 
 		}
-		else if (ACCION == PAUSA){
+		else if (ACCION == MUERTE){
 
 		}
 		
