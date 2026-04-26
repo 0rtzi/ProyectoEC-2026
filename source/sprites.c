@@ -15,10 +15,11 @@ Código desarrollado basado en el ejemplo "Simple sprite demo" de dovoto y en ot
 u16* gfxprota;
 u16* gfxdisparo;
 u16* gfxspider;
-u16* gfxchampi;
-u16* gfxchampi_3;
-u16* gfxchampi_2;
-u16* gfxchampi_1;
+//Setas
+u16* gfxseta;
+u16* gfxseta_3;
+u16* gfxseta_2;
+u16* gfxseta_1;
 //Ciempiés
 u16* gfxcenticuerpo;
 u16* gfxcabezaizq;
@@ -34,10 +35,10 @@ void memoriaReserva()
 	gfxprota= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxdisparo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxspider= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxchampi= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxchampi_3= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxchampi_2= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxchampi_1= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxseta= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxseta_3= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxseta_2= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfxseta_1= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxcenticuerpo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxcabezaizq= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfxcabezabajo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
@@ -48,31 +49,163 @@ void memoriaReserva()
 /* A cada uno de los 256 valores que puede tomar un píxel en la PALETA PRINCIPAL
    se le puede asignar un color. El valor 0 es transparente. Los valores sin definir son negros. 
    MODIFICAR SEGÚN LOS COLORES QUE QUERAIS UTILIZAR EN VUESTROS SPRITES */
-void EstablecerPaletaPrincipal() {
+void EstablecerPaleta1() {
 
-	SPRITE_PALETTE[1] = RGB15(31,0,0);
-	SPRITE_PALETTE[2] = RGB15(0,31,0);
-	SPRITE_PALETTE[3] = RGB15(31,31,31);
-	SPRITE_PALETTE[4] = RGB15(0, 31, 0); //MIRAR SI SE PUEDE PASAR A AMARILLO; HAY 2 VERDES
-	SPRITE_PALETTE[5] = RGB15(0, 0, 31);
-	SPRITE_PALETTE[6] = RGB15(0, 0, 0);
-	SPRITE_PALETTE[7] = RGB15(0, 31, 31);
-	SPRITE_PALETTE[8] = RGB15(31, 0, 31);
-	SPRITE_PALETTE[9] = RGB15(16, 16, 16);
-	SPRITE_PALETTE[10] = RGB15(24, 24, 24);
-	SPRITE_PALETTE[11] = RGB15(8, 8, 8);
-	SPRITE_PALETTE[12] = RGB15(31, 16, 0);
-	SPRITE_PALETTE[13] = RGB15(16, 0, 0);
-	SPRITE_PALETTE[14] = RGB15(20, 10, 0);
-	SPRITE_PALETTE[15] = RGB15(16, 0, 31);
-	SPRITE_PALETTE[16] = RGB15(24, 16, 31);
-	SPRITE_PALETTE[17] = RGB15(31, 20, 28);
-	SPRITE_PALETTE[18] = RGB15(16, 24, 31);
-	SPRITE_PALETTE[19] = RGB15(0, 0, 16);
-	SPRITE_PALETTE[20] = RGB15(0, 31, 16);
-	SPRITE_PALETTE[21] = RGB15(0, 16, 0);
-	SPRITE_PALETTE[22] = RGB15(16, 20, 0);
-	SPRITE_PALETTE[23] = RGB15(24, 31, 16);
+	// Paleta 1: Caverna de Hielo
+	// Blancos y platas (Nieve, puntuación, brillos)
+	SPRITE_PALETTE[1]  = RGB15(31, 31, 31); /**< Blanco puro / Nieve */
+	SPRITE_PALETTE[2]  = RGB15(20, 24, 31); /**< Plata azulado claro */
+	SPRITE_PALETTE[3]  = RGB15(10, 14, 20); /**< Plata oscuro / Sombra de hielo */
+
+	// Cianes y Azules Hielo (Hongos congelados)
+	SPRITE_PALETTE[4]  = RGB15( 0, 31, 31); /**< Cian hielo brillante */
+	SPRITE_PALETTE[5]  = RGB15( 0, 20, 24); /**< Azul escarcha */
+	SPRITE_PALETTE[6]  = RGB15( 0, 10, 20); /**< Azul océano oscuro */
+	SPRITE_PALETTE[7]  = RGB15(15, 31, 31); /**< Cian pastel (Brillo de hongo) */
+
+	// Azules Profundos y Púrpuras (Arañas o pulgas)
+	SPRITE_PALETTE[8]  = RGB15( 0,  0, 31); /**< Azul puro brillante */
+	SPRITE_PALETTE[9]  = RGB15( 8, 12, 31); /**< Azul real / Cobalto */
+	SPRITE_PALETTE[10] = RGB15(15,  0, 31); /**< Violeta frío */
+	SPRITE_PALETTE[11] = RGB15(24, 15, 31); /**< Lavanda claro */
+	SPRITE_PALETTE[12] = RGB15(10,  0, 20); /**< Violeta oscuro */
+
+	// Amarillos y Dorados (Contraste vital para el Ciempiés)
+	SPRITE_PALETTE[13] = RGB15(31, 31,  0); /**< Amarillo eléctrico (Cabeza) */
+	SPRITE_PALETTE[14] = RGB15(24, 20,  0); /**< Oro frío */
+	SPRITE_PALETTE[15] = RGB15(31, 31, 15); /**< Amarillo pastel helado */
+
+	// Verdes Menta (Nave del jugador)
+	SPRITE_PALETTE[16] = RGB15( 0, 31, 15); /**< Verde menta brillante */
+	SPRITE_PALETTE[17] = RGB15( 0, 20, 10); /**< Verde esmeralda frío */
+	SPRITE_PALETTE[18] = RGB15(10, 31, 20); /**< Espuma de mar */
+
+	// Magentas y Rosas gélidos (Escorpiones o veneno)
+	SPRITE_PALETTE[19] = RGB15(31, 20, 31); /**< Rosa escarchado */
+	SPRITE_PALETTE[20] = RGB15(24,  0, 24); /**< Magenta estándar */
+	SPRITE_PALETTE[21] = RGB15(12,  0, 12); /**< Magenta oscuro */
+
+	// Tonos neutros extra
+	SPRITE_PALETTE[22] = RGB15(15, 15, 15); /**< Gris neutro medio */
+	SPRITE_PALETTE[23] = RGB15(24, 24, 24); /**< Gris claro / Metal */
+}
+
+void EstablecerPaleta2() {
+	// Paleta 2: Neón Arcade
+	// Escala de grises azulados
+	SPRITE_PALETTE[1]  = RGB15(31, 31, 31); /**< Blanco puro */
+	SPRITE_PALETTE[2]  = RGB15(22, 24, 31); /**< Gris azulado claro */
+	SPRITE_PALETTE[3]  = RGB15(10, 12, 18); /**< Gris azulado oscuro */
+
+	// Magentas y Rosas intensos (Hongos de neón)
+	SPRITE_PALETTE[4]  = RGB15(31,  0, 31); /**< Magenta puro (El clásico) */
+	SPRITE_PALETTE[5]  = RGB15(24,  0, 24); /**< Magenta oscuro */
+	SPRITE_PALETTE[6]  = RGB15(31, 12, 24); /**< Rosa chicle */
+	SPRITE_PALETTE[7]  = RGB15(16,  0, 16); /**< Morado profundo */
+
+	// Cianes y Azules eléctricos (Nave y Arañas)
+	SPRITE_PALETTE[8]  = RGB15( 0, 31, 31); /**< Cian puro */
+	SPRITE_PALETTE[9]  = RGB15( 0, 20, 31); /**< Azul eléctrico */
+	SPRITE_PALETTE[10] = RGB15( 0, 10, 24); /**< Azul medio */
+	SPRITE_PALETTE[11] = RGB15(15, 31, 31); /**< Cian pastel brillante */
+
+	// Amarillos puros (Cabeza del Ciempiés)
+	SPRITE_PALETTE[12] = RGB15(31, 31,  0); /**< Amarillo láser */
+	SPRITE_PALETTE[13] = RGB15(22, 22,  0); /**< Amarillo medio */
+	SPRITE_PALETTE[14] = RGB15(12, 12,  0); /**< Amarillo oscuro/Verdoso */
+
+	// Verdes esmeralda
+	SPRITE_PALETTE[15] = RGB15( 0, 31, 15); /**< Verde esmeralda brillante */
+	SPRITE_PALETTE[16] = RGB15( 0, 20, 10); /**< Esmeralda oscuro */
+	SPRITE_PALETTE[17] = RGB15( 8, 31, 20); /**< Menta neón */
+
+	// Rojos y Naranjas de alarma
+	SPRITE_PALETTE[18] = RGB15(31,  8,  0); /**< Naranja rojizo neón */
+	SPRITE_PALETTE[19] = RGB15(31,  0,  8); /**< Carmesí neón */
+	SPRITE_PALETTE[20] = RGB15(20,  0,  4); /**< Carmesí oscuro */
+
+	// Acentos
+	SPRITE_PALETTE[21] = RGB15(15, 15, 31); /**< Azul bígaro */
+	SPRITE_PALETTE[22] = RGB15(31, 20,  0); /**< Naranja puro */
+	SPRITE_PALETTE[23] = RGB15(31, 24, 31); /**< Rosa blanquecino */
+}
+
+void EstablecerPaleta3() {
+	// Paleta 3: Alerta Roja
+	// Blancos y grises crudos
+	SPRITE_PALETTE[1]  = RGB15(31, 31, 31); /**< Blanco puro */
+	SPRITE_PALETTE[2]  = RGB15(20, 20, 20); /**< Gris neutro */
+	SPRITE_PALETTE[3]  = RGB15( 8,  8,  8); /**< Gris muy oscuro */
+
+	// Rojos Sangre (Dominante en hongos y enemigos)
+	SPRITE_PALETTE[4]  = RGB15(31,  0,  0); /**< Rojo puro intenso */
+	SPRITE_PALETTE[5]  = RGB15(22,  0,  0); /**< Rojo medio */
+	SPRITE_PALETTE[6]  = RGB15(12,  0,  0); /**< Rojo muy oscuro (Casi negro) */
+	SPRITE_PALETTE[7]  = RGB15(31, 10, 10); /**< Rojo coral brillante */
+
+	// Naranjas Fuego y Dorados (Ciempiés)
+	SPRITE_PALETTE[8]  = RGB15(31, 15,  0); /**< Naranja fuego */
+	SPRITE_PALETTE[9]  = RGB15(24, 10,  0); /**< Naranja tostado */
+	SPRITE_PALETTE[10] = RGB15(31, 25,  0); /**< Amarillo dorado brillante */
+	SPRITE_PALETTE[11] = RGB15(20, 16,  0); /**< Oro viejo */
+
+	// Azules Hielo (Para contraste del jugador y arañas)
+	SPRITE_PALETTE[12] = RGB15(10, 24, 31); /**< Azul hielo claro */
+	SPRITE_PALETTE[13] = RGB15( 0, 15, 24); /**< Azul acero */
+	SPRITE_PALETTE[14] = RGB15( 0,  8, 16); /**< Azul noche */
+
+	// Púrpuras rojizos
+	SPRITE_PALETTE[15] = RGB15(24,  0, 15); /**< Fucsia rojizo */
+	SPRITE_PALETTE[16] = RGB15(16,  0, 10); /**< Borgoña oscuro */
+	SPRITE_PALETTE[17] = RGB15(31, 15, 24); /**< Rosa fuego */
+
+	// Verdes pálidos (Usados con moderación para detalles)
+	SPRITE_PALETTE[18] = RGB15(15, 31, 15); /**< Verde pálido / Radiactivo */
+	SPRITE_PALETTE[19] = RGB15( 8, 20,  8); /**< Verde pálido oscuro */
+
+	// Tonos carne/monstruo
+	SPRITE_PALETTE[20] = RGB15(31, 20, 15); /**< Salmón claro */
+	SPRITE_PALETTE[21] = RGB15(24, 14, 10); /**< Salmón oscuro */
+	SPRITE_PALETTE[22] = RGB15(16,  6,  4); /**< Marrón rojizo */
+	SPRITE_PALETTE[23] = RGB15(31, 31, 20); /**< Amarillo pálido casi blanco */
+}
+
+void EstablecerPaleta4(){
+	// Paleta 4: Bosque Tóxico
+	// Blancos y grises verdosos
+	SPRITE_PALETTE[1]  = RGB15(31, 31, 31); /**< Blanco puro */
+	SPRITE_PALETTE[2]  = RGB15(20, 24, 20); /**< Gris con tinte verde claro */
+	SPRITE_PALETTE[3]  = RGB15(10, 14, 10); /**< Gris pantano oscuro */
+
+	// Verdes tóxicos y mutados
+	SPRITE_PALETTE[4]  = RGB15(18, 31,  0); /**< Verde lima brillante (Ciempiés) */
+	SPRITE_PALETTE[5]  = RGB15( 8, 22,  0); /**< Verde musgo */
+	SPRITE_PALETTE[6]  = RGB15( 0, 15,  0); /**< Verde oscuro */
+	SPRITE_PALETTE[7]  = RGB15(15, 31, 15); /**< Verde menta pálido */
+
+	// Púrpuras y violetas (Veneno/Arañas)
+	SPRITE_PALETTE[8]  = RGB15(22,  0, 31); /**< Púrpura tóxico brillante */
+	SPRITE_PALETTE[9]  = RGB15(14,  0, 20); /**< Púrpura medio */
+	SPRITE_PALETTE[10] = RGB15( 8,  0, 12); /**< Púrpura muy oscuro */
+	SPRITE_PALETTE[11] = RGB15(25, 10, 31); /**< Lavanda brillante */
+
+	// Naranjas y marrones (Hongos y tierra)
+	SPRITE_PALETTE[12] = RGB15(31, 20,  0); /**< Naranja dorado */
+	SPRITE_PALETTE[13] = RGB15(24, 12,  0); /**< Naranja oscuro */
+	SPRITE_PALETTE[14] = RGB15(16,  8,  0); /**< Marrón madera */
+	SPRITE_PALETTE[15] = RGB15(10,  4,  0); /**< Marrón tierra oscuro */
+
+	// Rojos oxidados
+	SPRITE_PALETTE[16] = RGB15(31,  8,  8); /**< Rojo óxido brillante */
+	SPRITE_PALETTE[17] = RGB15(20,  4,  4); /**< Rojo arcilla */
+	SPRITE_PALETTE[18] = RGB15(12,  0,  0); /**< Rojo oscuro */
+
+	// Detalles extra (Amarillos enfermos y cian sucio)
+	SPRITE_PALETTE[19] = RGB15(31, 31,  8); /**< Amarillo pálido/enfermo */
+	SPRITE_PALETTE[20] = RGB15(20, 20,  4); /**< Ocre */
+	SPRITE_PALETTE[21] = RGB15( 0, 24, 24); /**< Cian verdoso (Pulgas) */
+	SPRITE_PALETTE[22] = RGB15( 0, 12, 12); /**< Cian oscuro */
+	SPRITE_PALETTE[23] = RGB15(26, 31, 15); /**< Verde amarillento muy claro */
 }
 
 /* Por la forma que tienen de trabajar los bancos de memoria, la imagen del sprite se divide en bloques de 8x8 píxeles. Los primeros 64 (8x8) píxeles que indicamos
@@ -142,7 +275,7 @@ u8 sprite_spider[256] =
 
 };
 
-u8 sprite_champi[256] = 
+u8 sprite_seta[256] = 
 {
 0	,	0	,	0	,	0	,	0	,	15	,	15	,	20	,	0	,	0	,	0	,	0	,	15	,	20	,	20	,	15	,	 //	0	0	0	0	0	15	15	20	15	15	20	0	0	0	0	0
 0	,	0	,	0	,	20	,	15	,	15	,	15	,	15	,	0	,	0	,	15	,	20	,	15	,	15	,	15	,	15	,	 //	0	0	0	0	15	20	20	15	15	15	20	15	0	0	0	0
@@ -163,7 +296,7 @@ u8 sprite_champi[256] =
 
 };
 
-u8 sprite_champi_3[256]= //Seta con 3 vidas
+u8 sprite_seta_3[256]= //Seta con 3 vidas
 {
 0	,	0	,	0	,	0	,	0	,	15	,	15	,	20	,	0	,	0	,	0	,	0	,	15	,	20	,	20	,	15	,	 //	0	0	0	0	0	15	15	20	15	15	20	0	0	0	0	0
 0	,	0	,	0	,	20	,	15	,	15	,	15	,	15	,	0	,	0	,	15	,	20	,	15	,	15	,	15	,	15	,	 //	0	0	0	0	15	20	20	15	15	15	20	15	0	0	0	0
@@ -183,7 +316,7 @@ u8 sprite_champi_3[256]= //Seta con 3 vidas
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 };
 
-u8 sprite_champi_2[256]= //Seta con 2 vidas
+u8 sprite_seta_2[256]= //Seta con 2 vidas
 {
 0	,	0	,	0	,	0	,	0	,	15	,	15	,	20	,	0	,	0	,	0	,	0	,	15	,	20	,	20	,	15	,	 //	0	0	0	0	0	15	15	20	15	15	20	0	0	0	0	0
 0	,	0	,	0	,	20	,	15	,	15	,	15	,	15	,	0	,	0	,	15	,	20	,	15	,	15	,	15	,	15	,	 //	0	0	0	0	15	20	20	15	15	15	20	15	0	0	0	0
@@ -203,7 +336,7 @@ u8 sprite_champi_2[256]= //Seta con 2 vidas
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 };
 
-u8 sprite_champi_1[256]= //Seta con 1 vida
+u8 sprite_seta_1[256]= //Seta con 1 vida
 {
 0	,	0	,	0	,	0	,	0	,	15	,	15	,	20	,	0	,	0	,	0	,	0	,	15	,	20	,	20	,	15	,	 //	0	0	0	0	0	15	15	20	15	15	20	0	0	0	0	0
 0	,	0	,	0	,	20	,	15	,	15	,	15	,	15	,	0	,	0	,	15	,	20	,	15	,	15	,	15	,	15	,	 //	0	0	0	0	15	20	20	15	15	15	20	15	0	0	0	0
@@ -223,7 +356,7 @@ u8 sprite_champi_1[256]= //Seta con 1 vida
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 };
 
-u8 centicuerpo[256] = 
+u8 sprite_ciempies_cuerpo[256] = 
 {
 0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
 0	,	0	,	8	,	17	,	8	,	8	,	8	,	8	,	0	,	8	,	17	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
@@ -244,7 +377,7 @@ u8 centicuerpo[256] =
 
 };
 
-u8 cabezaizq[256]=
+u8 sprite_ciempies_cabeza_izquierda[256]=
 {
 0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
 0	,	0	,	8	,	17	,	17	,	17	,	17	,	17	,	0	,	8	,	17	,	17	,	6	,	6	,	6	,	17	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
@@ -265,7 +398,7 @@ u8 cabezaizq[256]=
 
 };
 
-u8 cabezabajo[256]=
+u8 sprite_ciempies_cabeza_abajo[256]=
 {
 	0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
 0	,	0	,	8	,	3	,	17	,	17	,	17	,	17	,	0	,	8	,	17	,	17	,	3	,	17	,	17	,	17	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
@@ -286,7 +419,7 @@ u8 cabezabajo[256]=
 
 };
 
-u8 cabezadrcha[256]=
+u8 sprite_ciempies_cabeza_derecha[256]=
 {
 	0	,	0	,	0	,	0	,	8	,	8	,	8	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	 //	0	0	0	0	8	8	8	8	8	8	8	8	0	0	0	0
 0	,	0	,	8	,	17	,	17	,	17	,	17	,	17	,	0	,	8	,	3	,	17	,	17	,	17	,	17	,	17	,	 //	0	0	0	8	17	17	17	17	17	17	17	17	8	0	0	0
@@ -307,7 +440,7 @@ u8 cabezadrcha[256]=
 
 };
 
-u8 cabezarriba[256]=
+u8 sprite_ciempies_cabeza_arriba[256]=
 {
 	0	,	0	,	0	,	0	,	8	,	0	,	0	,	0	,	0	,	0	,	0	,	8	,	17	,	8	,	0	,	0	,	 //	0	0	0	0	8	0	0	0	0	0	0	8	0	0	0	0
 0	,	0	,	8	,	17	,	17	,	8	,	0	,	0	,	0	,	8	,	17	,	17	,	17	,	17	,	8	,	8	,	 //	0	0	0	8	17	8	0	0	0	0	8	17	8	0	0	0
@@ -338,96 +471,96 @@ int i;
 		gfxprota[i] = sprite_prota[i*2] | (sprite_prota[(i*2)+1]<<8);
 		gfxdisparo[i] = sprite_disparo[i*2] | (sprite_disparo[(i*2)+1]<<8);
 		gfxspider[i] = sprite_spider[i*2] | (sprite_spider[(i*2)+1]<<8);		
-		gfxchampi[i] = sprite_champi[i*2] | (sprite_champi[(i*2)+1]<<8);
-		gfxchampi_3[i] = sprite_champi_3[i*2] | (sprite_champi_3[(i*2)+1]<<8);
-		gfxchampi_2[i] = sprite_champi_2[i*2] | (sprite_champi_2[(i*2)+1]<<8);
-		gfxchampi_1[i] = sprite_champi_1[i*2] | (sprite_champi_1[(i*2)+1]<<8);
-		gfxcenticuerpo[i] = centicuerpo[i*2] | (centicuerpo[(i*2)+1]<<8);
-		gfxcabezaizq[i]=cabezaizq[i*2] | (cabezaizq[(i*2)+1]<<8);
-		gfxcabezabajo[i]=cabezabajo[i*2] | (cabezabajo[(i*2)+1]<<8);
-		gfxcabezadrcha[i]=cabezadrcha[i*2] | (cabezadrcha[(i*2)+1]<<8);
-		gfxcabezarriba[i]=cabezarriba[i*2] | (cabezarriba[(i*2)+1]<<8);
+		gfxseta[i] = sprite_seta[i*2] | (sprite_seta[(i*2)+1]<<8);
+		gfxseta_3[i] = sprite_seta_3[i*2] | (sprite_seta_3[(i*2)+1]<<8);
+		gfxseta_2[i] = sprite_seta_2[i*2] | (sprite_seta_2[(i*2)+1]<<8);
+		gfxseta_1[i] = sprite_seta_1[i*2] | (sprite_seta_1[(i*2)+1]<<8);
+		gfxcenticuerpo[i] = sprite_ciempies_cuerpo[i*2] | (sprite_ciempies_cuerpo[(i*2)+1]<<8);
+		gfxcabezaizq[i]=sprite_ciempies_cabeza_izquierda[i*2] | (sprite_ciempies_cabeza_izquierda[(i*2)+1]<<8);
+		gfxcabezabajo[i]=sprite_ciempies_cabeza_abajo[i*2] | (sprite_ciempies_cabeza_abajo[(i*2)+1]<<8);
+		gfxcabezadrcha[i]=sprite_ciempies_cabeza_derecha[i*2] | (sprite_ciempies_cabeza_derecha[(i*2)+1]<<8);
+		gfxcabezarriba[i]=sprite_ciempies_cabeza_arriba[i*2] | (sprite_ciempies_cabeza_arriba[(i*2)+1]<<8);
 	}
 }
 
 void MostrarProta(int indice, int x, int y)
 {
-oamSet(&oamMain, // main graphics engine context
-	indice,           // oam index (0 to 127)  
-	x, y,   // x and y pixel location of the sprite
-	0,                    // priority, lower renders last (on top)
-	0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
-	SpriteSize_16x16,     
-	SpriteColorFormat_256Color, 
-	gfxprota,// +16*16/2,      // pointer to the loaded graphics
-	-1,                  // sprite rotation data  
-	false,               // double the size when rotating?
-	false,			// hide the sprite?
-	false, false, // vflip, hflip
-	false	// apply mosaic
+	oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxprota,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		false,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
 	); 
 	  
-oamUpdate(&oamMain);  
+	oamUpdate(&oamMain);  
 };
 
 void BorrarProta(int indice, int x, int y)
 {
-oamSet(&oamMain, // main graphics engine context
-	indice,           // oam index (0 to 127)  
-	x, y,   // x and y pixel location of the sprite
-	0,                    // priority, lower renders last (on top)
-	0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
-	SpriteSize_16x16,     
-	SpriteColorFormat_256Color, 
-	gfxprota,// +16*16/2,      // pointer to the loaded graphics
-	-1,                  // sprite rotation data  
-	false,               // double the size when rotating?
-	true,			// hide the sprite?
-	false, false, // vflip, hflip
-	false	// apply mosaic
+	oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxprota,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		true,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
 	); 
 	  
-oamUpdate(&oamMain);  
+	oamUpdate(&oamMain);  
 };
 
 void MostrarDisparo(int indice, int x, int y)
 {
-oamSet(&oamMain, // main graphics engine context
-	indice,           // oam index (0 to 127)  
-	x, y,   // x and y pixel location of the sprite
-	0,                    // priority, lower renders last (on top)
-	0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
-	SpriteSize_16x16,     
-	SpriteColorFormat_256Color, 
-	gfxdisparo,// +16*16/2,      // pointer to the loaded graphics
-	-1,                  // sprite rotation data  
-	false,               // double the size when rotating?
-	false,			// hide the sprite?
-	false, false, // vflip, hflip
-	false	// apply mosaic
+	oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxdisparo,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		false,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
 	); 
 	  
-oamUpdate(&oamMain);  
+	oamUpdate(&oamMain);  
 };
 
 void BorrarDisparo(int indice, int x, int y)
 {
-oamSet(&oamMain, // main graphics engine context
-	indice,           // oam index (0 to 127)  
-	x, y,   // x and y pixel location of the sprite
-	0,                    // priority, lower renders last (on top)
-	0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
-	SpriteSize_16x16,     
-	SpriteColorFormat_256Color, 
-	gfxdisparo,// +16*16/2,      // pointer to the loaded graphics
-	-1,                  // sprite rotation data  
-	false,               // double the size when rotating?
-	true,			// hide the sprite?
-	false, false, // vflip, hflip
-	false	// apply mosaic
+	oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfxdisparo,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		true,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
 	); 
 	  
-oamUpdate(&oamMain);  
+	oamUpdate(&oamMain);  
 };
 
 /* Esta función dibuja una araña en la posición x, y de pantalla. A cada rombo que se quiera mostrar en pantalla se le debe asignar un índice distinto, un valor entre 0 y 126 */
@@ -435,7 +568,7 @@ oamUpdate(&oamMain);
 void MostrarSpider(int indice, int x, int y)
 { 
  
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -448,16 +581,16 @@ oamSet(&oamMain, // main graphics engine context
 		true,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
+	); 
 	  
-oamUpdate(&oamMain);  
+	oamUpdate(&oamMain);  
 }
 
 /* Esta función borra de la pantalla la araña con el índice indicado */
 void BorrarSpider(int indice, int x, int y)
 {
 
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -470,57 +603,58 @@ oamSet(&oamMain, // main graphics engine context
 		true,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-oamUpdate(&oamMain); 
+	); 
+	oamUpdate(&oamMain); 
 
 }
 
-void MostrarChampi(int indice, int x, int y)
+void MostrarSeta(int indice, int x, int y)
 { 
  
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxchampi,// +16*16/2,      // pointer to the loaded graphics
+		gfxseta,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-	  
-oamUpdate(&oamMain);  
+	); 
+	
+	oamUpdate(&oamMain);  
 }
 
-void BorrarChampi(int indice, int x, int y)
+void BorrarSeta(int indice, int x, int y)
 {
 
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxchampi,// +16*16/2,      // pointer to the loaded graphics
+		gfxseta,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-oamUpdate(&oamMain); 
+	); 
+
+	oamUpdate(&oamMain); 
 
 }
 
 void MostrarCenticuerpo(int indice, int x, int y)
 { 
  
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -533,15 +667,15 @@ oamSet(&oamMain, // main graphics engine context
 		false,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-	  
-oamUpdate(&oamMain);  
+	); 
+	
+	oamUpdate(&oamMain);  
 }
 
 void BorrarCenticuerpo(int indice, int x, int y)
 {
 
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -554,15 +688,17 @@ oamSet(&oamMain, // main graphics engine context
 		true,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-oamUpdate(&oamMain); 
+	); 
+
+	oamUpdate(&oamMain); 
 
 }
 
+// TODO: En vez de mostrar y borrar cada una de las direcciones de cabeza de ciempies, hacer como con ActualizarSpriteSetas()
 void MostrarCabezaIzq(int indice, int x, int y)
 { 
  
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -575,15 +711,15 @@ oamSet(&oamMain, // main graphics engine context
 		false,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
+	); 
 	  
-oamUpdate(&oamMain);  
+	oamUpdate(&oamMain);  
 }
 
 void BorrarCabezaIzq(int indice, int x, int y)
 {
 
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -596,15 +732,16 @@ oamSet(&oamMain, // main graphics engine context
 		true,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-oamUpdate(&oamMain); 
+	); 
+
+	oamUpdate(&oamMain); 
 
 }
 
 void MostrarCabezaBajo(int indice, int x, int y)
 { 
  
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -617,15 +754,15 @@ oamSet(&oamMain, // main graphics engine context
 		false,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
+	); 
 	  
-oamUpdate(&oamMain);  
+	oamUpdate(&oamMain);  
 }
 
 void BorrarCabezaBajo(int indice, int x, int y)
 {
 
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -638,15 +775,16 @@ oamSet(&oamMain, // main graphics engine context
 		true,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-oamUpdate(&oamMain); 
+	); 
+
+	oamUpdate(&oamMain); 
 
 }
 
 void MostrarCabezaDrcha(int indice, int x, int y)
 { 
  
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -659,15 +797,15 @@ oamSet(&oamMain, // main graphics engine context
 		false,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
+	); 
 	  
-oamUpdate(&oamMain);  
+	oamUpdate(&oamMain);  
 }
 
 void BorrarCabezaDrcha(int indice, int x, int y)
 {
 
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -680,15 +818,16 @@ oamSet(&oamMain, // main graphics engine context
 		true,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-oamUpdate(&oamMain); 
+	); 
+
+	oamUpdate(&oamMain); 
 
 }
 
 void MostrarCabezaRriba(int indice, int x, int y)
 { 
  
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -701,15 +840,15 @@ oamSet(&oamMain, // main graphics engine context
 		false,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-	  
-oamUpdate(&oamMain);  
+	); 
+		
+	oamUpdate(&oamMain);  
 }
 
 void BorrarCabezaRriba(int indice, int x, int y)
 {
 
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -722,21 +861,35 @@ oamSet(&oamMain, // main graphics engine context
 		true,			// hide the sprite?
 		false, false, // vflip, hflip
 		false	// apply mosaic
-		); 
-oamUpdate(&oamMain); 
+	); 
+
+	oamUpdate(&oamMain); 
 
 }
 
-void ActualizarChampis(int ind, int vidas, int x, int y){
+void ActualizarSpriteSetas(int ind, int vidas, int x, int y){
 	u16* grafico_actual;
 	
-	if(vidas==4) grafico_actual=gfxchampi;
-	else if (vidas==3) grafico_actual=gfxchampi_3;
-	else if (vidas==2) grafico_actual=gfxchampi_2;
-	else if (vidas==1) grafico_actual=gfxchampi_1;
+	if(vidas==4) grafico_actual=gfxseta;
+	else if (vidas==3) grafico_actual=gfxseta_3;
+	else if (vidas==2) grafico_actual=gfxseta_2;
+	else if (vidas==1) grafico_actual=gfxseta_1;
 	else return;
 
-	oamSet(&oamMain, ind, x, y, 0, 0, SpriteSize_16x16, SpriteColorFormat_256Color, grafico_actual, -1, false, false, false, false, false);
+	oamSet(&oamMain, 
+		ind, 
+		x, y, 
+		0, 
+		0, 
+		SpriteSize_16x16, 
+		SpriteColorFormat_256Color, 
+		grafico_actual, 
+		-1, 
+		false, 
+		false, 
+		false, false, 
+		false
+	);
 	oamUpdate(&oamMain);
 
 }
