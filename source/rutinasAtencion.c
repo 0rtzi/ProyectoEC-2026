@@ -13,16 +13,15 @@ rutinasAtencion.c
 #include "juego.h"
 
 //Definición de variables globales.
-int ESTADO; // Para controlar el estado del autómata en que esté
-int ACCION; // Accion en la que se encuentra en el estado partida
 
-int tick = 0;
+int ESTADO;
+int ACCION;
+
 static unsigned int semilla = 12345;
 
-//Verifica si dos elementos tienen el mismo número en la cuadricula.
 int detectarColision(int x1, int y1, int x2, int y2) { 
 	if(x1/16 == x2/16 && y1/16 == y2/16){
-		return 1; //colisión
+		return 1;
 	}
 	return 0;
 }
@@ -37,16 +36,13 @@ int randomInt(int min, int max) {
 
 
 	//PROTA
-struct protagonista prota;
+
+protagonista prota;
 int prota_cont_espera_mov = 0;
 int prota_cont_espera_mov_min = 1;
 int prota_pixel_mov = 2;
 
-
-
-
 void InicializarValoresProta(){
-	ACCION = CARGANDO_PROTA;
 	prota.vidas=3;
 	prota.X=122;
 	prota.Y=160;
@@ -56,7 +52,6 @@ void InicializarValoresProta(){
 	MostrarProta(0, prota.X, prota.Y);
 }
 
-// Actualiza la posición del protagonista
 void ActualizarPosicionProta() {
 	if (TeclaDetectada()){
 		int teclas = ~TECLAS_DAT & 0x03ff;
@@ -129,9 +124,7 @@ void DetectarColisionesDisparo(){
 			continue;
 		}
 
-		if (DetectarColisionesSetasDisparo(i)==1){
-			BorrarDisparo(1+i, disparos[i].X, disparos[i].Y);
-		}
+		DetectarColisionesSetasDisparo(i);
 	}
 }
 
@@ -154,6 +147,7 @@ void MoverDisparos(){
 
 
 	// SETAS
+
 casillaSeta matriz_setas[12][16] = {0};
 
 volatile int seta_cont_espera_mostrar = 0;
@@ -180,7 +174,7 @@ void InicializarValoresSetas() {
 	}
 }
 
-int DetectarColisionesSetasDisparo(int idDisparo){
+void DetectarColisionesSetasDisparo(int idDisparo){
 	int r, c;
 	for(r=0; r<12; r++){
 		for (c=0; c<16; c++){
@@ -190,6 +184,7 @@ int DetectarColisionesSetasDisparo(int idDisparo){
 			if(detectarColision(disparos[idDisparo].X+8, disparos[idDisparo].Y+8, c*16, r*16)){
 				matriz_setas[r][c].vidas--;
 				disparos[idDisparo].activo=0;
+				BorrarDisparo(1+idDisparo, disparos[idDisparo].X, disparos[idDisparo].Y);
 				
 				if(matriz_setas[r][c].vidas<=0){
 					BorrarChampi(11+matriz_setas[r][c].sprite_id, c*16, r*16);
@@ -197,11 +192,9 @@ int DetectarColisionesSetasDisparo(int idDisparo){
 				else{
 					ActualizarChampis(11+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
 				}
-				return 1;
 			}
 		}
 	}
-	return 0;
 }
 
 //ENEMIGOS
@@ -209,7 +202,7 @@ int enem_cont_espera_mov=0;
 int enem_cont_espera_mov_min=16;
 
 	//CIEMPIÉS
-int ciempies_pixel_mov = 16;
+
 
 parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
 
@@ -266,10 +259,9 @@ void InicializarValoresCiempies() {
 	// 	ciempies[i].Y=0; //Cada unidad se encuentra en una linea recta, arriba del todo en la pantalla
 	// }
 
-	
 }
 
-
+// FIXME: Corregir para que no vaya de 16 en 16 pixeles.
 void MoverCiempies(){
 	int i;
 	//El primer FOR es el que borra los sprites actuales para que al movimentarse, no se queden sprites congelados por la pantalla
@@ -279,7 +271,6 @@ void MoverCiempies(){
 				int posX = ciempies[i].X;
 				int posY = ciempies[i].Y;
 
-				//FALTA HACER QUE NO SE SALGA POR ABAJO
 				if(ciempies[i].X < 0){
 					BorrarCabezaBajo(50+i,ciempies[i].X,ciempies[i].Y);
 					ciempies[i].direccion = randomInt(1,2)*2;
@@ -299,11 +290,11 @@ void MoverCiempies(){
 					}
 				}
 				else if(ciempies[i].direccion==3){
-					if(ciempies[i].X>=240){
-						ciempies[i].X -= ciempies_pixel_mov;
+					if(ciempies[i].X+16>240){
+						ciempies[i].X -= 16;
 					}
-					elseif(ciempies[i].X<=0){
-						ciempies[i].X += ciempies_pixel_mov;
+					else if(ciempies[i].X-16<0){
+						ciempies[i].X += 16;
 					}
 				}
 
@@ -318,6 +309,8 @@ void MoverCiempies(){
 				//	ciempies[i].X=newX;
 				//}
 			}
+			
+			// FIXME: Qué se supone que es posX y posY?
 			else{ //Estamos con otra parte del cuerpo
 				BorrarCenticuerpo(51+i,ciempies[i].X,ciempies[i].Y);
 				int guardaX = ciempies[i].X;
@@ -334,13 +327,13 @@ void MoverCiempies(){
 	for(i=0; i<50; i++){
 		if(ciempies[i].activo==1){
 			if(ciempies[i].parte==0){ //Dibujar la cabeza
-				if(ciempies[i].dir==2){
+				if(ciempies[i].direccion==2){
 					MostrarCabezaDrcha(51+i, ciempies[0].X, ciempies[0].Y);
 				}
-				else if(ciempies[i].dir==2){
+				else if(ciempies[i].direccion==2){
 					MostrarCabezaIzq(51+i, ciempies[0].X, ciempies[0].Y);
 				}
-				else if(ciempies[i].dir==3){
+				else if(ciempies[i].direccion==3){
 					MostrarCabezaBajo(51+i, ciempies[0].X, ciempies[0].Y);
 				}
 			}
@@ -368,11 +361,6 @@ void RutAtencionTeclado ()
 
 void RutAtencionTempo()
 {
-	tick++;
-	if (tick >128){
-		tick = 0;
-	}
-
 	if (ESTADO==PARTIDA){
 		if (ACCION == CARGANDO_FONDO){
 
@@ -420,12 +408,15 @@ void RutAtencionTempo()
 				enem_cont_espera_mov=0;
 				MoverCiempies();
 			}
+			// FIXME: Es necesario?
 			DetectarColisionesDisparo();
 			oamUpdate(&oamMain); //ActualizarSprites
 
 		}
 		else if (ACCION == MUERTE){
-
+			// TODO: Deshabilitar interrupciones del teclado
+			// TODO: Ejecutar Animación muerte del protagonista
+			// TODO: Recargar pantalla si tiene mas de 0 vidas, else ESTADO = GAMEOVER
 		}
 		
 	}
