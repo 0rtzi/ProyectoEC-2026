@@ -19,14 +19,10 @@ y en otro ejemplo de Jaeden Ameronen
 #include "fondos.h"
 #include "juego.h"
 
-int tiempo;
-
 void juego()
 {	
 	// Definiciones de variables
-	//int i=9;
 	int tecla=0;
-
 	ESTADO=PARTIDA;
 	ACCION=JUEGO;
 
@@ -51,13 +47,13 @@ void juego()
 				iprintf("\x1b[23;5HSe ha pulsado la tecla: %d", tecla);
 				if (tecla == A){
 					ESTADO = PARTIDA;
-					visualizarFondoPrueba();
 				}
 			}
 		}
 		else if (ESTADO == PARTIDA){
 			switch(ACCION) {
 				case CARGANDO_FONDO:
+					InhibirIntTeclado();
 					visualizarFondoPrueba();
 					ACCION = CARGANDO_PROTA;
 					break;
@@ -68,11 +64,12 @@ void juego()
 					break;
 
 				case CARGANDO_SETAS:
+					HabilitarIntTempo();
 					InicializarValoresSetas();
 					ACCION = CARGANDO_ENEMIGOS;
 					break;
 					
-					case CARGANDO_ENEMIGOS:
+				case CARGANDO_ENEMIGOS:
 					InicializarValoresCiempies();
 					ACCION=JUEGO;
 					HabilitarIntTeclado();

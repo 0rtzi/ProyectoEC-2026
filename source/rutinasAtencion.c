@@ -165,7 +165,7 @@ void InicializarValoresSetas() {
 				}
 				matriz_setas[i][j].sprite_id=ultId;
 				matriz_setas[i][j].vidas=4;
-				MostrarChampi(11+ultId,j*16,i*16);
+				MostrarSeta(11+ultId,j*16,i*16);
 				//iprintf("\x1b[23;5HPosición seta: %d",ultId);
 				seta_cont_espera_mostrar = 0;
 				ultId++;
@@ -187,10 +187,10 @@ void DetectarColisionesSetasDisparo(int idDisparo){
 				BorrarDisparo(1+idDisparo, disparos[idDisparo].X, disparos[idDisparo].Y);
 				
 				if(matriz_setas[r][c].vidas<=0){
-					BorrarChampi(11+matriz_setas[r][c].sprite_id, c*16, r*16);
+					BorrarSeta(11+matriz_setas[r][c].sprite_id, c*16, r*16);
 				}
 				else{
-					ActualizarChampis(11+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
+					ActualizarSpriteSetas(11+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
 				}
 			}
 		}
@@ -361,62 +361,58 @@ void RutAtencionTeclado ()
 
 void RutAtencionTempo()
 {
-	if (ESTADO==PARTIDA){
-		if (ACCION == CARGANDO_FONDO){
+	if (ESTADO == MENU){
+		InhibirIntTempo();
+	}
 
-		}
-		else if (ACCION == CARGANDO_PROTA){
+	else if (ESTADO==PARTIDA){
+		switch (ACCION){
+			case CARGANDO_SETAS:
+				if (seta_cont_espera_mostrar <=seta_cont_espera_mostrar_max){
+					seta_cont_espera_mostrar++;
+				}
+				break;
 
-		}
-		else if (ACCION == CARGANDO_SETAS){
-			if (seta_cont_espera_mostrar <=seta_cont_espera_mostrar_max){
-				seta_cont_espera_mostrar++;
-			}
-		}
-		else if (ACCION == CARGANDO_ENEMIGOS){
+			case JUEGO:
+				if (prota_cont_espera_mov < prota_cont_espera_mov_min){
+					prota_cont_espera_mov++;
+				}
+				else {
+					prota_cont_espera_mov=0;
+					ActualizarPosicionProta();
+				}
 
-		}
-		else if (ACCION == JUEGO) {
-			if (prota_cont_espera_mov < prota_cont_espera_mov_min){
-				prota_cont_espera_mov++;
-			}
-			else {
-				prota_cont_espera_mov=0;
-				ActualizarPosicionProta();
-			}
+				if (disp_cont_espera_mov < disp_cont_espera_mov_min){
+					disp_cont_espera_mov++;
+				}
+				else {
+					disp_cont_espera_mov = 0;
+					MoverDisparos();
+				}
 
-			if (disp_cont_espera_mov < disp_cont_espera_mov_min){
-				disp_cont_espera_mov++;
-			}
-			else {
-				disp_cont_espera_mov = 0;
-				MoverDisparos();
-			}
+				if (disp_cont_espera < disp_cont_espera_min) {
+					disp_cont_espera++;
+				}
+				else {
+					HabilitarIntTecla(A);
+				}
 
-			if (disp_cont_espera < disp_cont_espera_min) {
-				disp_cont_espera++;
-			}
-			else {
-				HabilitarIntTecla(A);
-			}
+				//Movimento CIEMPIES
+				if(enem_cont_espera_mov<enem_cont_espera_mov_min){
+					enem_cont_espera_mov++;
+				}
+				else{
+					enem_cont_espera_mov=0;
+					MoverCiempies();
+				}
+				DetectarColisionesDisparo();
+				// FIXME: Es necesario actualizarSprites así?
+				oamUpdate(&oamMain); //ActualizarSprites
+				break;
+			
+			case MUERTE:
+				break;
 
-			//Movimento CIEMPIES
-			if(enem_cont_espera_mov<enem_cont_espera_mov_min){
-				enem_cont_espera_mov++;
-			}
-			else{
-				enem_cont_espera_mov=0;
-				MoverCiempies();
-			}
-			// FIXME: Es necesario?
-			DetectarColisionesDisparo();
-			oamUpdate(&oamMain); //ActualizarSprites
-
-		}
-		else if (ACCION == MUERTE){
-			// TODO: Deshabilitar interrupciones del teclado
-			// TODO: Ejecutar Animación muerte del protagonista
-			// TODO: Recargar pantalla si tiene mas de 0 vidas, else ESTADO = GAMEOVER
 		}
 		
 	}
