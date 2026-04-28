@@ -868,7 +868,7 @@ void BorrarCabezaRriba(int indice, int x, int y)
 
 void ActualizarSpritesCiempiesCabeza(int ind, int direccion, int X, int Y, int newDir, int newX, int newY) {
 
-	u16* grafico_viejo;
+	u16* grafico_viejo = NULL;
 
 	if (direccion == DIR_ARRIBA) 			grafico_viejo=gfx_ciempies_cabeza_arriba;
 	else if (direccion == DIR_DERECHA) 		grafico_viejo=gfx_ciempies_cabeza_derecha;
@@ -890,7 +890,7 @@ void ActualizarSpritesCiempiesCabeza(int ind, int direccion, int X, int Y, int n
 		false
 	); 
 	
-	u16* grafico_actual;
+	u16* grafico_actual = NULL;
 
 	if (newDir == DIR_ARRIBA) 			grafico_actual=gfx_ciempies_cabeza_arriba;
 	else if (newDir == DIR_DERECHA) 	grafico_actual=gfx_ciempies_cabeza_derecha;
@@ -916,7 +916,7 @@ void ActualizarSpritesCiempiesCabeza(int ind, int direccion, int X, int Y, int n
 }
 
 void ActualizarSpriteSetas(int ind, int vidas, int x, int y){
-	u16* grafico_actual;
+	u16* grafico_actual = NULL;
 	
 	if(vidas==4) 			grafico_actual=gfx_seta;
 	else if (vidas==3) 		grafico_actual=gfx_seta3;
