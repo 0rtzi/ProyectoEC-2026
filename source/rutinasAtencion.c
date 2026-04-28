@@ -44,43 +44,43 @@ int prota_pixel_mov = 2;
 
 void InicializarValoresProta(){
 	prota.vidas=3;
-	prota.X=122;
-	prota.Y=160;
+	prota.X=CENTRO_HORIZONTAL;
+	prota.Y=CENTRO_VERTICAL_PROTA;
 	prota.puntos=0;
 	prota_cont_espera_mov = 0;
 
-	MostrarProta(0, prota.X, prota.Y);
+	MostrarProta(SID_PROTA, prota.X, prota.Y);
 }
 
 void ActualizarPosicionProta() {
 	if (TeclaDetectada()){
 		int teclas = ~TECLAS_DAT & 0x03ff;
 		if (teclas & (1 << ARRIBA)){
-			if (prota.Y>144){
-				BorrarProta(0, prota.X, prota.Y);
+			if (prota.Y>BORDE_SUPERIOR_PROTA){
+				BorrarProta(SID_PROTA, prota.X, prota.Y);
 				prota.Y-=prota_pixel_mov;
 				MostrarProta(0, prota.X, prota.Y);
 			}
 		}
 		else if (teclas & (1 << ABAJO)){
-			if (prota.Y<176){
-				BorrarProta(0, prota.X, prota.Y);
+			if (prota.Y<BORDE_INFERIOR){
+				BorrarProta(SID_PROTA, prota.X, prota.Y);
 				prota.Y+=prota_pixel_mov;
-				MostrarProta(0, prota.X, prota.Y);
+				MostrarProta(SID_PROTA, prota.X, prota.Y);
 			}
 		}
 		else if (teclas & (1 << IZQUIERDA)){
-			if (prota.X>0){
-				BorrarProta(0, prota.X, prota.Y);
+			if (prota.X>BORDE_IZQUIERDO){
+				BorrarProta(SID_PROTA, prota.X, prota.Y);
 				prota.X-=prota_pixel_mov;
-				MostrarProta(0, prota.X, prota.Y);
+				MostrarProta(SID_PROTA, prota.X, prota.Y);
 			}
 		}
 		else if (teclas & (1 << DERECHA)){
-			if (prota.X<240){
-				BorrarProta(0, prota.X, prota.Y);
+			if (prota.X<BORDE_DERECHO){
+				BorrarProta(SID_PROTA, prota.X, prota.Y);
 				prota.X+=prota_pixel_mov;
-				MostrarProta(0, prota.X, prota.Y);
+				MostrarProta(SID_PROTA, prota.X, prota.Y);
 			}
 		}
 		
@@ -148,7 +148,7 @@ void MoverDisparos(){
 
 	// SETAS
 
-casillaSeta matriz_setas[12][16] = {0};
+casillaSeta matriz_setas[9][16] = {0};
 
 volatile int seta_cont_espera_mostrar = 0;
 int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
@@ -176,7 +176,7 @@ void InicializarValoresSetas() {
 
 void DetectarColisionesSetasDisparo(int idDisparo){
 	int r, c;
-	for(r=0; r<12; r++){
+	for(r=0; r<9; r++){
 		for (c=0; c<16; c++){
 			if(matriz_setas[r][c].vidas<=0){
 				continue;
@@ -199,128 +199,140 @@ void DetectarColisionesSetasDisparo(int idDisparo){
 
 //ENEMIGOS
 int enem_cont_espera_mov=0;
-int enem_cont_espera_mov_min=16;
+int enem_cont_espera_mov_min=2;
 
 	//CIEMPIÉS
-
+int ciempies_pixel_mov=2;
 
 parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
 
 void InicializarValoresCiempies() {
 	int i;
-	int ultind = 0;
-	int ultid = 0;
+	int ultInd = 0;
+	int ultId = 0;
 
-	int numCiempies = randomInt(1,5);
+	int numCiempies = randomInt(1,5); //Números aleatorios entre 1 y 5 para probar
 
 	for (i=0;i<numCiempies;i++){
-		int longitud = randomInt(5,10);
-		if (ultind + longitud > 50) {
+		int longitud = randomInt(1,10); //Longitud del ciempies generado
+		if (ultInd + longitud > 50) {
 			break;
 		}
 
-		int XCabeza;
-		int existe;
-		while (existe == 1){
-			XCabeza = randomInt(0,15)*16;
-			existe = 0;
-			
-			int ind;
-			for (ind = 0; ind < 50; ind + ciempies[ind].longitud ){
-				if (ciempies[ind].activo==0){
-					break;
-				}
-				if ( XCabeza == ciempies[ind].X){
-					existe = 1;
-					break;
-				}
-			}
-		}
-		
 		int j;
 		for (j = 0;j<longitud; j++){
-			ciempies[ultind].activo = 1;
-			ciempies[ultind].id = ultid;
-			ciempies[ultind].parte = j;
-			ciempies[ultind].X = XCabeza;
-			ciempies[ultind].Y = (-16)*(j+1);
-			ciempies[ultind].direccion = 3;
-			ciempies[ultind].longitud = longitud;
+			ciempies[ultInd].activo = 1;
+			ciempies[ultInd].id = ultId;
+			ciempies[ultInd].parte = j;
+			ciempies[ultInd].X = CENTRO_HORIZONTAL;
+			ciempies[ultInd].Y = (-16)*(ultInd+1);
+			ciempies[ultInd].direccion = DIR_ABAJO;
+			ciempies[ultInd].longitud = longitud;
 
-			ultind++;
+			ultInd++;
 		}
 		
-		ultid++;
+		ultId++;
 	}
-
-	// for(i=0;i<10;i++){ //Revisa cada unidad del ciempies (posición 0 a 9)
-	// 	ciempies[i].activo=1; //Esa unidad se activa
-	// 	ciempies[i].X=-(16*i); //Cada unidad del ciempies tiene 16 pixeles, i es el trozo que vamos trabajar y empezamos con el valor negativo para esconder el ciempies en el inicio del juego
-	// 	ciempies[i].Y=0; //Cada unidad se encuentra en una linea recta, arriba del todo en la pantalla
-	// }
 
 }
 
-// FIXME: Corregir para que no vaya de 16 en 16 pixeles.
 void MoverCiempies(){
 	int i;
-	//El primer FOR es el que borra los sprites actuales para que al movimentarse, no se queden sprites congelados por la pantalla
+	//El primer FOR es el que borra los sprites actuales para que al moverse, no se queden sprites congelados por la pantalla
 	for(i=0; i<50; i++){
-		if(ciempies[i].activo==1){ //Esa unidad esta viva?
-			if(ciempies[i].parte==0){//Estamos con la cabeza
-				int posX = ciempies[i].X;
-				int posY = ciempies[i].Y;
+		if(ciempies[i].activo==0) continue; //Esa unidad esta viva?
 
-				if(ciempies[i].X < 0){
-					BorrarCabezaBajo(50+i,ciempies[i].X,ciempies[i].Y);
-					ciempies[i].direccion = randomInt(1,2)*2;
-				}
-				else if(ciempies[i].direccion==2) {//Si estamos hacia la derecha
-					BorrarCabezaDrcha(51+i,ciempies[i].X,ciempies[i].Y); //110 pues necesitabamos 1 para la cabeza y 9 para el cuerpo
-					if(ciempies[i].X+16>240){
-						ciempies[i].Y +=16; //Baja 1 linea
-						ciempies[i].direccion=3;
-					}
-				}
-				else if(ciempies[i].direccion==4){//Si estamos hacia la izquierda
-					BorrarCabezaIzq(51+i,ciempies[i].X,ciempies[i].Y); //primero 50 o 51?? //cuando rompo la serpiente se mueven el resto de elementos para tapar el hueco de la lista??
-					if (ciempies[i].X-16<0){
-						ciempies[i].Y +=16; //Baja 1 linea
-						ciempies[i].direccion=3;
-					}
-				}
-				else if(ciempies[i].direccion==3){
-					if(ciempies[i].X+16>240){
-						ciempies[i].X -= 16;
-					}
-					else if(ciempies[i].X-16<0){
-						ciempies[i].X += 16;
-					}
-				}
+		int oldX = ciempies[i].X;
+		int oldY = ciempies[i].Y;
+		int oldDir = ciempies[i].direccion;
 
+		if(ciempies[i].parte==0){ //Estamos con la cabeza?
+
+			if (oldDir == DIR_ABAJO){
+				//Si acaba de aparecer en el centro de la pantalla
+				if (oldY == BORDE_SUPERIOR){
+					ciempies[i].direccion = DIR_DERECHA;
+					int newX = oldX + ciempies_pixel_mov;
+					ciempies[i].X = newX;
+					ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_DERECHA, newX, 0);
+				}
+				//Si se encuentra en una de las casillas exactamente
+				else if (oldY % PIXELES_SPRITES == 0){
+					if (oldX == BORDE_DERECHO){
+						ciempies[i].direccion = DIR_IZQUIERDA;
+						int newX = oldX - ciempies_pixel_mov;
+						ciempies[i].X = newX;
+						ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_IZQUIERDA, newX, oldY);
+					}
+					else if (oldX == BORDE_IZQUIERDO){
+						ciempies[i].direccion = DIR_DERECHA;
+						int newX = oldX + ciempies_pixel_mov;
+						ciempies[i].X = newX;
+						ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_DERECHA, newX, oldY);
+					}
+				}
+				else {
+					int newY = oldY + ciempies_pixel_mov;
+					
+					if (newY >=BORDE_INFERIOR + PIXELES_SPRITES){
+						BorrarCabezaBajo(SID_CIEMPIES+i, oldX, oldY);
+						ciempies[i].activo=0;
+						continue;
+					}
+					
+					ciempies[i].Y = newY;
+					ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_ABAJO, oldX, newY);
+				}
 				
+			}
 
-				//Impide que salga de la pantalla por debajo
-				//if(ciempies[i].Y>176){ 
-					//ciempies[i].Y=176; //Con eso hace un zigzag infino (temporario hasta programar la colision con disparos)
-				//}
-				//Camino libre
-				//else { 
-				//	ciempies[i].X=newX;
-				//}
+			// FIXME: Falta corregir esta parte
+			else if(oldDir==DIR_DERECHA) {//Si estamos hacia la derecha
+				if(ciempies[i].X==BORDE_DERECHO){
+					ciempies[i].direccion=DIR_ABAJO;
+					int newY =  oldY + ciempies_pixel_mov;
+					ciempies[i].Y += newY;
+					ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_ABAJO, oldX, newY);
+				}
 			}
+			else if(oldDir==DIR_IZQUIERDA){//Si estamos hacia la izquierda
+				if (ciempies[i].X==BORDE_IZQUIERDO){
+					ciempies[i].Y +=16; //Baja 1 linea
+					ciempies[i].direccion=DIR_ABAJO;
+				}
+			}
+			else if(oldDir==DIR_ABAJO){
+				if(ciempies[i].X+16>BORDE_DERECHO){
+					ciempies[i].X -= 16;
+				}
+				else if(ciempies[i].X-16<BORDE_IZQUIERDO){
+					ciempies[i].X += 16;
+				}
+			}
+
 			
-			// FIXME: Qué se supone que es posX y posY?
-			else{ //Estamos con otra parte del cuerpo
-				BorrarCenticuerpo(51+i,ciempies[i].X,ciempies[i].Y);
-				int guardaX = ciempies[i].X;
-				int guardaY = ciempies[i].Y;
-				ciempies[i].X=posX;
-				ciempies[i].Y=posY;
-				posX = guardaX;
-				posY = guardaY;
-			}
+
+			//Impide que salga de la pantalla por debajo
+			//if(ciempies[i].Y>176){ 
+				//ciempies[i].Y=176; //Con eso hace un zigzag infino (temporario hasta programar la colision con disparos)
+			//}
+			//Camino libre
+			//else { 
+			//	ciempies[i].X=newX;
+			//}
 		}
+
+		else{ //Estamos con otra parte del cuerpo
+			BorrarCenticuerpo(SID_CIEMPIES+i,ciempies[i].X,ciempies[i].Y);
+			int guardaX = ciempies[i].X;
+			int guardaY = ciempies[i].Y;
+			ciempies[i].X=oldX;
+			ciempies[i].Y=oldY;
+			oldX = guardaX;
+			oldY = guardaY;
+		}
+		
 	}
 
 	//Dibujar los sprites en las nuevas posiciones
