@@ -199,7 +199,7 @@ void DetectarColisionesSetasDisparo(int idDisparo){
 
 //ENEMIGOS
 int enem_cont_espera_mov=0;
-int enem_cont_espera_mov_min=2;
+int enem_cont_espera_mov_min=1;
 
 	//CIEMPIÉS
 int ciempies_pixel_mov=2;
@@ -207,6 +207,9 @@ int ciempies_pixel_mov=2;
 parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
 
 void InicializarValoresCiempies() {
+	for (int i = 0; i < 50; i++){
+		ciempies[i].activo = 0;
+	}
 	int i;
 	int ultInd = 0;
 	int ultId = 0;
@@ -239,7 +242,7 @@ void InicializarValoresCiempies() {
 
 void MoverCiempies(){
 	int i;
-	//El primer FOR es el que borra los sprites actuales para que al moverse, no se queden sprites congelados por la pantalla
+	//El primer FOR es el que actualiza las posiciones de los ciempiés
 	for(i=0; i<50; i++){
 		if(ciempies[i].activo==0) continue; //Esa unidad esta viva?
 
@@ -247,112 +250,88 @@ void MoverCiempies(){
 		int oldY = ciempies[i].Y;
 		int oldDir = ciempies[i].direccion;
 
-		if(ciempies[i].parte==0){ //Estamos con la cabeza?
+		int newX = oldX;
+		int newY = oldY;
+		int newDir = oldDir;
 
+		// FIXME: Por ahora lo probaremos sin que se diferencie entre cabeza y cuerpo y hará lo mismo
+
+		//if (ciempies[i].parte==0){ //Estamos con la cabeza?
+
+			// Si va hacia abajo
 			if (oldDir == DIR_ABAJO){
-				//Si acaba de aparecer en el centro de la pantalla
-				if (oldY == BORDE_SUPERIOR){
-					ciempies[i].direccion = DIR_DERECHA;
-					int newX = oldX + ciempies_pixel_mov;
-					ciempies[i].X = newX;
-					ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_DERECHA, newX, 0);
-				}
+
 				//Si se encuentra en una de las casillas exactamente
-				else if (oldY % PIXELES_SPRITES == 0){
+				if (oldY % PIXELES_SPRITES == 0){
 					if (oldX == BORDE_DERECHO){
 						ciempies[i].direccion = DIR_IZQUIERDA;
-						int newX = oldX - ciempies_pixel_mov;
+						newX = oldX - ciempies_pixel_mov;
 						ciempies[i].X = newX;
-						ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_IZQUIERDA, newX, oldY);
+						newDir = DIR_IZQUIERDA;
 					}
-					else if (oldX == BORDE_IZQUIERDO){
-						ciempies[i].direccion = DIR_DERECHA;
-						int newX = oldX + ciempies_pixel_mov;
-						ciempies[i].X = newX;
-						ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_DERECHA, newX, oldY);
-					}
-				}
-				else {
-					int newY = oldY + ciempies_pixel_mov;
-					
-					if (newY >=BORDE_INFERIOR + PIXELES_SPRITES){
-						BorrarCabezaBajo(SID_CIEMPIES+i, oldX, oldY);
+					else if (oldY + ciempies_pixel_mov >=BORDE_INFERIOR + PIXELES_SPRITES){
+						if (ciempies[i].parte==0){
+							BorrarCabezaBajo(SID_CIEMPIES+i, oldX, oldY);
+						}
+						else {
+							BorrarCenticuerpo(SID_CIEMPIES+i, oldX, oldY);
+						}
 						ciempies[i].activo=0;
 						continue;
 					}
-					
+					else if (oldY < BORDE_SUPERIOR){
+						newY = oldY + ciempies_pixel_mov;
+						ciempies[i].Y = newY;
+					}
+					else {
+						ciempies[i].direccion = DIR_DERECHA;
+						newX = oldX + ciempies_pixel_mov;
+						ciempies[i].X = newX;
+						newDir = DIR_DERECHA;
+					}
+				}
+				//Seguir moviendose
+				else {
+					newY = oldY + ciempies_pixel_mov;
 					ciempies[i].Y = newY;
-					ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_ABAJO, oldX, newY);
 				}
 				
 			}
-
-			// FIXME: Falta corregir esta parte
-			else if(oldDir==DIR_DERECHA) {//Si estamos hacia la derecha
-				if(ciempies[i].X==BORDE_DERECHO){
-					ciempies[i].direccion=DIR_ABAJO;
-					int newY =  oldY + ciempies_pixel_mov;
-					ciempies[i].Y += newY;
-					ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, DIR_ABAJO, oldX, newY);
+			// Si va a la derecha
+			else if (oldDir == DIR_DERECHA) {
+				if (oldX == BORDE_DERECHO) {
+					newY = oldY + ciempies_pixel_mov;
+					ciempies[i].Y = newY;
+					ciempies[i].direccion = DIR_ABAJO;
+					newDir = DIR_ABAJO;
+				}
+				else {
+					newX = oldX + ciempies_pixel_mov;
+					ciempies[i].X = newX;
 				}
 			}
-			else if(oldDir==DIR_IZQUIERDA){//Si estamos hacia la izquierda
-				if (ciempies[i].X==BORDE_IZQUIERDO){
-					ciempies[i].Y +=16; //Baja 1 linea
-					ciempies[i].direccion=DIR_ABAJO;
+			// Si va a la izquierda
+			else if (oldDir == DIR_IZQUIERDA) {
+				if (oldX == BORDE_IZQUIERDO) {
+					newY = oldY + ciempies_pixel_mov;
+					ciempies[i].Y = newY;
+					ciempies[i].direccion = DIR_ABAJO;
+					newDir = DIR_ABAJO;
 				}
-			}
-			else if(oldDir==DIR_ABAJO){
-				if(ciempies[i].X+16>BORDE_DERECHO){
-					ciempies[i].X -= 16;
-				}
-				else if(ciempies[i].X-16<BORDE_IZQUIERDO){
-					ciempies[i].X += 16;
+				else {
+					newX = oldX - ciempies_pixel_mov;
+					ciempies[i].X = newX;
 				}
 			}
 
-			
-
-			//Impide que salga de la pantalla por debajo
-			//if(ciempies[i].Y>176){ 
-				//ciempies[i].Y=176; //Con eso hace un zigzag infino (temporario hasta programar la colision con disparos)
-			//}
-			//Camino libre
-			//else { 
-			//	ciempies[i].X=newX;
-			//}
-		}
-
-		else{ //Estamos con otra parte del cuerpo
-			BorrarCenticuerpo(SID_CIEMPIES+i,ciempies[i].X,ciempies[i].Y);
-			int guardaX = ciempies[i].X;
-			int guardaY = ciempies[i].Y;
-			ciempies[i].X=oldX;
-			ciempies[i].Y=oldY;
-			oldX = guardaX;
-			oldY = guardaY;
-		}
-		
-	}
-
-	//Dibujar los sprites en las nuevas posiciones
-	for(i=0; i<50; i++){
-		if(ciempies[i].activo==1){
-			if(ciempies[i].parte==0){ //Dibujar la cabeza
-				if(ciempies[i].direccion==2){
-					MostrarCabezaDrcha(51+i, ciempies[0].X, ciempies[0].Y);
-				}
-				else if(ciempies[i].direccion==2){
-					MostrarCabezaIzq(51+i, ciempies[0].X, ciempies[0].Y);
-				}
-				else if(ciempies[i].direccion==3){
-					MostrarCabezaBajo(51+i, ciempies[0].X, ciempies[0].Y);
-				}
+			if (ciempies[i].parte == 0){
+				ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, newDir, newX, newY);
 			}
-			else{
-				MostrarCenticuerpo(51+i, ciempies[i].X, ciempies[i].Y);
+			else {
+				BorrarCenticuerpo(SID_CIEMPIES+i, oldX, oldY);
+				MostrarCenticuerpo(SID_CIEMPIES+i, newX, newY);
 			}
-		}
+		//}
 	}
 }
 
