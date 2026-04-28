@@ -61,5 +61,32 @@ extern int ESTADO;
 
 extern int ACCION;
 
+// DEFINICIONES DE SPRITES Y PANTALLA EN PIXELES
+#define BORDE_DERECHO           240
+#define BORDE_IZQUIERDO         0
+#define BORDE_SUPERIOR          0
+#define BORDE_INFERIOR          176
+#define CENTRO_HORIZONTAL       122
+
+#define BORDE_SUPERIOR_PROTA    144
+#define CENTRO_VERTICAL_PROTA   160
+
+#define PIXELES_SPRITES         16
+
+// DIRECCIONES
+#define DIR_ARRIBA              1
+#define DIR_DERECHA             2
+#define DIR_ABAJO               3
+#define DIR_IZQUIERDA           4
+
+// IDs DE SPRITES DE OBJETOS
+#define SID_PROTA               0
+#define SID_DISP                1
+#define SID_DISP_MAX            10
+#define SID_SETA                11
+#define SID_SETA_MAX            50
+#define SID_CIEMPIES            51
+#define SID_CIEMPIES_MAX        100
+
 /***********************2025-2026*******************************/
 
