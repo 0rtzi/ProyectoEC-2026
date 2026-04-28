@@ -49,7 +49,7 @@ typedef struct {
 /**
  * @brief Instancia global del protagonista
  */
-extern struct protagonista prota;
+extern protagonista prota;
 
 /**
  * @brief Contador de ticks actual de espera para el movimiento del protagonista
@@ -231,7 +231,7 @@ typedef struct {
  * 
  * - Columnas (X): 16 (de izquierda a derecha)
  */
-extern casillaSeta matriz_setas[12][16];
+extern casillaSeta matriz_setas[9][16];
 
 /**
  * @brief Contador volátil actual para controlar la visualización de setas
