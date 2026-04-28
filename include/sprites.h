@@ -4,24 +4,23 @@ extern u16* gfx;
 extern u16* gfx2;
 extern u16* gfx3;
 extern u16* gfxSub;
-extern u16* gfxprota;
-extern u16* gfxdisparo;
-extern u16* gfxspider;
-extern u16* gfxseta;
-extern u16* gfxseta_3;
-extern u16* gfxseta_2;
-extern u16* gfxseta_1;
-extern u16* gfxcenticuerpo;
-extern u16* gfxcabezaizq;
-extern u16* gfxcabezabajo;
-extern u16* gfxcabezadrcha;
-extern u16* gfxcabezarriba;
+extern u16* gfx_prota;
+extern u16* gfx_disparo;
+extern u16* gfx_spider;
+extern u16* gfx_seta;
+extern u16* gfx_seta3;
+extern u16* gfx_seta2;
+extern u16* gfx_seta1;
+extern u16* gfx_ciempies_cuerpo;
+extern u16* gfx_ciempies_cabeza_izquierda;
+extern u16* gfx_ciempies_cabeza_abajo;
+extern u16* gfx_ciempies_cabeza_derecha;
+extern u16* gfx_ciempies_cabeza_arriba;
 
 extern void memoriaReserva();
 
 /* Para cada uno de los 256 valores que puede tomar un Píxel le da un color en la pantalla principal. El valor 0 es transparente y los valores sin definir, negros */
 extern void EstablecerPaleta1();
-
 
 /* Para cada uno de los 256 valores que puede tomar un Píxel le da un color en la pantalla secundaria. El valor 0 es transparente y los valores sin definir negros */
 extern void EstablecerPaleta2();
@@ -95,6 +94,8 @@ extern void MostrarCabezaRriba(int indice, int x, int y);
 
 /* Esta función borra de la pantalla la cabeza con el índice que se le indique como parámetro */
 extern void BorrarCabezaRriba(int indice, int x, int y);
+
+extern void ActualizarSpritesCiempiesCabeza(int ind, int direccion, int X, int Y, int newDir, int newX, int newY);
 
 /***********************2025-2026*******************************/
 

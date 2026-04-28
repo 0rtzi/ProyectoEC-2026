@@ -12,38 +12,38 @@ Código desarrollado basado en el ejemplo "Simple sprite demo" de dovoto y en ot
 #include "sprites.h"
 #include "definiciones.h"
 
-u16* gfxprota;
-u16* gfxdisparo;
-u16* gfxspider;
+u16* gfx_prota;
+u16* gfx_disparo;
+u16* gfx_spider;
 //Setas
-u16* gfxseta;
-u16* gfxseta_3;
-u16* gfxseta_2;
-u16* gfxseta_1;
+u16* gfx_seta;
+u16* gfx_seta3;
+u16* gfx_seta2;
+u16* gfx_seta1;
 //Ciempiés
-u16* gfxcenticuerpo;
-u16* gfxcabezaizq;
-u16* gfxcabezabajo;
-u16* gfxcabezadrcha;
-u16* gfxcabezarriba;
+u16* gfx_ciempies_cuerpo;
+u16* gfx_ciempies_cabeza_izquierda;
+u16* gfx_ciempies_cabeza_abajo;
+u16* gfx_ciempies_cabeza_derecha;
+u16* gfx_ciempies_cabeza_arriba;
 
 
 /* Reservar memoria para cada sprite que se quiera mostrar en pantalla */
 void memoriaReserva()
 {
 	/* Por cada sprite que se quiera incluir en la pantalla principal hay que hacer algo equivalente a lo que sigue */
-	gfxprota= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxdisparo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxspider= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxseta= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxseta_3= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxseta_2= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxseta_1= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxcenticuerpo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxcabezaizq= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxcabezabajo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxcabezadrcha= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfxcabezarriba= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_prota= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_disparo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_spider= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_seta= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_seta3= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_seta2= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_seta1= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_ciempies_cuerpo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_ciempies_cabeza_izquierda= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_ciempies_cabeza_abajo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_ciempies_cabeza_derecha= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_ciempies_cabeza_arriba= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 }
 
 /* A cada uno de los 256 valores que puede tomar un píxel en la PALETA PRINCIPAL
@@ -468,18 +468,18 @@ int i;
 	//sprite de 16*16
 	for(i = 0; i < 16 * 16 / 2; i++) 
 	{	
-		gfxprota[i] = sprite_prota[i*2] | (sprite_prota[(i*2)+1]<<8);
-		gfxdisparo[i] = sprite_disparo[i*2] | (sprite_disparo[(i*2)+1]<<8);
-		gfxspider[i] = sprite_spider[i*2] | (sprite_spider[(i*2)+1]<<8);		
-		gfxseta[i] = sprite_seta[i*2] | (sprite_seta[(i*2)+1]<<8);
-		gfxseta_3[i] = sprite_seta_3[i*2] | (sprite_seta_3[(i*2)+1]<<8);
-		gfxseta_2[i] = sprite_seta_2[i*2] | (sprite_seta_2[(i*2)+1]<<8);
-		gfxseta_1[i] = sprite_seta_1[i*2] | (sprite_seta_1[(i*2)+1]<<8);
-		gfxcenticuerpo[i] = sprite_ciempies_cuerpo[i*2] | (sprite_ciempies_cuerpo[(i*2)+1]<<8);
-		gfxcabezaizq[i]=sprite_ciempies_cabeza_izquierda[i*2] | (sprite_ciempies_cabeza_izquierda[(i*2)+1]<<8);
-		gfxcabezabajo[i]=sprite_ciempies_cabeza_abajo[i*2] | (sprite_ciempies_cabeza_abajo[(i*2)+1]<<8);
-		gfxcabezadrcha[i]=sprite_ciempies_cabeza_derecha[i*2] | (sprite_ciempies_cabeza_derecha[(i*2)+1]<<8);
-		gfxcabezarriba[i]=sprite_ciempies_cabeza_arriba[i*2] | (sprite_ciempies_cabeza_arriba[(i*2)+1]<<8);
+		gfx_prota[i] = sprite_prota[i*2] | (sprite_prota[(i*2)+1]<<8);
+		gfx_disparo[i] = sprite_disparo[i*2] | (sprite_disparo[(i*2)+1]<<8);
+		gfx_spider[i] = sprite_spider[i*2] | (sprite_spider[(i*2)+1]<<8);		
+		gfx_seta[i] = sprite_seta[i*2] | (sprite_seta[(i*2)+1]<<8);
+		gfx_seta3[i] = sprite_seta_3[i*2] | (sprite_seta_3[(i*2)+1]<<8);
+		gfx_seta2[i] = sprite_seta_2[i*2] | (sprite_seta_2[(i*2)+1]<<8);
+		gfx_seta1[i] = sprite_seta_1[i*2] | (sprite_seta_1[(i*2)+1]<<8);
+		gfx_ciempies_cuerpo[i] = sprite_ciempies_cuerpo[i*2] | (sprite_ciempies_cuerpo[(i*2)+1]<<8);
+		gfx_ciempies_cabeza_izquierda[i]=sprite_ciempies_cabeza_izquierda[i*2] | (sprite_ciempies_cabeza_izquierda[(i*2)+1]<<8);
+		gfx_ciempies_cabeza_abajo[i]=sprite_ciempies_cabeza_abajo[i*2] | (sprite_ciempies_cabeza_abajo[(i*2)+1]<<8);
+		gfx_ciempies_cabeza_derecha[i]=sprite_ciempies_cabeza_derecha[i*2] | (sprite_ciempies_cabeza_derecha[(i*2)+1]<<8);
+		gfx_ciempies_cabeza_arriba[i]=sprite_ciempies_cabeza_arriba[i*2] | (sprite_ciempies_cabeza_arriba[(i*2)+1]<<8);
 	}
 }
 
@@ -492,7 +492,7 @@ void MostrarProta(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxprota,// +16*16/2,      // pointer to the loaded graphics
+		gfx_prota,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
@@ -512,7 +512,7 @@ void BorrarProta(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxprota,// +16*16/2,      // pointer to the loaded graphics
+		gfx_prota,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -532,7 +532,7 @@ void MostrarDisparo(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxdisparo,// +16*16/2,      // pointer to the loaded graphics
+		gfx_disparo,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
@@ -552,7 +552,7 @@ void BorrarDisparo(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxdisparo,// +16*16/2,      // pointer to the loaded graphics
+		gfx_disparo,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -575,7 +575,7 @@ void MostrarSpider(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxspider,// +16*16/2,      // pointer to the loaded graphics
+		gfx_spider,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -597,7 +597,7 @@ void BorrarSpider(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxspider,// +16*16/2,      // pointer to the loaded graphics
+		gfx_spider,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -618,7 +618,7 @@ void MostrarSeta(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxseta,// +16*16/2,      // pointer to the loaded graphics
+		gfx_seta,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
@@ -639,7 +639,7 @@ void BorrarSeta(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxseta,// +16*16/2,      // pointer to the loaded graphics
+		gfx_seta,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -661,7 +661,7 @@ void MostrarCenticuerpo(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcenticuerpo,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cuerpo,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
@@ -682,7 +682,7 @@ void BorrarCenticuerpo(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcenticuerpo,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cuerpo,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -694,7 +694,6 @@ void BorrarCenticuerpo(int indice, int x, int y)
 
 }
 
-// TODO: En vez de mostrar y borrar cada una de las direcciones de cabeza de ciempies, hacer como con ActualizarSpriteSetas()
 void MostrarCabezaIzq(int indice, int x, int y)
 { 
  
@@ -705,7 +704,7 @@ void MostrarCabezaIzq(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabezaizq,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cabeza_izquierda,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
@@ -726,7 +725,7 @@ void BorrarCabezaIzq(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabezaizq,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cabeza_izquierda,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -748,7 +747,7 @@ void MostrarCabezaBajo(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabezabajo,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cabeza_abajo,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
@@ -769,7 +768,7 @@ void BorrarCabezaBajo(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabezabajo,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cabeza_abajo,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -791,7 +790,7 @@ void MostrarCabezaDrcha(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabezadrcha,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cabeza_derecha,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
@@ -812,7 +811,7 @@ void BorrarCabezaDrcha(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabezadrcha,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cabeza_derecha,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -834,7 +833,7 @@ void MostrarCabezaRriba(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabezarriba,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cabeza_arriba,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		false,			// hide the sprite?
@@ -855,7 +854,7 @@ void BorrarCabezaRriba(int indice, int x, int y)
 		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 		SpriteSize_16x16,     
 		SpriteColorFormat_256Color, 
-		gfxcabezarriba,// +16*16/2,      // pointer to the loaded graphics
+		gfx_ciempies_cabeza_arriba,// +16*16/2,      // pointer to the loaded graphics
 		-1,                  // sprite rotation data  
 		false,               // double the size when rotating?
 		true,			// hide the sprite?
@@ -867,13 +866,62 @@ void BorrarCabezaRriba(int indice, int x, int y)
 
 }
 
+void ActualizarSpritesCiempiesCabeza(int ind, int direccion, int X, int Y, int newDir, int newX, int newY) {
+
+	u16* grafico_viejo;
+
+	if (direccion == DIR_ARRIBA) 			grafico_viejo=gfx_ciempies_cabeza_arriba;
+	else if (direccion == DIR_DERECHA) 		grafico_viejo=gfx_ciempies_cabeza_derecha;
+	else if (direccion == DIR_ABAJO) 		grafico_viejo=gfx_ciempies_cabeza_abajo;
+	else if (direccion == DIR_IZQUIERDA) 	grafico_viejo=gfx_ciempies_cabeza_izquierda;
+
+	oamSet(&oamMain,
+		ind,
+		X, Y,
+		0,
+		0,
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		grafico_viejo,
+		-1,
+		false,
+		true,
+		false, false,
+		false
+	); 
+	
+	u16* grafico_actual;
+
+	if (newDir == DIR_ARRIBA) 			grafico_actual=gfx_ciempies_cabeza_arriba;
+	else if (newDir == DIR_DERECHA) 	grafico_actual=gfx_ciempies_cabeza_derecha;
+	else if (newDir == DIR_ABAJO) 		grafico_actual=gfx_ciempies_cabeza_abajo;
+	else if (newDir == DIR_IZQUIERDA) 	grafico_actual=gfx_ciempies_cabeza_izquierda;
+
+	oamSet(&oamMain,
+		ind,
+		newX, newY,
+		0,
+		0,
+		SpriteSize_16x16,
+		SpriteColorFormat_256Color,
+		grafico_actual,
+		-1,
+		false,
+		false,
+		false, false,
+		false
+	);
+	oamUpdate(&oamMain);
+
+}
+
 void ActualizarSpriteSetas(int ind, int vidas, int x, int y){
 	u16* grafico_actual;
 	
-	if(vidas==4) grafico_actual=gfxseta;
-	else if (vidas==3) grafico_actual=gfxseta_3;
-	else if (vidas==2) grafico_actual=gfxseta_2;
-	else if (vidas==1) grafico_actual=gfxseta_1;
+	if(vidas==4) 			grafico_actual=gfx_seta;
+	else if (vidas==3) 		grafico_actual=gfx_seta3;
+	else if (vidas==2) 		grafico_actual=gfx_seta2;
+	else if (vidas==1) 		grafico_actual=gfx_seta1;
 	else return;
 
 	oamSet(&oamMain, 
