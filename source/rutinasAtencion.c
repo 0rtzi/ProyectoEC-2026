@@ -334,7 +334,7 @@ void MoverCiempies(){
 				int dispX = disparos[j].X;
 				int dispY = disparos[j].Y;
 
-				if(DetectarColision(dispX, dispY, newX, newY) == 1){
+				if(DetectarColision(dispX+8, dispY+8, newX, newY) == 1){
 					BorrarDisparo(SID_DISP+j, dispX, dispY);
 					disparos[j].activo = 0;
 
