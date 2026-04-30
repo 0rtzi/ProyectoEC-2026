@@ -368,6 +368,13 @@ void MoverCiempies(){
 					}
 					ciempies[i].activo = 0;
 
+					//Si la siguiente posicion esta dentro de rango de matriz y esta activa
+					if(i+1<50 && ciempies[i+1].activo != 0){
+						//Borra el cuerpo y crea la cabeza
+						BorrarCenticuerpo(SID_CIEMPIES+i+1, ciempies[i+1].X, ciempies[i+1].Y);
+						CrearCabezaCiempies(SID_CIEMPIES+i+1, oldDir, ciempies[i+1].X, ciempies[i+1].Y);
+					}
+
 					//Si esta en la zona del jugador sale
 					if(newY >= BORDE_SUPERIOR_PROTA) break;
 					//Crear una nueva seta en esa posición

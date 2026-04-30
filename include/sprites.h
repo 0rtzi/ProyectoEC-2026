@@ -97,6 +97,8 @@ extern void BorrarCabezaRriba(int indice, int x, int y);
 
 extern void BorrarCabezaCiempies(int id, int oldDir, int X, int Y);
 
+extern void CrearCabezaCiempies(int id, int oldDir, int X, int Y);
+
 extern void ActualizarSpritesCiempiesCabeza(int id, int oldDir, int X, int Y, int newDir, int newX, int newY);
 
 /***********************2025-2026*******************************/

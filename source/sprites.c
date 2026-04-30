@@ -890,6 +890,30 @@ void BorrarCabezaCiempies(int id, int oldDir, int X, int Y){
 	); 
 }
 
+//Comprobar que funciona
+void CrearCabezaCiempies(int id, int oldDir, int X, int Y){
+	if (oldDir == DIR_ARRIBA) 			grafico=gfx_ciempies_cabeza_arriba;
+	else if (oldDir == DIR_DERECHA) 		grafico=gfx_ciempies_cabeza_derecha;
+	else if (oldDir == DIR_ABAJO) 		grafico=gfx_ciempies_cabeza_abajo;
+	else if (oldDir == DIR_IZQUIERDA) 	grafico=gfx_ciempies_cabeza_izquierda;
+
+	oamSet(&oamMain,
+		id,
+		X, Y,
+		0,
+		0,
+		SpriteSize_16x16,
+		SpriteColorFormat_256Color,
+		grafico,
+		-1,
+		false,
+		false,
+		false, false,
+		false
+	);
+	oamUpdate(&oamMain);
+}
+
 void ActualizarSpritesCiempiesCabeza(int id, int oldDir, int X, int Y, int newDir, int newX, int newY) {
 
 	u16* grafico_viejo = NULL;
