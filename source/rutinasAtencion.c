@@ -125,7 +125,6 @@ void DetectarColisionesDisparo(){
 		}
 
 		DetectarColisionesSetasDisparo(i);
-		DetectarColosionesCiempiesDisparo(i);
 	}
 }
 
@@ -188,14 +187,35 @@ void DetectarColisionesSetasDisparo(int idDisparo){
 				BorrarDisparo(1+idDisparo, disparos[idDisparo].X, disparos[idDisparo].Y);
 				
 				if(matriz_setas[r][c].vidas<=0){
-					BorrarSeta(11+matriz_setas[r][c].sprite_id, c*16, r*16);
+					BorrarSeta(SID_SETA+matriz_setas[r][c].sprite_id, c*16, r*16);
 				}
 				else{
-					ActualizarSpriteSetas(11+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
+					ActualizarSpriteSetas(SID_SETA+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
 				}
 			}
 		}
 	}
+}
+
+int primerIdSinSeta(){
+	int i, r, c;
+	int idSeta = 0;
+
+	for(i=0;i<151;i++)
+		for(r=0;r<9;r++){
+			for(c=0;c<16;c++){
+				if(matriz_setas[r][c].vidas <= 0) continue;
+				if(matriz_setas[r][c].sprite_id > idSeta){
+					idSeta++;
+					break;
+				else{
+					return idSeta;
+				}
+			}
+			if(matriz_setas[r][c].sprite_id > idSeta-1) break;
+		}
+	}
+	return idSeta;
 }
 
 //ENEMIGOS
@@ -208,10 +228,11 @@ int ciempies_pixel_mov=2;
 parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
 
 void InicializarValoresCiempies() {
-	for (int i = 0; i < 50; i++){
+	int i;
+	for (i = 0; i < 50; i++){
 		ciempies[i].activo = 0;
 	}
-	int i;
+
 	int ultInd = 0;
 	int ultId = 0;
 
@@ -334,36 +355,36 @@ void MoverCiempies(){
 				int dispX = disparos[j].X;
 				int dispY = disparos[j].Y;
 
+				//Si colisiona la bala con el ciempies
 				if(DetectarColision(dispX+8, dispY+8, newX+8, newY+8) == 1){
 					BorrarDisparo(SID_DISP+j, dispX, dispY);
 					disparos[j].activo = 0;
 
+					//Si es la cabeza
 					if(ciempies[i].parte = 0){
 						BorrarCabezaCiempies(SID_CIEMPIES+i, oldDir, newX, newY);
 					} else {
-						BorrarCenticuerpo(SID_CIEMPIES+i, newX, newY)
+						BorrarCenticuerpo(SID_CIEMPIES+i, newX, newY);
 					}
 					ciempies[i].activo = 0;
 
+					//Si esta en la zona del jugador sale
+					if(newY >= BORDE_SUPERIOR_PROTA) break;
+					//Crear una nueva seta en esa posición
 					matriz_setas[newX/PIXELES_SPRITES][newY/PIXELES_SPRITES].vidas = 4;
-					int r, c;
-					int maxIdSeta = 0;
-					for(r=0;r<9;r++){
-						for(c=0;c<16;c++){
-							if(matriz_setas[r][c].vidas = 0) continue;
-							if(matriz_setas[r][c].sprite_id > maxIdSeta) maxIdSeta = matriz_setas[r][c].sprite_id;
-						}
-					}
-					if(maxIdSeta+1 <= SID_SETA_MAX) MostrarSeta(SID_SETA+maxIdSeta+1, newX/PIXELES_SPRITES, newY/PIXELES_SPRITES);
+					idSeta = primerIdSinSeta();
+					if(idSeta+1 <= SID_SETA_MAX) MostrarSeta(SID_SETA+idSeta+1, (newX/PIXELES_SPRITES)*PIXELES_SPRITES, (newY/PIXELES_SPRITES)*PIXELES_SPRITES);
 				}
 			}
 
-			if (ciempies[i].parte == 0){
-				ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, newDir, newX, newY);
-			}
-			else {
-				BorrarCenticuerpo(SID_CIEMPIES+i, oldX, oldY);
-				MostrarCenticuerpo(SID_CIEMPIES+i, newX, newY);
+			if(ciempies[i].activo == 1){
+				if (ciempies[i].parte == 0){
+					ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, newDir, newX, newY);
+				}
+				else {
+					BorrarCenticuerpo(SID_CIEMPIES+i, oldX, oldY);
+					MostrarCenticuerpo(SID_CIEMPIES+i, newX, newY);
+				}
 			}
 		//}
 	}
