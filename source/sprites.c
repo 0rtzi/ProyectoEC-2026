@@ -866,17 +866,41 @@ void BorrarCabezaRriba(int indice, int x, int y)
 
 }
 
-void ActualizarSpritesCiempiesCabeza(int ind, int direccion, int X, int Y, int newDir, int newX, int newY) {
+void BorrarCabezaCiempies(int id, int oldDir, int X, int Y){
+	u16* grafico_viejo = NULL;
+
+	if (oldDir == DIR_ARRIBA) 			grafico_viejo=gfx_ciempies_cabeza_arriba;
+	else if (oldDir == DIR_DERECHA) 		grafico_viejo=gfx_ciempies_cabeza_derecha;
+	else if (oldDir == DIR_ABAJO) 		grafico_viejo=gfx_ciempies_cabeza_abajo;
+	else if (oldDir == DIR_IZQUIERDA) 	grafico_viejo=gfx_ciempies_cabeza_izquierda;
+
+	oamSet(&oamMain,
+		id,
+		X, Y,
+		0,
+		0,
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		grafico_viejo,
+		-1,
+		false,
+		true,
+		false, false,
+		false
+	); 
+}
+
+void ActualizarSpritesCiempiesCabeza(int id, int oldDir, int X, int Y, int newDir, int newX, int newY) {
 
 	u16* grafico_viejo = NULL;
 
-	if (direccion == DIR_ARRIBA) 			grafico_viejo=gfx_ciempies_cabeza_arriba;
-	else if (direccion == DIR_DERECHA) 		grafico_viejo=gfx_ciempies_cabeza_derecha;
-	else if (direccion == DIR_ABAJO) 		grafico_viejo=gfx_ciempies_cabeza_abajo;
-	else if (direccion == DIR_IZQUIERDA) 	grafico_viejo=gfx_ciempies_cabeza_izquierda;
+	if (oldDir == DIR_ARRIBA) 			grafico_viejo=gfx_ciempies_cabeza_arriba;
+	else if (oldDir == DIR_DERECHA) 		grafico_viejo=gfx_ciempies_cabeza_derecha;
+	else if (oldDir == DIR_ABAJO) 		grafico_viejo=gfx_ciempies_cabeza_abajo;
+	else if (oldDir == DIR_IZQUIERDA) 	grafico_viejo=gfx_ciempies_cabeza_izquierda;
 
 	oamSet(&oamMain,
-		ind,
+		id,
 		X, Y,
 		0,
 		0,
@@ -898,7 +922,7 @@ void ActualizarSpritesCiempiesCabeza(int ind, int direccion, int X, int Y, int n
 	else if (newDir == DIR_IZQUIERDA) 	grafico_actual=gfx_ciempies_cabeza_izquierda;
 
 	oamSet(&oamMain,
-		ind,
+		id,
 		newX, newY,
 		0,
 		0,
@@ -915,7 +939,7 @@ void ActualizarSpritesCiempiesCabeza(int ind, int direccion, int X, int Y, int n
 
 }
 
-void ActualizarSpriteSetas(int ind, int vidas, int x, int y){
+void ActualizarSpriteSetas(int id, int vidas, int x, int y){
 	u16* grafico_actual = NULL;
 	
 	if(vidas==4) 			grafico_actual=gfx_seta;
@@ -925,7 +949,7 @@ void ActualizarSpriteSetas(int ind, int vidas, int x, int y){
 	else return;
 
 	oamSet(&oamMain, 
-		ind, 
+		id, 
 		x, y, 
 		0, 
 		0, 

@@ -27,7 +27,7 @@ void LimpiarPantalla();
  * 
  * @note El rango debe cumplir que min <= max
  */
-int randomInt(int min, int max);
+int RandomInt(int min, int max);
 
 /*=================================================================================
  * PROTAGONISTA (NAVE DEL JUGADOR)

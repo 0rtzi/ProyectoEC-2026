@@ -19,14 +19,14 @@ int ACCION;
 
 static unsigned int semilla = 12345;
 
-int detectarColision(int x1, int y1, int x2, int y2) { 
+int DetectarColision(int x1, int y1, int x2, int y2) { 
 	if(x1/16 == x2/16 && y1/16 == y2/16){
 		return 1;
 	}
 	return 0;
 }
 
-int randomInt(int min, int max) {
+int RandomInt(int min, int max) {
 	semilla = semilla * 1103515245 + 12345;
 
 	unsigned int numAleatorio = (semilla / 65536) % 32768;
@@ -125,6 +125,7 @@ void DetectarColisionesDisparo(){
 		}
 
 		DetectarColisionesSetasDisparo(i);
+		DetectarColosionesCiempiesDisparo(i);
 	}
 }
 
@@ -159,7 +160,7 @@ void InicializarValoresSetas() {
 	for (i=0; i<9; i++){
 		int j;
 		for (j=0; j<16; j++){
-			if (randomInt(0,6)==0){
+			if (RandomInt(0,6)==0){
 				while (seta_cont_espera_mostrar < seta_cont_espera_mostrar_max){
 					//Hasta que el valor de seta_cont_espera_mostrar sea mayor o igual que seta_cont_espera_mostrar_max
 				}
@@ -181,7 +182,7 @@ void DetectarColisionesSetasDisparo(int idDisparo){
 			if(matriz_setas[r][c].vidas<=0){
 				continue;
 			}
-			if(detectarColision(disparos[idDisparo].X+8, disparos[idDisparo].Y+8, c*16, r*16)){
+			if(DetectarColision(disparos[idDisparo].X+8, disparos[idDisparo].Y+8, c*16, r*16)){
 				matriz_setas[r][c].vidas--;
 				disparos[idDisparo].activo=0;
 				BorrarDisparo(1+idDisparo, disparos[idDisparo].X, disparos[idDisparo].Y);
@@ -214,10 +215,10 @@ void InicializarValoresCiempies() {
 	int ultInd = 0;
 	int ultId = 0;
 
-	int numCiempies = randomInt(1,5); //Números aleatorios entre 1 y 5 para probar
+	int numCiempies = RandomInt(1,5); //Números aleatorios entre 1 y 5 para probar
 
 	for (i=0;i<numCiempies;i++){
-		int longitud = randomInt(1,10); //Longitud del ciempies generado
+		int longitud = RandomInt(1,10); //Longitud del ciempies generado
 		if (ultInd + longitud > 50) {
 			break;
 		}
@@ -323,6 +324,39 @@ void MoverCiempies(){
 					ciempies[i].X = newX;
 				}
 			}
+			
+			int j;
+
+			//Recorre el array de disparos
+			for(j=0;j<10;j++){
+				if(disparos[j].activo == 0) continue;
+
+				int dispX = disparos[j].X;
+				int dispY = disparos[j].Y;
+
+				if(DetectarColision(dispX, dispY, newX, newY) == 1){
+					BorrarDisparo(SID_DISP+j, dispX, dispY);
+					disparos[j].activo = 0;
+
+					if(ciempies[i].parte = 0){
+						BorrarCabezaCiempies(SID_CIEMPIES+i, newX, newY);
+					} else {
+						BorrarCenticuerpo(SID_CIEMPIES+i, newX, newY)
+					}
+					ciempies[i].activo = 0;
+
+					matriz_setas[newX/PIXELES_SPRITES][newY/PIXELES_SPRITES].vidas = 4;
+					int r, c;
+					int maxIdSeta = 0;
+					for(r=0;r<9;r++){
+						for(c=0;c<16;c++){
+							if(matriz_setas[r][c].vidas = 0) continue;
+							if(matriz_setas[r][c].sprite_id > maxIdSeta) maxIdSeta = matriz_setas[r][c].sprite_id;
+						}
+					}
+					if(maxIdSeta+1 <= SID_SETA_MAX) MostrarSeta(SID_SETA+maxIdSeta+1, newX/PIXELES_SPRITES, newY/PIXELES_SPRITES);
+				}
+			}
 
 			if (ciempies[i].parte == 0){
 				ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, newDir, newX, newY);
@@ -334,8 +368,6 @@ void MoverCiempies(){
 		//}
 	}
 }
-
-
 
 //RUTINAS DE ATENCIÓN
 void RutAtencionTeclado ()

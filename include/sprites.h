@@ -95,7 +95,9 @@ extern void MostrarCabezaRriba(int indice, int x, int y);
 /* Esta función borra de la pantalla la cabeza con el índice que se le indique como parámetro */
 extern void BorrarCabezaRriba(int indice, int x, int y);
 
-extern void ActualizarSpritesCiempiesCabeza(int ind, int direccion, int X, int Y, int newDir, int newX, int newY);
+extern void BorrarCabezaCiempies(int id, int oldDir, int X, int Y);
+
+extern void ActualizarSpritesCiempiesCabeza(int id, int oldDir, int X, int Y, int newDir, int newX, int newY);
 
 /***********************2025-2026*******************************/
 
