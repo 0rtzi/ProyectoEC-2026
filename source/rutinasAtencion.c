@@ -201,14 +201,15 @@ int primerIdSinSeta(){
 	int i, r, c;
 	int idSeta = 0;
 
-	for(i=0;i<151;i++)
+	for(i=0;i<151;i++) {
 		for(r=0;r<9;r++){
 			for(c=0;c<16;c++){
 				if(matriz_setas[r][c].vidas <= 0) continue;
 				if(matriz_setas[r][c].sprite_id > idSeta){
 					idSeta++;
 					break;
-				else{
+				}
+				else {
 					return idSeta;
 				}
 			}
@@ -379,7 +380,7 @@ void MoverCiempies(){
 					if(newY >= BORDE_SUPERIOR_PROTA) break;
 					//Crear una nueva seta en esa posición
 					matriz_setas[newX/PIXELES_SPRITES][newY/PIXELES_SPRITES].vidas = 4;
-					idSeta = primerIdSinSeta();
+					int idSeta = primerIdSinSeta();
 					if(idSeta+1 <= SID_SETA_MAX) MostrarSeta(SID_SETA+idSeta+1, (newX/PIXELES_SPRITES)*PIXELES_SPRITES, (newY/PIXELES_SPRITES)*PIXELES_SPRITES);
 				}
 			}
