@@ -362,7 +362,7 @@ void MoverCiempies(){
 					disparos[j].activo = 0;
 
 					//Si es la cabeza
-					if(ciempies[i].parte = 0){
+					if(ciempies[i].parte == 0){
 						BorrarCabezaCiempies(SID_CIEMPIES+i, oldDir, newX, newY);
 					} else {
 						BorrarCenticuerpo(SID_CIEMPIES+i, newX, newY);

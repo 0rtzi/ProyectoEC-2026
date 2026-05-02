@@ -892,6 +892,8 @@ void BorrarCabezaCiempies(int id, int oldDir, int X, int Y){
 
 //Comprobar que funciona
 void CrearCabezaCiempies(int id, int oldDir, int X, int Y){
+	u16* grafico = NULL;
+
 	if (oldDir == DIR_ARRIBA) 			grafico=gfx_ciempies_cabeza_arriba;
 	else if (oldDir == DIR_DERECHA) 		grafico=gfx_ciempies_cabeza_derecha;
 	else if (oldDir == DIR_ABAJO) 		grafico=gfx_ciempies_cabeza_abajo;
