@@ -26,7 +26,7 @@ int DetectarColision(int x1, int y1, int x2, int y2) {
 	return 0;
 }
 
-int RandomInt(int min, int max) {
+int RandomInt(int min, int max) { //NO FUNCIONA, IMPLEMENTAR EL RANDOM DE C
 	semilla = semilla * 1103515245 + 12345;
 
 	unsigned int numAleatorio = (semilla / 65536) % 32768;
