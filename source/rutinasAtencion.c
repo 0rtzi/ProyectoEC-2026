@@ -6,6 +6,7 @@ rutinasAtencion.c
 
 #include <nds.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "definiciones.h"
 #include "perifericos.h"
 #include "fondos.h"
@@ -26,11 +27,12 @@ int DetectarColision(int x1, int y1, int x2, int y2) {
 	return 0;
 }
 
-int RandomInt(int min, int max) { //NO FUNCIONA, IMPLEMENTAR EL RANDOM DE C
-	semilla = semilla * 1103515245 + 12345;
+int RandomInt(int min, int max) {
+	/*semilla = semilla * 1103515245 + 12345;
 
-	unsigned int numAleatorio = (semilla / 65536) % 32768;
-    int dif = max-min+1;
+	unsigned int numAleatorio = (semilla / 65536) % 32768; */
+    int numAleatorio = rand();
+	int dif = max-min+1;
     return min+ (numAleatorio % dif);
 }
 
