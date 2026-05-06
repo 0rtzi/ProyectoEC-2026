@@ -230,7 +230,7 @@ parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
 
 void InicializarValoresCiempies() {
 	int i;
-	for (i = 0; i < 50; i++){
+	for (i = 0; i < 50; i++){ //REDUNDANTE E INNECESARIO
 		ciempies[i].activo = 0;
 	}
 
@@ -370,9 +370,10 @@ void MoverCiempies(){
 					ciempies[i].activo = 0;
 
 					//Si la siguiente posicion esta dentro de rango de matriz y esta activa
-					if(i+1<50 && ciempies[i+1].activo != 0){
+					if(i+1<50 && ciempies[i+1].activo == 1){
 						//Borra el cuerpo y crea la cabeza
 						BorrarCenticuerpo(SID_CIEMPIES+i+1, ciempies[i+1].X, ciempies[i+1].Y);
+						ciempies[i+1].parte = 0;
 						CrearCabezaCiempies(SID_CIEMPIES+i+1, oldDir, ciempies[i+1].X, ciempies[i+1].Y);
 					}
 
