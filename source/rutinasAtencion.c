@@ -306,7 +306,7 @@ void InicializarValoresCiempies() {
 			ciempies[ultInd].id = ultId;
 			ciempies[ultInd].parte = j;
 			ciempies[ultInd].X = CENTRO_HORIZONTAL;
-			ciempies[ultInd].Y = (-16)*(ultInd+1);
+			ciempies[ultInd].Y = -16;//(-16)*(ultInd+1)
 			ciempies[ultInd].direccion = DIR_ABAJO;
 			ciempies[ultInd].longitud = longitud;
 
@@ -332,123 +332,83 @@ void MoverCiempies(){
 		int newY = oldY;
 		int newDir = oldDir;
 
-		//if (ciempies[i].parte==0){ //Estamos con la cabeza?
+		// Si va hacia abajo
+		if (oldDir == DIR_ABAJO){
 
-			// Si va hacia abajo
-			if (oldDir == DIR_ABAJO){
-
-				//Si se encuentra en una de las casillas exactamente
-				if (oldY % PIXELES_SPRITES == 0){
-					if (oldX == BORDE_DERECHO){
-						ciempies[i].direccion = DIR_IZQUIERDA;
-						newX = oldX - ciempies_pixel_mov;
-						ciempies[i].X = newX;
-						newDir = DIR_IZQUIERDA;
+			//Si se encuentra en una de las casillas exactamente
+			if (oldY % PIXELES_SPRITES == 0){
+				if (oldX == BORDE_DERECHO){
+					ciempies[i].direccion = DIR_IZQUIERDA;
+					newX = oldX - ciempies_pixel_mov;
+					ciempies[i].X = newX;
+					newDir = DIR_IZQUIERDA;
+				}
+				else if (oldY + ciempies_pixel_mov >=BORDE_INFERIOR + PIXELES_SPRITES){
+					if (ciempies[i].parte==0){
+						BorrarCabezaBajo(SID_CIEMPIES+i, oldX, oldY);
 					}
-					else if (oldY + ciempies_pixel_mov >=BORDE_INFERIOR + PIXELES_SPRITES){
-						if (ciempies[i].parte==0){
-							BorrarCabezaBajo(SID_CIEMPIES+i, oldX, oldY);
-						}
-						else {
-							BorrarCenticuerpo(SID_CIEMPIES+i, oldX, oldY);
-						}
-						ciempies[i].activo=0;
-						continue;
+					else {
+						BorrarCenticuerpo(SID_CIEMPIES+i, oldX, oldY);
 					}
-					else if (oldY < BORDE_SUPERIOR){
+					ciempies[i].activo=0;
+					continue;
+				}
+				else if (oldY < BORDE_SUPERIOR){
+					if (i==0 || (ciempies[i-1].Y == 0 && ciempies[i-1].X % PIXELES_SPRITES !=0)){
 						newY = oldY + ciempies_pixel_mov;
 						ciempies[i].Y = newY;
 					}
-					else {
-						ciempies[i].direccion = DIR_DERECHA;
-						newX = oldX + ciempies_pixel_mov;
-						ciempies[i].X = newX;
-						newDir = DIR_DERECHA;
-					}
-				}
-				//Seguir moviendose
-				else {
-					newY = oldY + ciempies_pixel_mov;
-					ciempies[i].Y = newY;
-				}
-				
-			}
-			// Si va a la derecha
-			else if (oldDir == DIR_DERECHA) {
-				if (oldX == BORDE_DERECHO) {
-					newY = oldY + ciempies_pixel_mov;
-					ciempies[i].Y = newY;
-					ciempies[i].direccion = DIR_ABAJO;
-					newDir = DIR_ABAJO;
 				}
 				else {
+					ciempies[i].direccion = DIR_DERECHA;
 					newX = oldX + ciempies_pixel_mov;
 					ciempies[i].X = newX;
+					newDir = DIR_DERECHA;
 				}
 			}
-			// Si va a la izquierda
-			else if (oldDir == DIR_IZQUIERDA) {
-				if (oldX == BORDE_IZQUIERDO) {
-					newY = oldY + ciempies_pixel_mov;
-					ciempies[i].Y = newY;
-					ciempies[i].direccion = DIR_ABAJO;
-					newDir = DIR_ABAJO;
-				}
-				else {
-					newX = oldX - ciempies_pixel_mov;
-					ciempies[i].X = newX;
-				}
+			//Seguir moviendose
+			else {
+				newY = oldY + ciempies_pixel_mov;
+				ciempies[i].Y = newY;
 			}
 			
-			// int j;
-
-			// //Recorre el array de disparos
-			// for(j=0;j<10;j++){
-			// 	if(disparos[j].activo == 0) continue;
-
-			// 	int dispX = disparos[j].X;
-			// 	int dispY = disparos[j].Y;
-
-			// 	//Si colisiona la bala con el ciempies
-			// 	if(DetectarColision(dispX+8, dispY+8, newX+8, newY+8) == 1){
-			// 		BorrarDisparo(SID_DISP+j, dispX, dispY);
-			// 		disparos[j].activo = 0;
-
-			// 		//Si es la cabeza
-			// 		if(ciempies[i].parte == 0){
-			// 			BorrarCabezaCiempies(SID_CIEMPIES+i, oldDir, newX, newY);
-			// 		} else {
-			// 			BorrarCenticuerpo(SID_CIEMPIES+i, newX, newY);
-			// 		}
-			// 		ciempies[i].activo = 0;
-
-			// 		//Si la siguiente posicion esta dentro de rango de matriz y esta activa
-			// 		if(i+1<50 && ciempies[i+1].activo == 1){
-			// 			//Borra el cuerpo y crea la cabeza
-			// 			BorrarCenticuerpo(SID_CIEMPIES+i+1, ciempies[i+1].X, ciempies[i+1].Y);
-			// 			ciempies[i+1].parte = 0;
-			// 			CrearCabezaCiempies(SID_CIEMPIES+i+1, oldDir, ciempies[i+1].X, ciempies[i+1].Y);
-			// 		}
-
-			// 		//Si esta en la zona del jugador sale
-			// 		if(newY >= BORDE_SUPERIOR_PROTA) break;
-			// 		//Crear una nueva seta en esa posición
-			// 		matriz_setas[newX/PIXELES_SPRITES][newY/PIXELES_SPRITES].vidas = 4;
-			// 		int idSeta = primerIdSinSeta();
-			// 		if(idSeta+1 <= SID_SETA_MAX) MostrarSeta(SID_SETA+idSeta+1, (newX/PIXELES_SPRITES)*PIXELES_SPRITES, (newY/PIXELES_SPRITES)*PIXELES_SPRITES);
-			// 	}
-			// }
-
-			if(ciempies[i].activo == 1){
-				if (ciempies[i].parte == 0){
-					ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, newDir, newX, newY);
-				}
-				else {
-					BorrarCenticuerpo(SID_CIEMPIES+i, oldX, oldY);
-					MostrarCenticuerpo(SID_CIEMPIES+i, newX, newY);
-				}
+		}
+		// Si va a la derecha
+		else if (oldDir == DIR_DERECHA) {
+			if (oldX == BORDE_DERECHO) {
+				newY = oldY + ciempies_pixel_mov;
+				ciempies[i].Y = newY;
+				ciempies[i].direccion = DIR_ABAJO;
+				newDir = DIR_ABAJO;
 			}
-		//}
+			else {
+				newX = oldX + ciempies_pixel_mov;
+				ciempies[i].X = newX;
+			}
+		}
+		// Si va a la izquierda
+		else if (oldDir == DIR_IZQUIERDA) {
+			if (oldX == BORDE_IZQUIERDO) {
+				newY = oldY + ciempies_pixel_mov;
+				ciempies[i].Y = newY;
+				ciempies[i].direccion = DIR_ABAJO;
+				newDir = DIR_ABAJO;
+			}
+			else {
+				newX = oldX - ciempies_pixel_mov;
+				ciempies[i].X = newX;
+			}
+		}
+
+		if(ciempies[i].activo == 1){
+			if (ciempies[i].parte == 0){
+				ActualizarSpritesCiempiesCabeza(SID_CIEMPIES+i, oldDir, oldX, oldY, newDir, newX, newY);
+			}
+			else {
+				BorrarCenticuerpo(SID_CIEMPIES+i, oldX, oldY);
+				MostrarCenticuerpo(SID_CIEMPIES+i, newX, newY);
+			}
+		}
 	}
 }
 
