@@ -29,6 +29,9 @@ extern void LimpiarPantalla();
  */
 extern int RandomInt(int min, int max);
 
+//TODO: COMENTAR ESTA FUNCIÓN
+extern int DetectarColision(int x1, int y1, int x2, int y2);
+
 /*=================================================================================
  * PROTAGONISTA (NAVE DEL JUGADOR)
  =================================================================================*/
@@ -191,18 +194,44 @@ extern void CrearDisparo();
  */
 extern void MoverDisparos();
 
+//TODO: COMENTAR ESTA FUNCIÓN
+extern void DetectarColisionesDisparo(int idDisparo);
+
 /**
- * @brief Detecta y procesa colisiones de todos los disparos
+ * @brief Detecta y procesa colisiones de un disparo específico con las setas
  * 
- * Verifica si algún disparo activo ha chocado con enemigos (ciempiés) o setas.
- * En caso de colisión:
- * - Con enemigos: modifica la estructura del ciempiés y suma puntos
- * - Con setas: incrementa el daño de la seta
- * - Desactiva el disparo que colisionó
+ * Verifica si el disparo con ID especificado colisiona con alguna seta en la matriz.
+ * Si hay colisión:
  * 
- * @note Debe llamarse después de actualizar posiciones y antes de renderizar
+ * - Decrementa las vidas de la seta (aumenta su daño)
+ * 
+ * - Si las vidas llegan a 0, elimina la seta
+ * 
+ * - Devuelve 1 para indicar colisión
+ * 
+ * @param[in] idDisparo Índice del disparo a verificar (0-9)
+ * 
+ * @note Un disparo solo puede colisionar con una seta por llamada
  */
-extern void DetectarColisionesDisparo();
+extern void DetectarColisionesDisparoSetas(int idDisparo);
+
+/**
+ * @brief Detecta y procesa colisiones de un disparo específico con cada una de las partes del ciempies
+ * 
+ * Verifica si el disparo con ID especificado colisiona con alguna seta en la matriz.
+ * Si hay colisión:
+ * 
+ * - Decrementa las vidas de la seta (aumenta su daño)
+ * 
+ * - Si las vidas llegan a 0, elimina la seta
+ * 
+ * - Devuelve 1 para indicar colisión
+ * 
+ * @param[in] idDisparo Índice del disparo a verificar (0-9)
+ * 
+ * @note Un disparo solo puede colisionar con una seta por llamada
+ */
+extern void DetectarColisionesDisparoCiempies(int idDisparo);
 
 /*=================================================================================
  * SETAS (OBSTÁCULOS)
@@ -258,24 +287,6 @@ extern int seta_cont_espera_mostrar_max;
  * @note Debe llamarse al inicio de cada pantalla/partida
  */
 extern void InicializarValoresSetas();
-
-/**
- * @brief Detecta y procesa colisiones de un disparo específico con las setas
- * 
- * Verifica si el disparo con ID especificado colisiona con alguna seta en la matriz.
- * Si hay colisión:
- * 
- * - Decrementa las vidas de la seta (aumenta su daño)
- * 
- * - Si las vidas llegan a 0, elimina la seta
- * 
- * - Devuelve 1 para indicar colisión
- * 
- * @param[in] idDisparo Índice del disparo a verificar (0-9)
- * 
- * @note Un disparo solo puede colisionar con una seta por llamada
- */
-extern void DetectarColisionesSetasDisparo(int idDisparo);
 
 /*=================================================================================
  * ENEMIGOS
