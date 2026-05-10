@@ -476,7 +476,7 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
             }
 
             // 4. Generar seta
-            if (ciempY < BORDE_SUPERIOR_PROTA) {
+            if (ciempY < BORDE_SUPERIOR_PROTA && ciempies[i].parte != 0) {
                 int fila = ciempY / PIXELES_SPRITES;
                 int col = ciempX / PIXELES_SPRITES;
                 
