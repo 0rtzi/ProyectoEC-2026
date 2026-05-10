@@ -80,14 +80,14 @@ void juego()
 					break;
 
 				case MUERTE:
+					ACCION=LIMPIANDO_PANTALLA;
+					break;
+
+				case LIMPIANDO_PANTALLA:
 					//Pause temporario
 					InhibirIntTempo();
 					//Limpia los sprites y arrays
 					LimpiarPantalla();
-					break;
-
-				case LIMPIANDO_PANTALLA:
-
 					break;
 			}
 		}
