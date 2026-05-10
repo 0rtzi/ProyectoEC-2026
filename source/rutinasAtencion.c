@@ -6,7 +6,6 @@ rutinasAtencion.c
 
 #include <nds.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include "definiciones.h"
 #include "perifericos.h"
 #include "fondos.h"
@@ -17,8 +16,9 @@ rutinasAtencion.c
 
 int ESTADO;
 int ACCION;
+int tick = 0;
 
-static unsigned int semilla = 12345;
+static unsigned int semilla = 1;
 
 int DetectarColision(int x1, int y1, int x2, int y2) { 
 	if(x1/16 == x2/16 && y1/16 == y2/16){
@@ -28,12 +28,13 @@ int DetectarColision(int x1, int y1, int x2, int y2) {
 }
 
 int RandomInt(int min, int max) {
-	/*semilla = semilla * 1103515245 + 12345;
-
-	unsigned int numAleatorio = (semilla / 65536) % 32768; */
-    int numAleatorio = rand();
+	if (semilla == 1 && tick != 0){
+		semilla = tick;
+	}
+	semilla = semilla * 1103515245 + 12345;
+	unsigned int numAleatorio = (semilla / 65536) % 32768;
 	int dif = max-min+1;
-    return min+ (numAleatorio % dif);
+    return min + (numAleatorio % dif);
 }
 
 
@@ -231,16 +232,12 @@ int ciempies_pixel_mov=2;
 parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
 
 void InicializarValoresCiempies() {
-	int i;
-	for (i = 0; i < 50; i++){ //REDUNDANTE E INNECESARIO
-		ciempies[i].activo = 0;
-	}
-
 	int ultInd = 0;
 	int ultId = 0;
-
+	
 	int numCiempies = RandomInt(1,5); //Números aleatorios entre 1 y 5 para probar
-
+	
+	int i;
 	for (i=0;i<numCiempies;i++){
 		int longitud = RandomInt(1,10); //Longitud del ciempies generado
 		if (ultInd + longitud > 50) {
@@ -416,6 +413,11 @@ void RutAtencionTeclado ()
 
 void RutAtencionTempo()
 {
+	tick++;
+	if (tick >= 128){
+		tick = 0;
+	}
+
 	if (ESTADO == MENU){
 		InhibirIntTempo();
 	}
@@ -462,7 +464,7 @@ void RutAtencionTempo()
 				}
 				DetectarColisionesDisparo();
 				// FIXME: Es necesario actualizarSprites así?
-				oamUpdate(&oamMain); //ActualizarSprites
+				// oamUpdate(&oamMain); //ActualizarSprites
 				break;
 			
 			case MUERTE:
