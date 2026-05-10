@@ -12,13 +12,51 @@ rutinasAtencion.c
 #include "sprites.h"
 #include "juego.h"
 
-//Definición de variables globales.
+/*=================================================================================
+ * VARIABLES
+ =================================================================================*/
 
 int ESTADO;
 int ACCION;
 int tick = 0;
 
 static unsigned int semilla = 1;
+
+//PROTAGONISTA
+protagonista prota;
+int prota_cont_espera_mov = 0;
+int prota_cont_espera_mov_min = 1;
+int prota_pixel_mov = 2;
+
+//DISPAROS
+disparo disparos[10] = {0};
+
+int disp_cont_espera_mov = 0;
+int disp_cont_espera_mov_min = 1;
+
+int disp_pixel_mov = 2;
+
+int disp_cont_espera = 0;
+int disp_cont_espera_min = 64;
+
+//SETAS
+casillaSeta matriz_setas[9][16] = {0};
+
+volatile int seta_cont_espera_mostrar = 0;
+int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
+
+//ENEMIGOS
+int enem_cont_espera_mov=0;
+int enem_cont_espera_mov_min=1;
+
+	//CIEMPIES
+parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
+int ciempies_pixel_mov=2;
+
+
+/*=================================================================================
+ * FUNCIONES GENERALES
+ =================================================================================*/
 
 int DetectarColision(int x1, int y1, int x2, int y2) { 
 	if(x1/16 == x2/16 && y1/16 == y2/16){
@@ -64,12 +102,9 @@ void LimpiarPantalla(){
 }
 
 
-	//PROTA
-
-protagonista prota;
-int prota_cont_espera_mov = 0;
-int prota_cont_espera_mov_min = 1;
-int prota_pixel_mov = 2;
+/*=================================================================================
+ * FUNCIONES PROTAGONISTA
+ =================================================================================*/
 
 void InicializarValoresProta(){
 	prota.vidas=3;
@@ -118,17 +153,9 @@ void ActualizarPosicionProta() {
     
 }
 
-	//DISPAROS
-
-disparo disparos[10] = {0};
-
-int disp_cont_espera_mov = 0;
-int disp_cont_espera_mov_min = 1;
-
-int disp_pixel_mov = 2;
-
-int disp_cont_espera = 0;
-int disp_cont_espera_min = 64;
+/*=================================================================================
+ * FUNCIONES DISPARO
+ =================================================================================*/
 
 void CrearDisparo(){
 	int i = 0;
@@ -175,12 +202,9 @@ void MoverDisparos(){
 }
 
 
-	// SETAS
-
-casillaSeta matriz_setas[9][16] = {0};
-
-volatile int seta_cont_espera_mostrar = 0;
-int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
+/*=================================================================================
+ * FUNCIONES SETAS
+ =================================================================================*/
 
 void InicializarValoresSetas() {
 	int ultId = 0;
@@ -248,14 +272,11 @@ int primerIdSinSeta(){
 	return idSeta;
 }
 
-//ENEMIGOS
-int enem_cont_espera_mov=0;
-int enem_cont_espera_mov_min=1;
+/*=================================================================================
+ * FUNCIONES ENEMIGOS
+ =================================================================================*/
 
-	//CIEMPIÉS
-int ciempies_pixel_mov=2;
-
-parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
+//CIEMPIÉS
 
 void InicializarValoresCiempies() {
 	int ultInd = 0;
@@ -424,7 +445,10 @@ void MoverCiempies(){
 	}
 }
 
-//RUTINAS DE ATENCIÓN
+/*=================================================================================
+ * RUTINAS DE ATENCIÓN
+ =================================================================================*/
+
 void RutAtencionTeclado ()
 {
 	int tecla = TeclaPulsada();
