@@ -87,12 +87,11 @@ void juego()
 					break;
 
 				case LIMPIANDO_PANTALLA:
-					
+
 					break;
 			}
 		}
 		else if (ESTADO == GAMEOVER){
-			if (TeclaDetectada()){
 			tecla = TeclaPulsada();
 			if(tecla == START){
 				ESTADO = MENU;
