@@ -15,7 +15,7 @@ void juego();
  * Oculta todos los sprites que se encuentran en pantalla, efectivamente limpiando
  * la visualización del juego. Útil para transiciones entre estados.
  */
-void LimpiarPantalla();
+extern void LimpiarPantalla();
     
 /**
  * @brief Genera un número entero aleatorio entre min y max (incluidos)
@@ -27,7 +27,7 @@ void LimpiarPantalla();
  * 
  * @note El rango debe cumplir que min <= max
  */
-int RandomInt(int min, int max);
+extern int RandomInt(int min, int max);
 
 /*=================================================================================
  * PROTAGONISTA (NAVE DEL JUGADOR)

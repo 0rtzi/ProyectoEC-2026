@@ -45,7 +45,7 @@ void juego()
 			if (TeclaDetectada()) {
 				tecla = TeclaPulsada();
 				iprintf("\x1b[23;5HSe ha pulsado la tecla: %d", tecla);
-				if (tecla == A){
+				if (tecla == A){ 
 					ESTADO = PARTIDA;
 				}
 			}
@@ -80,15 +80,19 @@ void juego()
 					break;
 
 				case MUERTE:
-
+					//Pause temporario
+					InhibirIntTempo();
+					//Limpia los sprites y arrays
+					LimpiarPantalla();
 					break;
 
 				case LIMPIANDO_PANTALLA:
-
+					
 					break;
 			}
 		}
 		else if (ESTADO == GAMEOVER){
+			if (TeclaDetectada()){
 			tecla = TeclaPulsada();
 			if(tecla == START){
 				ESTADO = MENU;

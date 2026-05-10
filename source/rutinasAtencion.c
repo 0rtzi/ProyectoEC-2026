@@ -37,6 +37,32 @@ int RandomInt(int min, int max) {
     return min + (numAleatorio % dif);
 }
 
+void LimpiarPantalla(){
+    int i, j;
+
+    //Para ocultar todos los 128 sprites de la memória OAM
+    oamClear(&oamMain, 0, 127);
+    oamUpdate(&oamMain);
+
+    //Para ocultar los disparos
+    for(i=0; i<10; i++){
+        disparos[i].activo=0;
+    }
+
+    //Para ocultar las setas
+    for(i=0; i<9; i++){
+        for(j=0; j<16; j++){
+            matriz_setas[i][j].vidas=0;
+            matriz_setas[i][j].sprite_id=0;
+        }
+    }
+
+    //Reset ciempies
+    for(i=0;i<50;i++){
+        ciempies[i].activo=0;
+    }
+}
+
 
 	//PROTA
 
