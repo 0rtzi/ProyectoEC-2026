@@ -28,7 +28,7 @@ int prota_cont_espera_mov_min = 1;
 int prota_pixel_mov = 2;
 
 //DISPAROS
-disparo disparos[10] = {0};
+disparo disparos[10] = {{0}};
 
 int disp_cont_espera_mov = 0;
 int disp_cont_espera_mov_min = 1;
@@ -39,7 +39,7 @@ int disp_cont_espera = 0;
 int disp_cont_espera_min = 40;
 
 //SETAS
-casillaSeta matriz_setas[9][16] = {0};
+casillaSeta matriz_setas[9][16] = {{{0}}};
 
 volatile int seta_cont_espera_mostrar = 0;
 int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
@@ -49,7 +49,7 @@ int enem_cont_espera_mov=0;
 int enem_cont_espera_mov_min=1;
 
 	//CIEMPIES
-parteCiempies ciempies[50] = {0}; //El ciempies tiene un tamaño de 50 unidades
+parteCiempies ciempies[50] = {{0}}; //El ciempies tiene un tamaño de 50 unidades
 int ciempies_pixel_mov=2;
 
 
@@ -157,6 +157,37 @@ void ActualizarPosicionProta() {
 	}
     
 }
+
+void DetectarColisionProtaCiempies(){
+	int i;
+
+	//Centro del prota
+	int centroProtaX=prota.X+8;
+	int centroProtaY=prota.Y+8;
+
+	for(i=0;i<50;i++){
+		if(ciempies[i].activo==0) continue;
+
+		//Centro de la parte actual del ciempies
+		int centroCiempX=ciempies[i].X+8;
+		int centroCiempY=ciempies[i].Y+8;
+
+		if(DetectarColision(centroProtaX, centroProtaY, centroCiempX, centroCiempY)){
+			//Si existe una colision, el prota pierde 1 vida
+			prota.vidas--;
+			if(prota.vidas>0){
+				//Limpiamos la pantalla y reiniciamos el nivel
+				ACCION=MUERTE;
+			}
+			else{
+				//Si pierde todas las vidas, pasamos al estado de GAMEOVER
+				ESTADO=GAMEOVER;
+			}
+			break;
+		}
+	}
+}
+
 
 /*=================================================================================
  * FUNCIONES DISPARO
@@ -415,8 +446,9 @@ void MoverCiempies(){
 void DetectarColisionesDisparoCiempies(int idDisparo) {
     int dispX = disparos[idDisparo].X;
     int dispY = disparos[idDisparo].Y;
+	int i;
 
-    for (int i = 0; i < 50; i++) {
+    for (i = 0; i < 50; i++) {
         if (ciempies[i].activo == 0) continue;
 
         int ciempX = ciempies[i].X;
@@ -533,7 +565,8 @@ void RutAtencionTempo()
 					enem_cont_espera_mov=0;
 					MoverCiempies();
 				}
-
+				
+				DetectarColisionProtaCiempies();
 				//NO BORRAR(IMPORTANTE)
 				oamUpdate(&oamMain);
 				break;

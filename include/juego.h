@@ -109,6 +109,8 @@ extern void InicializarValoresProta();
  */
 extern void ActualizarPosicionProta();
 
+extern void DetectarColisionProtaCiempies();
+
 /*=================================================================================
  * DISPAROS
  =================================================================================*/
