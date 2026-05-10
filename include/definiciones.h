@@ -88,5 +88,10 @@ extern int ACCION;
 #define SID_CIEMPIES            51
 #define SID_CIEMPIES_MAX        100
 
+// PUNTOS
+#define PUNTOS_CIEMPIES_CABEZA  100
+#define PUNTOS_CIEMPIES_CUERPO  60
+#define PUNTOS_SETA             30
+
 /***********************2025-2026*******************************/
 

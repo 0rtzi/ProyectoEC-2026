@@ -381,11 +381,13 @@ void MoverCiempies(){
 					else {
 						BorrarCenticuerpo(SID_CIEMPIES+i, oldX, oldY);
 					}
-					ciempies[i].activo=0;
-					continue;
+					newX = BORDE_IZQUIERDO;
+					newY = -PIXELES_SPRITES;
+					ciempies[i].X = newX;
+					ciempies[i].Y = newY;
 				}
 				else if (oldY < BORDE_SUPERIOR){
-					if (i==0 || (ciempies[i-1].Y == 0 && ciempies[i-1].X % PIXELES_SPRITES !=0)){
+					if (i==0 || (ciempies[i-1].Y == 0 && ciempies[i-1].X % PIXELES_SPRITES !=0) || oldX <= BORDE_IZQUIERDO){
 						newY = oldY + ciempies_pixel_mov;
 						ciempies[i].Y = newY;
 					}
