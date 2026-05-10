@@ -94,5 +94,12 @@ extern int ACCION;
 #define PUNTOS_CIEMPIES_CUERPO  60
 #define PUNTOS_SETA             30
 
+#define PALETA1                 1
+#define PALETA2                 2
+#define PALETA3                 3
+#define PALETA4                 4
+
+extern int PALETA;
+
 /***********************2025-2026*******************************/
 

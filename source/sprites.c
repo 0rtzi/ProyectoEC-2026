@@ -27,6 +27,8 @@ u16* gfx_ciempies_cabeza_abajo;
 u16* gfx_ciempies_cabeza_derecha;
 u16* gfx_ciempies_cabeza_arriba;
 
+int PALETA;
+
 
 /* Reservar memoria para cada sprite que se quiera mostrar en pantalla */
 void memoriaReserva()
@@ -982,6 +984,29 @@ void ActualizarSpriteSetas(int id, int vidas, int x, int y){
 		false
 	);
 	oamUpdate(&oamMain);
+
+}
+
+void CambiarPaleta(){
+	switch (PALETA) {
+		case PALETA1:
+			PALETA=PALETA2;
+			EstablecerPaleta2();
+			break;
+		case PALETA2:
+			PALETA=PALETA3;
+			EstablecerPaleta3();
+			break;
+		case PALETA3:
+			PALETA=PALETA4;
+			EstablecerPaleta4();
+			break;
+		case PALETA4:
+			PALETA=PALETA1;
+			EstablecerPaleta1();
+			break;
+	}
+
 
 }
 

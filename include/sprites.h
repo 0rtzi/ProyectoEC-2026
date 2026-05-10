@@ -101,6 +101,8 @@ extern void CrearCabezaCiempies(int id, int oldDir, int X, int Y);
 
 extern void ActualizarSpritesCiempiesCabeza(int id, int oldDir, int X, int Y, int newDir, int newX, int newY);
 
+
+extern void CambiarPaleta();
 /***********************2025-2026*******************************/
 
 //Scooby-Doo

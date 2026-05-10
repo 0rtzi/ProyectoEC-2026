@@ -18,6 +18,7 @@ y en otro ejemplo de Jaeden Ameronen
 #include "rutinasAtencion.h"
 #include "fondos.h"
 #include "juego.h"
+#include "sprites.h"
 
 void juego()
 {	
@@ -25,6 +26,7 @@ void juego()
 	int tecla=0;
 	ESTADO=PARTIDA;
 	ACCION=JUEGO;
+	PALETA=PALETA1;
 
 /* Si se quiere visualizar el valor de una variable escribir %d dentro de las comillas y el nombre de la variable fuera de las comillas */
 	//iprintf("\x1b[23;5HPrueba de escritura con variable. Valor=%d", i);
@@ -120,6 +122,7 @@ void juego()
 
 				case ENEMIGOS_MUERTOS:
 					ACCION=LIMPIANDO_PANTALLA;
+					CambiarPaleta();
 					break;
 
 				case LIMPIANDO_PANTALLA:
