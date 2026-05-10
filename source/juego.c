@@ -99,7 +99,7 @@ void juego()
 			}
 		}
 	}
-	DeshabilitarInterrrupciones();
+	DeshabilitarInterrupciones();
 }
 
 /***********************2025-2026*******************************/
