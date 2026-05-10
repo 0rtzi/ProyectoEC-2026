@@ -274,6 +274,7 @@ void DetectarColisionesDisparoSetas(int idDisparo){
 				
 				if(matriz_setas[r][c].vidas<=0){
 					BorrarSeta(SID_SETA+matriz_setas[r][c].sprite_id, c*16, r*16);
+					prota.puntos += PUNTOS_SETA;
 				}
 				else{
 					ActualizarSpriteSetas(SID_SETA+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
@@ -465,8 +466,10 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
             // 2. Borrar parte del ciempiés
             if (ciempies[i].parte == 0) {
                 BorrarCabezaCiempies(SID_CIEMPIES + i, ciempDir, ciempX, ciempY);
+				prota.puntos += PUNTOS_CIEMPIES_CABEZA;
             } else {
                 BorrarCenticuerpo(SID_CIEMPIES + i, ciempX, ciempY);
+				prota.puntos += PUNTOS_CIEMPIES_CUERPO;
             }
             ciempies[i].activo = 0;
 
@@ -571,6 +574,8 @@ void RutAtencionTempo()
 				DetectarColisionProtaCiempies();
 				//NO BORRAR(IMPORTANTE)
 				oamUpdate(&oamMain);
+				iprintf("\x1b[23;5HPUNTOS: %d\n", prota.puntos);
+				//iprintf("\x1b[23;5HVIDAS: x%d", prota.vidas);
 				break;
 			
 			case MUERTE:
