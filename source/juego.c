@@ -79,6 +79,7 @@ void juego()
 				iprintf("\x1b[23;5HSe ha pulsado la tecla: %d", tecla);
 				if (tecla == A){ 
 					ESTADO = PARTIDA;
+					InicializarVariablesPartida();
 				}
 			}
 		}
@@ -115,11 +116,22 @@ void juego()
 					ACCION=LIMPIANDO_PANTALLA;
 					break;
 
+				case ENEMIGOS_MUERTOS:
+					ACCION=LIMPIANDO_PANTALLA;
+					break;
+
 				case LIMPIANDO_PANTALLA:
 					//Pause temporario
 					InhibirIntTempo();
 					//Limpia los sprites y arrays
 					LimpiarPantalla();
+
+					if (prota.vidas>0){
+						ACCION=CARGANDO_FONDO;
+					}
+					else {
+						ESTADO=GAMEOVER;
+					}
 					break;
 			}
 		}

@@ -81,8 +81,6 @@ void LimpiarPantalla(){
     // 2. Para ocultar los disparos
     for(i=0; i<10; i++){
         disparos[i].activo = 0;
-        disparos[i].X = 0;
-        disparos[i].Y = 200; // Fuera de pantalla
     }
 
     // 3. Para ocultar las setas
@@ -96,14 +94,15 @@ void LimpiarPantalla(){
     // 4. Reset CIEMPIES (Limpieza profunda)
     for(i=0; i<50; i++){
         ciempies[i].activo = 0;
-        ciempies[i].X = 0;
-        ciempies[i].Y = 200;
-        ciempies[i].direccion = DIR_ABAJO;
-        ciempies[i].parte = 0;
     }
     
     // 5. Forzar actualización inmediata del hardware
     oamUpdate(&oamMain);
+}
+
+void InicializarVariablesPartida(){
+	prota.vidas=3;
+	prota.puntos=0;
 }
 
 
@@ -112,12 +111,8 @@ void LimpiarPantalla(){
  =================================================================================*/
 
 void InicializarValoresProta(){
-	prota.vidas=3;
 	prota.X=CENTRO_HORIZONTAL;
 	prota.Y=CENTRO_VERTICAL_PROTA;
-	prota.puntos=0;
-	prota_cont_espera_mov = 0;
-
 	MostrarProta(SID_PROTA, prota.X, prota.Y);
 }
 
@@ -497,9 +492,22 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
                     }
                 }
             }
-            break; 
+			if (QuedanCiempiesVivos() == 0){
+				ACCION = ENEMIGOS_MUERTOS;
+				break; 
+			}
         }
     }
+}
+
+int QuedanCiempiesVivos(){
+	int i;
+	for(i=0;i<50;i++){
+		if(ciempies[i].activo == 1){
+			return 1;
+		}
+	}
+	return 0;
 }
 
 /*=================================================================================
@@ -511,6 +519,7 @@ void RutAtencionTeclado ()
 	int tecla = TeclaPulsada();
 	if (tecla == START){
 		InhibirIntTeclado();
+		InicializarVariablesPartida();
 		LimpiarPantalla(); //TODO: En el futuro quitamos está función de aquí.
 		ACCION = CARGANDO_FONDO;
 	}
@@ -583,7 +592,6 @@ void RutAtencionTempo()
 				break;
 
 		}
-		
 	}
 }
 

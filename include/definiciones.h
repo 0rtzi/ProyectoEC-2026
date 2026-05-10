@@ -57,7 +57,8 @@ extern int ESTADO;
 #define CARGANDO_ENEMIGOS       3
 #define JUEGO                   4
 #define MUERTE                  5
-#define LIMPIANDO_PANTALLA      6
+#define ENEMIGOS_MUERTOS        6
+#define LIMPIANDO_PANTALLA      7
 
 extern int ACCION;
 

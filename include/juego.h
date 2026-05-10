@@ -32,6 +32,8 @@ extern int RandomInt(int min, int max);
 //TODO: COMENTAR ESTA FUNCIÓN
 extern int DetectarColision(int x1, int y1, int x2, int y2);
 
+extern void InicializarVariablesPartida();
+
 /*=================================================================================
  * PROTAGONISTA (NAVE DEL JUGADOR)
  =================================================================================*/
@@ -372,6 +374,9 @@ extern void InicializarValoresCiempies();
  * @see enem_cont_espera_mov, enem_cont_espera_mov_min, ciempies_pixel_mov
  */
 extern void MoverCiempies();
+
+//TODO: Documentar función
+extern int QuedanCiempiesVivos();
 
 /*=================================================================================
  * FIN DE JUEGO.H - Curso 2025-2026
