@@ -6,6 +6,7 @@ rutinasAtencion.c
 
 #include <nds.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "definiciones.h"
 #include "perifericos.h"
 #include "fondos.h"
@@ -20,8 +21,6 @@ int ESTADO;
 int ACCION;
 int tick = 0;
 
-static unsigned int semilla = 1;
-
 //PROTAGONISTA
 protagonista prota;
 int prota_cont_espera_mov = 0;
@@ -34,10 +33,10 @@ disparo disparos[10] = {0};
 int disp_cont_espera_mov = 0;
 int disp_cont_espera_mov_min = 1;
 
-int disp_pixel_mov = 2;
+int disp_pixel_mov = 4;
 
 int disp_cont_espera = 0;
-int disp_cont_espera_min = 64;
+int disp_cont_espera_min = 40;
 
 //SETAS
 casillaSeta matriz_setas[9][16] = {0};
@@ -66,11 +65,7 @@ int DetectarColision(int x1, int y1, int x2, int y2) {
 }
 
 int RandomInt(int min, int max) {
-	if (semilla == 1 && tick != 0){
-		semilla = tick;
-	}
-	semilla = semilla * 1103515245 + 12345;
-	unsigned int numAleatorio = (semilla / 65536) % 32768;
+	int numAleatorio=rand();
 	int dif = max-min+1;
     return min + (numAleatorio % dif);
 }
@@ -78,27 +73,37 @@ int RandomInt(int min, int max) {
 void LimpiarPantalla(){
     int i, j;
 
-    //Para ocultar todos los 128 sprites de la memória OAM
+    // 1. Ocultar físicamente todos los sprites de la OAM
     oamClear(&oamMain, 0, 127);
-    oamUpdate(&oamMain);
 
-    //Para ocultar los disparos
+	oamUpdate(&oamMain);
+    
+    // 2. Para ocultar los disparos
     for(i=0; i<10; i++){
-        disparos[i].activo=0;
+        disparos[i].activo = 0;
+        disparos[i].X = 0;
+        disparos[i].Y = 200; // Fuera de pantalla
     }
 
-    //Para ocultar las setas
+    // 3. Para ocultar las setas
     for(i=0; i<9; i++){
         for(j=0; j<16; j++){
-            matriz_setas[i][j].vidas=0;
-            matriz_setas[i][j].sprite_id=0;
+            matriz_setas[i][j].vidas = 0;
+            matriz_setas[i][j].sprite_id = 0;
         }
     }
 
-    //Reset ciempies
-    for(i=0;i<50;i++){
-        ciempies[i].activo=0;
+    // 4. Reset CIEMPIES (Limpieza profunda)
+    for(i=0; i<50; i++){
+        ciempies[i].activo = 0;
+        ciempies[i].X = 0;
+        ciempies[i].Y = 200;
+        ciempies[i].direccion = DIR_ABAJO;
+        ciempies[i].parte = 0;
     }
+    
+    // 5. Forzar actualización inmediata del hardware
+    oamUpdate(&oamMain);
 }
 
 
@@ -123,7 +128,7 @@ void ActualizarPosicionProta() {
 			if (prota.Y>BORDE_SUPERIOR_PROTA){
 				BorrarProta(SID_PROTA, prota.X, prota.Y);
 				prota.Y-=prota_pixel_mov;
-				MostrarProta(0, prota.X, prota.Y);
+				MostrarProta(SID_PROTA, prota.X, prota.Y);
 			}
 		}
 		else if (teclas & (1 << ABAJO)){
@@ -173,32 +178,29 @@ void CrearDisparo(){
 	
 }
 
-void DetectarColisionesDisparo(){
-	int i;
-	for(i=0;i<10;i++){
-		if (disparos[i].activo==0){
-			continue;
-		}
-
-		DetectarColisionesSetasDisparo(i);
-	}
+void DetectarColisionesDisparo(int idDisparo){
+	DetectarColisionesDisparoSetas(idDisparo);
+	DetectarColisionesDisparoCiempies(idDisparo);
 }
 
 void MoverDisparos(){
 	int i;
 	for (i = 0; i < 10;i++){
-		if (disparos[i].activo == 1){
-			BorrarDisparo(1+i,disparos[i].X,disparos[i].Y);
-			disparos[i].Y -= disp_pixel_mov;
-
-			if (disparos[i].Y < -16) { 
-                disparos[i].activo = 0;
-            } else {
-                MostrarDisparo(1+i, disparos[i].X, disparos[i].Y);
-            }
+		if (disparos[i].activo == 0){
+			continue;
 		}
+		BorrarDisparo(SID_DISP+i,disparos[i].X,disparos[i].Y);
+		disparos[i].Y -= disp_pixel_mov;
+
+		if (disparos[i].Y < -16) { 
+			disparos[i].activo = 0;
+		} else {
+			MostrarDisparo(SID_DISP+i, disparos[i].X, disparos[i].Y);
+		}
+
+		DetectarColisionesDisparo(i);
+
 	}
-	DetectarColisionesDisparo();
 }
 
 
@@ -227,7 +229,7 @@ void InicializarValoresSetas() {
 	}
 }
 
-void DetectarColisionesSetasDisparo(int idDisparo){
+void DetectarColisionesDisparoSetas(int idDisparo){
 	int r, c;
 	for(r=0; r<9; r++){
 		for (c=0; c<16; c++){
@@ -250,26 +252,33 @@ void DetectarColisionesSetasDisparo(int idDisparo){
 	}
 }
 
-int primerIdSinSeta(){
-	int i, r, c;
-	int idSeta = 0;
+int primerIdSinSeta() {
+    int idCandidato;
+    int r, c;
+    int encontrado;
+    int maxSetas = SID_SETA_MAX - SID_SETA;
 
-	for(i=0;i<151;i++) {
-		for(r=0;r<9;r++){
-			for(c=0;c<16;c++){
-				if(matriz_setas[r][c].vidas <= 0) continue;
-				if(matriz_setas[r][c].sprite_id > idSeta){
-					idSeta++;
-					break;
-				}
-				else {
-					return idSeta;
-				}
-			}
-			if(matriz_setas[r][c].sprite_id > idSeta-1) break;
-		}
-	}
-	return idSeta;
+    // Probamos cada ID posible uno por uno
+    for (idCandidato = 0; idCandidato < maxSetas; idCandidato++) {
+        encontrado = 0; // Asumimos que no está usado
+        
+        for (r = 0; r < 9; r++) {
+            for (c = 0; c < 16; c++) {
+                // Si la casilla tiene vida y usa este ID, no nos sirve
+                if (matriz_setas[r][c].vidas > 0 && matriz_setas[r][c].sprite_id == idCandidato) {
+                    encontrado = 1;
+                    break; 
+                }
+            }
+            if (encontrado) break;
+        }
+
+        // Si recorrimos toda la matriz y nadie usaba el idCandidato, es nuestro
+        if (!encontrado) {
+            return idCandidato;
+        }
+    }
+    return -1; // No hay huecos para más sprites de setas
 }
 
 /*=================================================================================
@@ -322,8 +331,6 @@ void MoverCiempies(){
 		int newX = oldX;
 		int newY = oldY;
 		int newDir = oldDir;
-
-		// FIXME: Por ahora lo probaremos sin que se diferencie entre cabeza y cuerpo y hará lo mismo
 
 		//if (ciempies[i].parte==0){ //Estamos con la cabeza?
 
@@ -393,44 +400,44 @@ void MoverCiempies(){
 				}
 			}
 			
-			int j;
+			// int j;
 
-			//Recorre el array de disparos
-			for(j=0;j<10;j++){
-				if(disparos[j].activo == 0) continue;
+			// //Recorre el array de disparos
+			// for(j=0;j<10;j++){
+			// 	if(disparos[j].activo == 0) continue;
 
-				int dispX = disparos[j].X;
-				int dispY = disparos[j].Y;
+			// 	int dispX = disparos[j].X;
+			// 	int dispY = disparos[j].Y;
 
-				//Si colisiona la bala con el ciempies
-				if(DetectarColision(dispX+8, dispY+8, newX+8, newY+8) == 1){
-					BorrarDisparo(SID_DISP+j, dispX, dispY);
-					disparos[j].activo = 0;
+			// 	//Si colisiona la bala con el ciempies
+			// 	if(DetectarColision(dispX+8, dispY+8, newX+8, newY+8) == 1){
+			// 		BorrarDisparo(SID_DISP+j, dispX, dispY);
+			// 		disparos[j].activo = 0;
 
-					//Si es la cabeza
-					if(ciempies[i].parte == 0){
-						BorrarCabezaCiempies(SID_CIEMPIES+i, oldDir, newX, newY);
-					} else {
-						BorrarCenticuerpo(SID_CIEMPIES+i, newX, newY);
-					}
-					ciempies[i].activo = 0;
+			// 		//Si es la cabeza
+			// 		if(ciempies[i].parte == 0){
+			// 			BorrarCabezaCiempies(SID_CIEMPIES+i, oldDir, newX, newY);
+			// 		} else {
+			// 			BorrarCenticuerpo(SID_CIEMPIES+i, newX, newY);
+			// 		}
+			// 		ciempies[i].activo = 0;
 
-					//Si la siguiente posicion esta dentro de rango de matriz y esta activa
-					if(i+1<50 && ciempies[i+1].activo == 1){
-						//Borra el cuerpo y crea la cabeza
-						BorrarCenticuerpo(SID_CIEMPIES+i+1, ciempies[i+1].X, ciempies[i+1].Y);
-						ciempies[i+1].parte = 0;
-						CrearCabezaCiempies(SID_CIEMPIES+i+1, oldDir, ciempies[i+1].X, ciempies[i+1].Y);
-					}
+			// 		//Si la siguiente posicion esta dentro de rango de matriz y esta activa
+			// 		if(i+1<50 && ciempies[i+1].activo == 1){
+			// 			//Borra el cuerpo y crea la cabeza
+			// 			BorrarCenticuerpo(SID_CIEMPIES+i+1, ciempies[i+1].X, ciempies[i+1].Y);
+			// 			ciempies[i+1].parte = 0;
+			// 			CrearCabezaCiempies(SID_CIEMPIES+i+1, oldDir, ciempies[i+1].X, ciempies[i+1].Y);
+			// 		}
 
-					//Si esta en la zona del jugador sale
-					if(newY >= BORDE_SUPERIOR_PROTA) break;
-					//Crear una nueva seta en esa posición
-					matriz_setas[newX/PIXELES_SPRITES][newY/PIXELES_SPRITES].vidas = 4;
-					int idSeta = primerIdSinSeta();
-					if(idSeta+1 <= SID_SETA_MAX) MostrarSeta(SID_SETA+idSeta+1, (newX/PIXELES_SPRITES)*PIXELES_SPRITES, (newY/PIXELES_SPRITES)*PIXELES_SPRITES);
-				}
-			}
+			// 		//Si esta en la zona del jugador sale
+			// 		if(newY >= BORDE_SUPERIOR_PROTA) break;
+			// 		//Crear una nueva seta en esa posición
+			// 		matriz_setas[newX/PIXELES_SPRITES][newY/PIXELES_SPRITES].vidas = 4;
+			// 		int idSeta = primerIdSinSeta();
+			// 		if(idSeta+1 <= SID_SETA_MAX) MostrarSeta(SID_SETA+idSeta+1, (newX/PIXELES_SPRITES)*PIXELES_SPRITES, (newY/PIXELES_SPRITES)*PIXELES_SPRITES);
+			// 	}
+			// }
 
 			if(ciempies[i].activo == 1){
 				if (ciempies[i].parte == 0){
@@ -445,6 +452,59 @@ void MoverCiempies(){
 	}
 }
 
+void DetectarColisionesDisparoCiempies(int idDisparo) {
+    int dispX = disparos[idDisparo].X;
+    int dispY = disparos[idDisparo].Y;
+
+    for (int i = 0; i < 50; i++) {
+        if (ciempies[i].activo == 0) continue;
+
+        int ciempX = ciempies[i].X;
+        int ciempY = ciempies[i].Y;
+        int ciempDir = ciempies[i].direccion;
+
+        if (DetectarColision(dispX + 8, dispY + 8, ciempX + 8, ciempY + 8)) {
+            // 1. Borrar disparo
+            BorrarDisparo(SID_DISP + idDisparo, dispX, dispY);
+            disparos[idDisparo].activo = 0;
+
+            // 2. Borrar parte del ciempiés
+            if (ciempies[i].parte == 0) {
+                BorrarCabezaCiempies(SID_CIEMPIES + i, ciempDir, ciempX, ciempY);
+            } else {
+                BorrarCenticuerpo(SID_CIEMPIES + i, ciempX, ciempY);
+            }
+            ciempies[i].activo = 0;
+
+            // 3. Convertir siguiente parte en cabeza
+            if (i + 1 < 50 && ciempies[i + 1].activo == 1) {
+                BorrarCenticuerpo(SID_CIEMPIES + i + 1, ciempies[i + 1].X, ciempies[i + 1].Y);
+                ciempies[i + 1].parte = 0;
+                CrearCabezaCiempies(SID_CIEMPIES + i + 1, ciempies[i+1].direccion, ciempies[i + 1].X, ciempies[i + 1].Y);
+            }
+
+            // 4. Generar seta
+            if (ciempY < BORDE_SUPERIOR_PROTA) {
+                int fila = ciempY / PIXELES_SPRITES;
+                int col = ciempX / PIXELES_SPRITES;
+                
+                if (fila >= 0 && fila < 9 && col >= 0 && col < 16) {
+                    // Solo creamos la seta si no hay una ya allí
+                    if (matriz_setas[fila][col].vidas <= 0) {
+                        int idSetaLibre = primerIdSinSeta();
+                        if (idSetaLibre != -1) {
+                            matriz_setas[fila][col].vidas = 4;
+                            matriz_setas[fila][col].sprite_id = idSetaLibre;
+                            MostrarSeta(SID_SETA + idSetaLibre, col * 16, fila * 16);
+                        }
+                    }
+                }
+            }
+            break; 
+        }
+    }
+}
+
 /*=================================================================================
  * RUTINAS DE ATENCIÓN
  =================================================================================*/
@@ -454,6 +514,7 @@ void RutAtencionTeclado ()
 	int tecla = TeclaPulsada();
 	if (tecla == START){
 		InhibirIntTeclado();
+		LimpiarPantalla(); //TODO: En el futuro quitamos está función de aquí.
 		ACCION = CARGANDO_FONDO;
 	}
 	else if (tecla == A){
@@ -512,9 +573,9 @@ void RutAtencionTempo()
 					enem_cont_espera_mov=0;
 					MoverCiempies();
 				}
-				DetectarColisionesDisparo();
-				// FIXME: Es necesario actualizarSprites así?
-				// oamUpdate(&oamMain); //ActualizarSprites
+
+				//NO BORRAR(IMPORTANTE)
+				oamUpdate(&oamMain);
 				break;
 			
 			case MUERTE:
