@@ -103,6 +103,8 @@ void LimpiarPantalla(){
 void InicializarVariablesPartida(){
 	prota.vidas=3;
 	prota.puntos=0;
+	prota.X=CENTRO_HORIZONTAL;
+	prota.Y=CENTRO_VERTICAL_PROTA;
 }
 
 
@@ -111,8 +113,6 @@ void InicializarVariablesPartida(){
  =================================================================================*/
 
 void InicializarValoresProta(){
-	prota.X=CENTRO_HORIZONTAL;
-	prota.Y=CENTRO_VERTICAL_PROTA;
 	MostrarProta(SID_PROTA, prota.X, prota.Y);
 }
 
