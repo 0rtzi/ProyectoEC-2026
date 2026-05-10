@@ -15,7 +15,7 @@
 
 // Funciones para el tratamiento general de las interrupciones
 #define HabilitarInterrupciones() IME=1 // Habilitar todas las interrupciones
-#define DeshabilitarInterrrupciones() IME=0 // Deshabilitar todas las interrupciones
+#define DeshabilitarInterrupciones() IME=0 // Deshabilitar todas las interrupciones
 
 // Registros del teclado
 #define TECLAS_DAT	(*(vu16*)0x4000130) // Registro de datos del teclado

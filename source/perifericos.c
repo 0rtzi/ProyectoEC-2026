@@ -68,7 +68,7 @@ void HabilitarIntTeclado()
 	// Habilitar las interrupciones del teclado
 	// Para realizar esa operación, primero deshabilitar todas las interrupciones de forma general, realizar la operación, 
 	// y después volver a habilitar las interrupciones de forma general 
-	DeshabilitarInterrrupciones(); // IME=0;
+	DeshabilitarInterrupciones(); // IME=0;
 	// ESCRIBID AQUÍ VUESTRO CÓDIGO
 	// |= Realiza una operación OR bit a bit.
 	IE |= 0x1000;
@@ -76,7 +76,7 @@ void HabilitarIntTeclado()
 }
 
 void HabilitarIntTecla(int tecla){
-	DeshabilitarInterrrupciones();
+	DeshabilitarInterrupciones();
 	TECLAS_CNT |= (1 << tecla);
 	HabilitarInterrupciones();
 }
@@ -88,7 +88,7 @@ void InhibirIntTeclado()
 	// Para realizar esa operación, primero deshabilitar todas las interrupciones de forma general, realizar la operación, 
 	// y después volver a habilitar las interrupciones de forma general 
 
-	DeshabilitarInterrrupciones(); // IME=0;
+	DeshabilitarInterrupciones(); // IME=0;
 	// ESCRIBID AQUÍ VUESTRO CÓDIGO
 	// ~ sirve para hacer el complemento de un valor numérico.
 	// &= Hace una asignación AND bit a bit
@@ -97,7 +97,7 @@ void InhibirIntTeclado()
 }  
 
 void InhibirIntTecla(int tecla){
-	DeshabilitarInterrrupciones();
+	DeshabilitarInterrupciones();
 	TECLAS_CNT &= ~(1 << tecla);
 	HabilitarInterrupciones();
 }
@@ -109,7 +109,7 @@ void HabilitarIntTempo()
 	// Habilitar las interrupciones del temporizador (timer0)
 	// Para realizar esa operación, primero deshabilitar todas las interrupciones de forma general, realizar la operación, 
 	// y después volver a habilitar las interrupciones de forma general 
-	DeshabilitarInterrrupciones(); // IME=0;
+	DeshabilitarInterrupciones(); // IME=0;
 	// ESCRIBID AQUÍ VUESTRO CÓDIGO
 	IE |= 0x0008;
 	HabilitarInterrupciones(); // IME=1;
@@ -121,7 +121,7 @@ void InhibirIntTempo()
 	// Deshabilitar las interrupciones del temporizador (timer0)
 	// Para realizar esa operación, primero deshabilitar todas las interrupciones de forma general, realizar la operación, 
 	// y después volver a habilitar las interrupciones de forma general 
-	DeshabilitarInterrrupciones(); // IME=0;
+	DeshabilitarInterrupciones(); // IME=0;
 	// ESCRIBID AQUÍ VUESTRO CÓDIGO
 	IE &= ~0x0008;
 	HabilitarInterrupciones(); // IME=1;
