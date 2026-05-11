@@ -5,6 +5,8 @@ fondos.h
 -------------------------------------*/
 
 extern void visualizarFondoPrueba();
+extern void visualizarFondoMenu();
+extern void visualizarFondoMenuPulsado();
 extern void visualizarGameOver();
 
 /***********************2025-2026*******************************/

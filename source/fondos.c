@@ -10,6 +10,7 @@
 #include "fondos.h"
 #include "graficos.h"
 #include "FondoPrueba.h"
+#include "FondoMenu.h"
 #include "GameOver.h"
 #include "definiciones.h"
 
@@ -19,11 +20,17 @@ static const int DMA_CHANNEL = 3;
 /* Para cada fondo que se quiera visualizar hay que escribir un procedimiento como el siguiente */
 
 void visualizarFondoPrueba() {
-	ACCION=CARGANDO_FONDO;
 	dmaCopyHalfWords(DMA_CHANNEL,
                      FondoPruebaBitmap, // Variable que se genera automáticamente 
                      (uint16 *)BG_BMP_RAM(0), // Dirección del fondo principal 
                      FondoPruebaBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
+}
+
+void visualizarFondoMenu() {
+	dmaCopyHalfWords(DMA_CHANNEL,
+                     FondoMenuBitmap, // Variable que se genera automáticamente 
+                     (uint16 *)BG_BMP_RAM(0), // Dirección del fondo principal 
+                     FondoMenuBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
 }
 
 void visualizarGameOver() {

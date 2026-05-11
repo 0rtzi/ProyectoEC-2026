@@ -34,6 +34,8 @@ extern int DetectarColision(int x1, int y1, int x2, int y2);
 
 extern void InicializarVariablesPartida();
 
+extern void MostrarMenu();
+
 /*=================================================================================
  * PROTAGONISTA (NAVE DEL JUGADOR)
  =================================================================================*/

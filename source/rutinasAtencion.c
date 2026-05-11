@@ -106,6 +106,11 @@ void InicializarVariablesPartida(){
 	prota.nivel=0;
 	prota.X=CENTRO_HORIZONTAL;
 	prota.Y=CENTRO_VERTICAL_PROTA;
+	
+	enem_cont_espera_mov=0;
+	enem_cont_espera_mov_min=1;
+	
+	PonerEnMarchaTempo();
 }
 
 
@@ -384,7 +389,7 @@ void MoverCiempies(){
 					ciempies[i].Y = newY;
 				}
 				else if (oldY < BORDE_SUPERIOR){
-					if (i==0 || (ciempies[i-1].Y == 0 && ciempies[i-1].X % PIXELES_SPRITES !=0) || oldX <= BORDE_IZQUIERDO){
+					if (i==0 || (ciempies[i-1].Y == 0 && ciempies[i-1].X != oldX) || oldX <= BORDE_IZQUIERDO){
 						newY = oldY + ciempies_pixel_mov;
 						ciempies[i].Y = newY;
 					}
@@ -517,16 +522,21 @@ int QuedanCiempiesVivos(){
 
 void RutAtencionTeclado ()
 {
-	int tecla = TeclaPulsada();
-	if (tecla == START){
-		InhibirIntTeclado();
-		InicializarVariablesPartida();
-		LimpiarPantalla(); //TODO: En el futuro quitamos está función de aquí.
-		ACCION = CARGANDO_FONDO;
+	switch (ESTADO){
+		case MENU:
+			break;
+		case PARTIDA:
+			if (ACCION == JUEGO) {
+				int tecla = TeclaPulsada();
+				if (tecla == A){
+					CrearDisparo();
+				}
+			}
+			break;
+		case GAMEOVER:
+			break;
 	}
-	else if (tecla == A){
-		CrearDisparo();
-	}
+	
 }
 
 void RutAtencionTempo()
@@ -541,6 +551,14 @@ void RutAtencionTempo()
 	}
 
 	else if (ESTADO==PARTIDA){
+		if (prota_cont_espera_mov < prota_cont_espera_mov_min){
+			prota_cont_espera_mov++;
+		}
+		else {
+			prota_cont_espera_mov=0;
+			ActualizarPosicionProta();
+		}
+
 		switch (ACCION){
 			case CARGANDO_SETAS:
 				if (seta_cont_espera_mostrar <=seta_cont_espera_mostrar_max){
@@ -549,14 +567,6 @@ void RutAtencionTempo()
 				break;
 
 			case JUEGO:
-				if (prota_cont_espera_mov < prota_cont_espera_mov_min){
-					prota_cont_espera_mov++;
-				}
-				else {
-					prota_cont_espera_mov=0;
-					ActualizarPosicionProta();
-				}
-
 				if (disp_cont_espera_mov < disp_cont_espera_mov_min){
 					disp_cont_espera_mov++;
 				}

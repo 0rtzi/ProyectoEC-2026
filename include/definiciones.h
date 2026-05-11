@@ -96,6 +96,7 @@ extern int ACCION;
 #define PUNTOS_CENTICUERPO      60
 #define PUNTOS_SETA             30
 
+// PALETAS
 #define PALETA1                 1
 #define PALETA2                 2
 #define PALETA3                 3

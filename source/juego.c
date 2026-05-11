@@ -24,21 +24,17 @@ void juego()
 {	
 	// Definiciones de variables
 	int tecla=0;
-	ESTADO=PARTIDA;
-	ACCION=JUEGO;
+	ESTADO=MENU;
+	ACCION=CARGANDO_FONDO;
 	PALETA=PALETA1;
 
 /* Si se quiere visualizar el valor de una variable escribir %d dentro de las comillas y el nombre de la variable fuera de las comillas */
 	//iprintf("\x1b[23;5HPrueba de escritura con variable. Valor=%d", i);
-
-	ConfigurarTeclado(0x4009);
 	//ConfigurarTemporizador(57344, 0x0041); //Temporizador a 64 ticks por segundo.
 	ConfigurarTemporizador(61440,0x0041); //Temporizador a 128 ticks por segundo.
 	EstablecerVectorInt();
-	HabilitarIntTeclado();
-	HabilitarIntTempo();
-	HabilitarInterrupciones();
-	PonerEnMarchaTempo();
+	ConfigurarTeclado(0x400D);
+	MostrarMenu();
 
 	// --- CIEMPIÉS (Lado izquierdo) ---
 	iprintf("\x1b[2;3H\\ /");
@@ -78,17 +74,24 @@ void juego()
 		if (ESTADO == MENU){
 			if (TeclaDetectada()) {
 				tecla = TeclaPulsada();
-				iprintf("\x1b[23;5HSe ha pulsado la tecla: %d", tecla);
-				if (tecla == A){ 
-					ESTADO = PARTIDA;
+				//iprintf("\x1b[23;5HSe ha pulsado la tecla: %d", tecla);
+				if (tecla == START){ 
+					ESTADO=PARTIDA;
+					ACCION=CARGANDO_FONDO;
 					InicializarVariablesPartida();
 				}
+			}
+			touchRead(&PANT_DAT);
+			if (PANT_DAT.px >=50 && PANT_DAT.px <=200 && PANT_DAT.py >=100 && PANT_DAT.py <=180){
+				ESTADO=PARTIDA;
+				ACCION=CARGANDO_FONDO;
+				InicializarVariablesPartida();
 			}
 		}
 		else if (ESTADO == PARTIDA){
 			switch(ACCION) {
 				case CARGANDO_FONDO:
-					InhibirIntTeclado();
+					PonerEnMarchaTempo();
 					visualizarFondoPrueba();
 					ACCION = CARGANDO_PROTA;
 					break;
@@ -107,7 +110,7 @@ void juego()
 				case CARGANDO_ENEMIGOS:
 					InicializarValoresCiempies();
 					ACCION=JUEGO;
-					HabilitarIntTeclado();
+					HabilitarIntTecla(A);
 					break;
 				
 				case JUEGO:
@@ -150,6 +153,14 @@ void juego()
 		}
 	}
 	DeshabilitarInterrupciones();
+}
+
+void MostrarMenu(){
+	
+	HabilitarIntTeclado();
+	HabilitarIntTempo();
+	HabilitarInterrupciones();
+	visualizarFondoMenu();
 }
 
 /***********************2025-2026*******************************/
