@@ -176,14 +176,7 @@ void DetectarColisionProtaCiempies(){
 		if(DetectarColision(centroProtaX, centroProtaY, centroCiempX, centroCiempY)){
 			//Si existe una colision, el prota pierde 1 vida
 			prota.vidas--;
-			if(prota.vidas>0){
-				//Limpiamos la pantalla y reiniciamos el nivel
-				ACCION=MUERTE;
-			}
-			else{
-				//Si pierde todas las vidas, pasamos al estado de GAMEOVER
-				ESTADO=GAMEOVER;
-			}
+			ACCION=MUERTE;
 			break;
 		}
 	}
@@ -548,15 +541,18 @@ void RutAtencionTempo()
 
 	if (ESTADO == MENU){
 		InhibirIntTempo();
+		iprintf("\x1b[22;1H                                ");
 	}
 
 	else if (ESTADO==PARTIDA){
-		if (prota_cont_espera_mov < prota_cont_espera_mov_min){
-			prota_cont_espera_mov++;
-		}
-		else {
-			prota_cont_espera_mov=0;
-			ActualizarPosicionProta();
+		if(ACCION != LIMPIANDO_PANTALLA || ACCION != MUERTE){
+			if (prota_cont_espera_mov < prota_cont_espera_mov_min){
+				prota_cont_espera_mov++;
+			}
+			else {
+				prota_cont_espera_mov=0;
+				ActualizarPosicionProta();
+			}
 		}
 
 		switch (ACCION){
@@ -603,6 +599,8 @@ void RutAtencionTempo()
 				break;
 
 		}
+	} else if (ESTADO==GAMEOVER){
+		iprintf("\x1b[22;8HPUNTUACION: %d", prota.puntos);
 	}
 }
 

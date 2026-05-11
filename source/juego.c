@@ -132,6 +132,7 @@ void juego()
 				case LIMPIANDO_PANTALLA:
 					//Pause temporario
 					InhibirIntTempo();
+
 					//Limpia los sprites y arrays
 					LimpiarPantalla();
 
@@ -140,6 +141,8 @@ void juego()
 					}
 					else {
 						ESTADO=GAMEOVER;
+						iprintf("\x1b[22;1H                                ");
+						MostrarGameOver();
 					}
 					break;
 			}
@@ -147,8 +150,12 @@ void juego()
 		else if (ESTADO == GAMEOVER){
 			tecla = TeclaPulsada();
 			if(tecla == START){
+				ESTADO = PARTIDA;
+				ACCION = CARGANDO_FONDO;
+				InicializarVariablesPartida();
+			} else if(tecla == SELECT) {
 				ESTADO = MENU;
-				visualizarFondoPrueba();
+				MostrarMenu();
 			}
 		}
 	}
@@ -161,6 +168,14 @@ void MostrarMenu(){
 	HabilitarIntTempo();
 	HabilitarInterrupciones();
 	visualizarFondoMenu();
+}
+
+void MostrarGameOver(){
+	
+	HabilitarIntTeclado();
+	HabilitarIntTempo();
+	HabilitarInterrupciones();
+	visualizarGameOver();
 }
 
 /***********************2025-2026*******************************/

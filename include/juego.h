@@ -36,6 +36,8 @@ extern void InicializarVariablesPartida();
 
 extern void MostrarMenu();
 
+extern void MostrarGameOver();
+
 /*=================================================================================
  * PROTAGONISTA (NAVE DEL JUGADOR)
  =================================================================================*/
