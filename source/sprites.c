@@ -570,7 +570,7 @@ void MostrarProta(int indice, int x, int y)
 	); 
 	  
 	oamUpdate(&oamMain);  
-};
+}
 
 void BorrarProta(int indice, int x, int y)
 {
@@ -590,7 +590,7 @@ void BorrarProta(int indice, int x, int y)
 	); 
 	  
 	oamUpdate(&oamMain);  
-};
+}
 
 void MostrarDisparo(int indice, int x, int y)
 {
@@ -610,7 +610,7 @@ void MostrarDisparo(int indice, int x, int y)
 	); 
 	  
 	oamUpdate(&oamMain);  
-};
+}
 
 void BorrarDisparo(int indice, int x, int y)
 {
@@ -630,7 +630,7 @@ void BorrarDisparo(int indice, int x, int y)
 	); 
 	  
 	oamUpdate(&oamMain);  
-};
+}
 
 /* Esta función dibuja una araña en la posición x, y de pantalla. A cada rombo que se quiera mostrar en pantalla se le debe asignar un índice distinto, un valor entre 0 y 126 */
 
@@ -959,7 +959,7 @@ void MostrarPuntos(int indice, int x, int y, int cuantosPuntos)
 	); 
 	  
 	oamUpdate(&oamMain);  
-};
+}
 
 void BorrarPuntos(int indice, int x, int y, int cuantosPuntos)
 {
@@ -985,7 +985,7 @@ void BorrarPuntos(int indice, int x, int y, int cuantosPuntos)
 	); 
 
 	oamUpdate(&oamMain); 
-};
+}
 
 //Comprobar que funciona
 void CrearCabezaCiempies(int id, int oldDir, int X, int Y){
