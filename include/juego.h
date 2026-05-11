@@ -38,6 +38,8 @@ extern void MostrarMenu();
 
 extern void MostrarGameOver();
 
+extern int contador_tiempo_gameover;
+
 /*=================================================================================
  * PROTAGONISTA (NAVE DEL JUGADOR)
  =================================================================================*/

@@ -20,6 +20,7 @@ rutinasAtencion.c
 int ESTADO;
 int ACCION;
 int tick = 0;
+int contador_tiempo_gameover=0;
 
 //PROTAGONISTA
 protagonista prota;
@@ -552,6 +553,11 @@ void RutAtencionTempo()
 	}
 
 	else if (ESTADO==PARTIDA){
+		if(prota.vidas<=0){
+			ESTADO=GAMEOVER;
+			MostrarGameOver();
+			return;
+		}
 		if(ACCION != LIMPIANDO_PANTALLA || ACCION != MUERTE){
 			if (prota_cont_espera_mov < prota_cont_espera_mov_min){
 				prota_cont_espera_mov++;
@@ -607,6 +613,11 @@ void RutAtencionTempo()
 
 		}
 	} else if (ESTADO==GAMEOVER){
+		contador_tiempo_gameover++;
+		if(contador_tiempo_gameover>=1280){
+			ESTADO=MENU;
+			MostrarMenu();
+		}
 		iprintf("\x1b[22;8HPUNTUACION: %d", prota.puntos);
 	}
 }

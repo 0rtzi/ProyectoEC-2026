@@ -88,6 +88,26 @@ void juego()
 				InicializarVariablesPartida();
 			}
 		}
+		else if (ESTADO==GAMEOVER){
+			touchRead(&PANT_DAT);
+			//Botón RESTART
+			if(PANT_DAT.px>=20 && PANT_DAT.px<=110 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
+				ESTADO=PARTIDA;
+				ACCION=CARGANDO_FONDO;
+				InicializarVariablesPartida();
+			}
+			//Botón MENU
+			if(PANT_DAT.px>=140 && PANT_DAT.px<=230 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
+				ESTADO=MENU;
+				MostrarMenu();
+			}
+			//Botón START
+			if(TeclaDetectada() && TeclaPulsada()==START){
+				ESTADO=PARTIDA;
+				ACCION=CARGANDO_FONDO;
+				InicializarVariablesPartida();
+			}
+		}
 		else if (ESTADO == PARTIDA){
 			switch(ACCION) {
 				case CARGANDO_FONDO:
@@ -161,11 +181,13 @@ void MostrarMenu(){
 }
 
 void MostrarGameOver(){
-	
+	InhibirIntTecla(A);
 	HabilitarIntTeclado();
 	HabilitarIntTempo();
 	HabilitarInterrupciones();
+	contador_tiempo_gameover=0;
 	visualizarGameOver();
+	LimpiarPantalla();
 }
 
 /***********************2025-2026*******************************/

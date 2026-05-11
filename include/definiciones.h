@@ -102,6 +102,10 @@ extern int ACCION;
 #define PALETA3                 3
 #define PALETA4                 4
 
+//TIEMPOS
+  //128 ticks/seg * 10 seg
+#define contador_tiempo_gameover_max 1280 
+
 extern int PALETA;
 
 /***********************2025-2026*******************************/
