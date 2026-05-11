@@ -595,7 +595,7 @@ void RutAtencionTempo()
 				//NO BORRAR(IMPORTANTE)
 				oamUpdate(&oamMain);
 
-				iprintf("\x1b[22;5HVIDAS: x%d", prota.vidas);
+				iprintf("\x1b[22;4HVIDAS: x%d", prota.vidas);
 				iprintf("\x1b[22;17HPUNTOS: %d", prota.puntos);
 				break;
 			
