@@ -93,7 +93,7 @@ extern int ACCION;
 
 // PUNTOS
 #define PUNTOS_CIEMPIES_CABEZA  100
-#define PUNTOS_CIEMPIES_CUERPO  60
+#define PUNTOS_CENTICUERPO      60
 #define PUNTOS_SETA             30
 
 #define PALETA1                 1

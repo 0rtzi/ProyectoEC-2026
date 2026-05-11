@@ -123,6 +123,7 @@ void juego()
 				case ENEMIGOS_MUERTOS:
 					ACCION=LIMPIANDO_PANTALLA;
 					CambiarPaleta();
+					prota.nivel++;
 					break;
 
 				case LIMPIANDO_PANTALLA:

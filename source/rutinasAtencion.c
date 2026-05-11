@@ -103,6 +103,7 @@ void LimpiarPantalla(){
 void InicializarVariablesPartida(){
 	prota.vidas=3;
 	prota.puntos=0;
+	prota.nivel=0;
 	prota.X=CENTRO_HORIZONTAL;
 	prota.Y=CENTRO_VERTICAL_PROTA;
 }
@@ -464,7 +465,7 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
 				prota.puntos += PUNTOS_CIEMPIES_CABEZA;
             } else {
                 BorrarCenticuerpo(SID_CIEMPIES + i, ciempX, ciempY);
-				prota.puntos += PUNTOS_CIEMPIES_CUERPO;
+				prota.puntos += PUNTOS_CENTICUERPO;
             }
             ciempies[i].activo = 0;
 

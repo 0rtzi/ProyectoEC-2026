@@ -489,7 +489,7 @@ u8 sprite_puntos_cabeza_ciempies[256]=
 24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	 //	27	24	24	24	24	24	24	24	24	24	27	24	24	24	24	27
 25	,	24	,	24	,	24	,	25	,	25	,	24	,	24	,	24	,	24	,	27	,	24	,	24	,	24	,	24	,	27	,	 //	0	27	27	27	27	27	27	27	27	27	0	27	27	27	27	0
 27	,	27	,	0	,	27	,	27	,	27	,	27	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-}
+};
 
 u8 sprite_puntos_centicuerpo[256]=
 {
@@ -509,7 +509,7 @@ u8 sprite_puntos_centicuerpo[256]=
 27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	27	,	25	,	27	,	27	,	27	,	25	,	27	,	26	,	 //	0	26	27	27	27	27	27	26	26	27	27	27	27	27	26	0
 27	,	27	,	25	,	25	,	25	,	27	,	27	,	26	,	26	,	27	,	27	,	27	,	27	,	27	,	26	,	0	,	 //	0	0	26	26	26	26	26	0	0	26	26	26	26	26	0	0
 0	,	26	,	26	,	26	,	26	,	26	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-}
+};
 
 u8 sprite_puntos_seta[256]=
 {
@@ -529,7 +529,7 @@ u8 sprite_puntos_seta[256]=
 26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	26	,	25	,	26	,	26	,	26	,	25	,	26	,	0	,	 //	0	26	26	26	26	26	26	0	0	26	26	26	26	26	0	0
 26	,	26	,	25	,	25	,	25	,	26	,	26	,	0	,	0	,	26	,	26	,	26	,	26	,	26	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-}
+};
 
 void GuardarSpritesMemoria(){ 
 	
@@ -913,28 +913,6 @@ void MostrarCabezaRriba(int indice, int x, int y)
 	oamUpdate(&oamMain);  
 }
 
-void BorrarCabezaRriba(int indice, int x, int y) //FIXME: Porque se llama Rriba???
-{
-
-	oamSet(&oamMain, // main graphics engine context
-		indice,           // oam index (0 to 127)  
-		x, y,   // x and y pixel location of the sprite
-		0,                    // priority, lower renders last (on top)
-		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
-		SpriteSize_16x16,     
-		SpriteColorFormat_256Color, 
-		gfx_ciempies_cabeza_arriba,// +16*16/2,      // pointer to the loaded graphics
-		-1,                  // sprite rotation data  
-		false,               // double the size when rotating?
-		true,			// hide the sprite?
-		false, false, // vflip, hflip
-		false	// apply mosaic
-	); 
-
-	oamUpdate(&oamMain); 
-
-}
-
 void BorrarCabezaRriba(int indice, int x, int y)
 {
 
@@ -959,11 +937,11 @@ void BorrarCabezaRriba(int indice, int x, int y)
 
 void MostrarPuntos(int indice, int x, int y, int cuantosPuntos)
 {
-	u16* grafico = null;
+	u16* grafico = NULL;
 
 	if(cuantosPuntos==PUNTOS_CIEMPIES_CABEZA) grafico=gfx_puntos_cabeza_ciempies;
-	elseif (cuantosPuntos==PUNTOS_CIEMPIES_CUERPO) grafico=gfx_puntos_centicuerpo;
-	elseif (cuantosPuntos==PUNTOS_SETA) grafico=gfx_puntos_seta;
+	else if (cuantosPuntos==PUNTOS_CENTICUERPO) grafico=gfx_puntos_centicuerpo;
+	else if (cuantosPuntos==PUNTOS_SETA) grafico=gfx_puntos_seta;
 	
 	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
@@ -981,15 +959,15 @@ void MostrarPuntos(int indice, int x, int y, int cuantosPuntos)
 	); 
 	  
 	oamUpdate(&oamMain);  
-}
+};
 
 void BorrarPuntos(int indice, int x, int y, int cuantosPuntos)
 {
-	u16* grafico = null;
+	u16* grafico = NULL;
 
 	if(cuantosPuntos==PUNTOS_CIEMPIES_CABEZA) grafico=gfx_puntos_cabeza_ciempies;
-	elseif (cuantosPuntos==PUNTOS_CIEMPIES_CUERPO) grafico=gfx_puntos_centicuerpo;
-	elseif (cuantosPuntos==PUNTOS_SETA) grafico=gfx_puntos_seta;
+	else if (cuantosPuntos==PUNTOS_CENTICUERPO) grafico=gfx_puntos_centicuerpo;
+	else if (cuantosPuntos==PUNTOS_SETA) grafico=gfx_puntos_seta;
 
 	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
@@ -1007,8 +985,7 @@ void BorrarPuntos(int indice, int x, int y, int cuantosPuntos)
 	); 
 
 	oamUpdate(&oamMain); 
-
-}
+};
 
 //Comprobar que funciona
 void CrearCabezaCiempies(int id, int oldDir, int X, int Y){

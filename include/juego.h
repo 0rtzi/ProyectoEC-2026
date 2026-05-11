@@ -49,6 +49,7 @@ typedef struct {
     int X;          /**< Posición horizontal del protagonista en píxeles */
     int Y;          /**< Posición vertical del protagonista en píxeles */
     int puntos;     /**< Puntuación acumulada durante la partida. Comienza en 0 */
+    int nivel;
 } protagonista;
 
 /**
