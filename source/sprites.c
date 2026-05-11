@@ -892,7 +892,7 @@ void BorrarCabezaDrcha(int indice, int x, int y)
 
 }
 
-void MostrarCabezaRriba(int indice, int x, int y)
+void MostrarCabezaArriba(int indice, int x, int y)
 { 
  
 	oamSet(&oamMain, // main graphics engine context
@@ -913,7 +913,7 @@ void MostrarCabezaRriba(int indice, int x, int y)
 	oamUpdate(&oamMain);  
 }
 
-void BorrarCabezaRriba(int indice, int x, int y)
+void BorrarCabezaArriba(int indice, int x, int y)
 {
 
 	oamSet(&oamMain, // main graphics engine context

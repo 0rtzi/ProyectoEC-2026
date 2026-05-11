@@ -95,10 +95,10 @@ extern void MostrarCabezaDrcha(int indice, int x, int y);
 extern void BorrarCabezaDrcha(int indice, int x, int y);
 
 /* Esta función dibuja la cabeza mirando hacia arriba del gusano en la posición de pantalla x,y.*/
-extern void MostrarCabezaRriba(int indice, int x, int y);
+extern void MostrarCabezaArriba(int indice, int x, int y);
 
 /* Esta función borra de la pantalla la cabeza con el índice que se le indique como parámetro */
-extern void BorrarCabezaRriba(int indice, int x, int y);
+extern void BorrarCabezaArriba(int indice, int x, int y);
 
 extern void MostrarPuntos(int indice, int x, int y, int cuantosPuntos);
 
