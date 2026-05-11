@@ -515,19 +515,26 @@ int QuedanCiempiesVivos(){
 
 void RutAtencionTeclado ()
 {
+	int tecla = TeclaPulsada();
 	switch (ESTADO){
 		case MENU:
 			break;
 		case PARTIDA:
 			if (ACCION == JUEGO) {
-				int tecla = TeclaPulsada();
 				if (tecla == A){
 					CrearDisparo();
 				}
 			}
 			break;
 		case GAMEOVER:
-			break;
+			if(tecla == START){
+				ESTADO = PARTIDA;
+				ACCION = CARGANDO_FONDO;
+				InicializarVariablesPartida();
+			} else if(tecla == SELECT) {
+				ESTADO = MENU;
+				MostrarMenu();
+			}
 	}
 	
 }

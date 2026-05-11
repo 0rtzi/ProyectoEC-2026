@@ -91,6 +91,7 @@ void juego()
 		else if (ESTADO == PARTIDA){
 			switch(ACCION) {
 				case CARGANDO_FONDO:
+					iprintf("\x1b[22;1H                                ");
 					PonerEnMarchaTempo();
 					visualizarFondoPrueba();
 					ACCION = CARGANDO_PROTA;
@@ -145,17 +146,6 @@ void juego()
 						MostrarGameOver();
 					}
 					break;
-			}
-		}
-		else if (ESTADO == GAMEOVER){
-			tecla = TeclaPulsada();
-			if(tecla == START){
-				ESTADO = PARTIDA;
-				ACCION = CARGANDO_FONDO;
-				InicializarVariablesPartida();
-			} else if(tecla == SELECT) {
-				ESTADO = MENU;
-				MostrarMenu();
 			}
 		}
 	}
