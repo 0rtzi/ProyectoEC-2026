@@ -58,6 +58,14 @@ typedef struct {
     int nivel;
 } protagonista;
 
+
+typedef struct {
+    int tiempo;
+    int tipo;
+    int X;
+    int Y;
+} puntos;
+
 /**
  * @brief Instancia global del protagonista
  */

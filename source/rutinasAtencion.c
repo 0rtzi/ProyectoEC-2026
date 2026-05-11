@@ -49,10 +49,12 @@ int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
 int enem_cont_espera_mov=0;
 int enem_cont_espera_mov_min=1;
 
-	//CIEMPIES
+//CIEMPIES
 parteCiempies ciempies[50] = {{0}}; //El ciempies tiene un tamaño de 50 unidades
 int ciempies_pixel_mov=2;
 
+//PUNTOS
+puntos arrayPuntos[10] = {{-1}};
 
 /*=================================================================================
  * FUNCIONES GENERALES
@@ -268,8 +270,18 @@ void DetectarColisionesDisparoSetas(int idDisparo){
 				BorrarDisparo(1+idDisparo, disparos[idDisparo].X, disparos[idDisparo].Y);
 				
 				if(matriz_setas[r][c].vidas<=0){
+					int t=0;
+					int p=-1;
+					while(p==-1){
+						if(arrayPuntos[t].tiempo<0) p=t;
+					}
 					BorrarSeta(SID_SETA+matriz_setas[r][c].sprite_id, c*16, r*16);
 					prota.puntos += PUNTOS_SETA;
+					arrayPuntos[p].tiempo=0;
+					arrayPuntos[p].tipo=PUNTOS_SETA;
+					arrayPuntos[p].X=c*16;
+					arrayPuntos[p].Y=r*16;
+					MostrarPuntos(SID_PUNTOS+p, c*16, r*16, PUNTOS_SETA);
 				}
 				else{
 					ActualizarSpriteSetas(SID_SETA+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
@@ -458,13 +470,28 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
             BorrarDisparo(SID_DISP + idDisparo, dispX, dispY);
             disparos[idDisparo].activo = 0;
 
+			int t=0;
+			int p=-1;
+			while(p==-1){
+				if(arrayPuntos[t].tiempo<0) p=t;
+			}
             // 2. Borrar parte del ciempiés
             if (ciempies[i].parte == 0) {
                 BorrarCabezaCiempies(SID_CIEMPIES + i, ciempDir, ciempX, ciempY);
 				prota.puntos += PUNTOS_CIEMPIES_CABEZA;
+				arrayPuntos[p].tiempo=0;
+				arrayPuntos[p].tipo=PUNTOS_CIEMPIES_CABEZA;
+				arrayPuntos[p].X=ciempX;
+				arrayPuntos[p].Y=ciempY;
+				MostrarPuntos(SID_PUNTOS+p, ciempX, ciempY, PUNTOS_CIEMPIES_CABEZA);
             } else {
                 BorrarCenticuerpo(SID_CIEMPIES + i, ciempX, ciempY);
 				prota.puntos += PUNTOS_CENTICUERPO;
+				arrayPuntos[p].tiempo=0;
+				arrayPuntos[p].tipo=PUNTOS_CENTICUERPO;
+				arrayPuntos[p].X=ciempX;
+				arrayPuntos[p].Y=ciempY;
+				MostrarPuntos(SID_PUNTOS+p, ciempX, ciempY, PUNTOS_CENTICUERPO);
             }
             ciempies[i].activo = 0;
 
@@ -553,11 +580,6 @@ void RutAtencionTempo()
 	}
 
 	else if (ESTADO==PARTIDA){
-		if(prota.vidas<=0){
-			ESTADO=GAMEOVER;
-			MostrarGameOver();
-			return;
-		}
 		if(ACCION != LIMPIANDO_PANTALLA || ACCION != MUERTE){
 			if (prota_cont_espera_mov < prota_cont_espera_mov_min){
 				prota_cont_espera_mov++;
@@ -600,6 +622,17 @@ void RutAtencionTempo()
 					MoverCiempies();
 				}
 				
+				int i;
+				for(i=0;i<10;i++){
+					if(arrayPuntos[i].tiempo>=TIEMPO_CARTEL_PUNTOS){
+						BorrarPuntos(SID_PUNTOS+i, arrayPuntos[i].X, arrayPuntos[i].Y, arrayPuntos[i].tipo);
+						arrayPuntos[i].tiempo = -1;
+					}
+					if(arrayPuntos[i].tiempo>=0){
+						arrayPuntos[i].tiempo++;
+					}
+				}
+
 				DetectarColisionProtaCiempies();
 				//NO BORRAR(IMPORTANTE)
 				oamUpdate(&oamMain);
@@ -614,7 +647,7 @@ void RutAtencionTempo()
 		}
 	} else if (ESTADO==GAMEOVER){
 		contador_tiempo_gameover++;
-		if(contador_tiempo_gameover>=1280){
+		if(contador_tiempo_gameover>=contador_tiempo_gameover_max){
 			ESTADO=MENU;
 			MostrarMenu();
 		}

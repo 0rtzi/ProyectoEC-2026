@@ -95,6 +95,7 @@ extern int ACCION;
 #define PUNTOS_CIEMPIES_CABEZA  100
 #define PUNTOS_CENTICUERPO      60
 #define PUNTOS_SETA             30
+#define TIEMPO_CARTEL_PUNTOS    128
 
 // PALETAS
 #define PALETA1                 1
@@ -109,4 +110,3 @@ extern int ACCION;
 extern int PALETA;
 
 /***********************2025-2026*******************************/
-

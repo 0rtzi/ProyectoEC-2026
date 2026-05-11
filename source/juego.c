@@ -187,7 +187,6 @@ void MostrarGameOver(){
 	HabilitarInterrupciones();
 	contador_tiempo_gameover=0;
 	visualizarGameOver();
-	LimpiarPantalla();
 }
 
 /***********************2025-2026*******************************/
