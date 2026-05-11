@@ -127,6 +127,7 @@ void inicializarGraficosSprites()
 	inicializarFondos();
 	initSpriteMem();
 	memoriaReserva();
+    EstablecerPaletaEstatica();
 	EstablecerPaleta1();
 	GuardarSpritesMemoria();
 }

@@ -16,8 +16,13 @@ extern u16* gfx_ciempies_cabeza_izquierda;
 extern u16* gfx_ciempies_cabeza_abajo;
 extern u16* gfx_ciempies_cabeza_derecha;
 extern u16* gfx_ciempies_cabeza_arriba;
+extern u16* gfx_puntos_cabeza_ciempies;
+extern u16* gfx_puntos_centicuerpo;
+extern u16* gfx_puntos_seta;
 
 extern void memoriaReserva();
+
+extern void EstablecerPaletaEstatica();
 
 /* Para cada uno de los 256 valores que puede tomar un Píxel le da un color en la pantalla principal. El valor 0 es transparente y los valores sin definir, negros */
 extern void EstablecerPaleta1();
@@ -95,9 +100,13 @@ extern void MostrarCabezaRriba(int indice, int x, int y);
 /* Esta función borra de la pantalla la cabeza con el índice que se le indique como parámetro */
 extern void BorrarCabezaRriba(int indice, int x, int y);
 
-extern void BorrarCabezaCiempies(int id, int oldDir, int X, int Y);
+extern void MostrarPuntos(int indice, int x, int y, int cuantosPuntos);
+
+extern void BorrarPuntos(int indice, int x, int y, int cuantosPuntos);
 
 extern void CrearCabezaCiempies(int id, int oldDir, int X, int Y);
+
+extern void BorrarCabezaCiempies(int id, int oldDir, int X, int Y);
 
 extern void ActualizarSpritesCiempiesCabeza(int id, int oldDir, int X, int Y, int newDir, int newX, int newY);
 

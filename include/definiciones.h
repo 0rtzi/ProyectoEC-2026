@@ -88,6 +88,8 @@ extern int ACCION;
 #define SID_SETA_MAX            50
 #define SID_CIEMPIES            51
 #define SID_CIEMPIES_MAX        100
+#define SID_PUNTOS              101
+#define SID_PUNTOS_MAX          110
 
 // PUNTOS
 #define PUNTOS_CIEMPIES_CABEZA  100

@@ -26,6 +26,10 @@ u16* gfx_ciempies_cabeza_izquierda;
 u16* gfx_ciempies_cabeza_abajo;
 u16* gfx_ciempies_cabeza_derecha;
 u16* gfx_ciempies_cabeza_arriba;
+//Puntos
+u16* gfx_puntos_cabeza_ciempies;
+u16* gfx_puntos_centicuerpo;
+u16* gfx_puntos_seta;
 
 int PALETA;
 
@@ -46,6 +50,16 @@ void memoriaReserva()
 	gfx_ciempies_cabeza_abajo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfx_ciempies_cabeza_derecha= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfx_ciempies_cabeza_arriba= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_puntos_cabeza_ciempies= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_puntos_centicuerpo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+	gfx_puntos_seta= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
+}
+
+void EstablecerPaletaEstatica(){
+	SPRITE_PALETTE[24] = RGB15(31, 0, 0); /**< Rojo puro */
+	SPRITE_PALETTE[25]  = RGB15(31, 31, 31); /**< Blanco puro / Nieve */
+	SPRITE_PALETTE[26] = RGB15(31, 31,  0); /**< Amarillo láser */
+	SPRITE_PALETTE[27] = RGB15(31, 20,  0); /**< Naranja puro */
 }
 
 /* A cada uno de los 256 valores que puede tomar un píxel en la PALETA PRINCIPAL
@@ -457,6 +471,66 @@ u8 sprite_ciempies_cabeza_arriba[256]=
 };
 /* Carga en memoria cada uno de los sprites que hemos dibujado */
 
+u8 sprite_puntos_cabeza_ciempies[256]=
+{
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	27	,	27	,	27	,	0	,	27	,	27	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+0	,	27	,	24	,	24	,	24	,	27	,	24	,	24	,	27	,	24	,	24	,	25	,	24	,	24	,	24	,	25	,	 //	0	0	27	27	27	0	27	27	27	27	0	27	27	27	27	0
+24	,	24	,	25	,	25	,	24	,	24	,	25	,	24	,	24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	 //	0	27	24	24	24	27	24	24	24	24	27	24	24	24	24	27
+24	,	24	,	24	,	25	,	24	,	24	,	25	,	24	,	27	,	27	,	24	,	25	,	24	,	24	,	25	,	24	,	 //	27	24	24	25	24	24	24	25	25	24	24	24	25	25	24	24
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	27	,	27	,	0	,	27	,	27	,	27	,	27	,	0	,	 //	24	24	25	25	24	24	25	24	24	25	24	25	24	24	25	24
+24	,	24	,	27	,	24	,	24	,	24	,	24	,	27	,	25	,	24	,	24	,	24	,	25	,	25	,	24	,	24	,	 //	24	25	24	25	24	24	25	24	24	25	24	25	24	24	25	24
+24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	 //	24	24	24	25	24	24	25	24	24	25	24	25	24	24	25	24
+24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	 //	27	27	24	25	24	24	25	24	24	25	24	25	24	24	25	24
+0	,	27	,	24	,	25	,	24	,	24	,	25	,	24	,	0	,	27	,	24	,	25	,	24	,	24	,	25	,	24	,	 //	0	27	24	25	24	24	25	24	24	25	24	25	24	24	25	24
+0	,	27	,	24	,	25	,	24	,	24	,	25	,	24	,	27	,	24	,	24	,	25	,	24	,	24	,	25	,	24	,	 //	0	27	24	25	24	24	25	24	24	25	24	25	24	24	25	24
+27	,	24	,	25	,	25	,	25	,	24	,	24	,	25	,	27	,	24	,	24	,	24	,	24	,	24	,	24	,	24	,	 //	0	27	24	25	24	24	25	24	24	25	24	25	24	24	25	24
+0	,	27	,	27	,	27	,	27	,	27	,	27	,	27	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	27	24	24	25	24	24	25	24	24	25	24	25	24	24	25	24
+24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	 //	27	24	25	25	25	24	24	25	25	24	24	24	25	25	24	24
+24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	24	,	25	,	24	,	25	,	24	,	24	,	25	,	24	,	 //	27	24	24	24	24	24	24	24	24	24	27	24	24	24	24	27
+25	,	24	,	24	,	24	,	25	,	25	,	24	,	24	,	24	,	24	,	27	,	24	,	24	,	24	,	24	,	27	,	 //	0	27	27	27	27	27	27	27	27	27	0	27	27	27	27	0
+27	,	27	,	0	,	27	,	27	,	27	,	27	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+}
+
+u8 sprite_puntos_centicuerpo[256]=
+{
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	26	,	26	,	26	,	26	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+0	,	0	,	26	,	27	,	27	,	27	,	27	,	26	,	0	,	26	,	27	,	27	,	25	,	25	,	27	,	26	,	 //	0	0	0	26	26	26	26	0	0	26	26	26	26	26	0	0
+26	,	27	,	27	,	25	,	27	,	27	,	27	,	26	,	26	,	27	,	25	,	27	,	27	,	26	,	26	,	26	,	 //	0	0	26	27	27	27	27	26	26	27	27	27	27	27	26	0
+26	,	27	,	25	,	27	,	26	,	26	,	26	,	26	,	26	,	27	,	25	,	27	,	27	,	27	,	27	,	26	,	 //	0	26	27	27	25	25	27	26	27	27	25	25	25	27	27	26
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	26	,	26	,	26	,	26	,	26	,	0	,	0	,	 //	26	27	27	25	27	27	27	26	27	25	27	27	27	25	27	26
+26	,	27	,	27	,	27	,	27	,	27	,	26	,	0	,	27	,	27	,	25	,	25	,	25	,	27	,	27	,	26	,	 //	26	27	25	27	27	26	26	26	27	25	27	26	27	25	27	26
+27	,	25	,	27	,	27	,	27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	 //	26	27	25	27	26	26	26	26	27	25	27	26	27	25	27	26
+27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	 //	26	27	25	27	27	27	27	26	27	25	27	26	27	25	27	26
+26	,	27	,	25	,	25	,	25	,	25	,	27	,	27	,	26	,	27	,	25	,	27	,	27	,	27	,	25	,	27	,	 //	26	27	25	25	25	25	27	27	27	25	27	26	27	25	27	26
+26	,	27	,	25	,	27	,	27	,	27	,	25	,	27	,	26	,	27	,	25	,	27	,	27	,	27	,	25	,	27	,	 //	26	27	25	27	27	27	25	27	27	25	27	26	27	25	27	26
+26	,	27	,	27	,	25	,	25	,	25	,	27	,	27	,	0	,	26	,	27	,	27	,	27	,	27	,	27	,	26	,	 //	26	27	25	27	27	27	25	27	27	25	27	26	27	25	27	26
+0	,	0	,	26	,	26	,	26	,	26	,	26	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	26	27	25	27	27	27	25	27	27	25	27	27	27	25	27	26
+27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	 //	26	27	27	25	25	25	27	27	27	27	25	25	25	27	27	26
+27	,	25	,	27	,	26	,	27	,	25	,	27	,	26	,	27	,	25	,	27	,	27	,	27	,	25	,	27	,	26	,	 //	0	26	27	27	27	27	27	26	26	27	27	27	27	27	26	0
+27	,	27	,	25	,	25	,	25	,	27	,	27	,	26	,	26	,	27	,	27	,	27	,	27	,	27	,	26	,	0	,	 //	0	0	26	26	26	26	26	0	0	26	26	26	26	26	0	0
+0	,	26	,	26	,	26	,	26	,	26	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+}
+
+u8 sprite_puntos_seta[256]=
+{
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+0	,	26	,	26	,	26	,	26	,	26	,	26	,	0	,	0	,	26	,	25	,	25	,	25	,	25	,	26	,	26	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+0	,	26	,	26	,	26	,	26	,	26	,	25	,	26	,	0	,	0	,	0	,	0	,	0	,	26	,	25	,	26	,	 //	0	26	26	26	26	26	26	0	0	26	26	26	26	26	0	0
+0	,	0	,	0	,	26	,	26	,	26	,	25	,	26	,	0	,	0	,	0	,	26	,	25	,	25	,	26	,	26	,	 //	0	26	25	25	25	25	26	26	26	26	25	25	25	26	26	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	26	26	26	26	26	25	26	26	25	26	26	26	25	26	0
+0	,	26	,	26	,	26	,	26	,	26	,	0	,	0	,	26	,	26	,	25	,	25	,	25	,	26	,	26	,	0	,	 //	0	0	0	0	0	26	25	26	26	25	26	0	26	25	26	0
+26	,	25	,	26	,	26	,	26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	 //	0	0	0	26	26	26	25	26	26	25	26	0	26	25	26	0
+26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	 //	0	0	0	26	25	25	26	26	26	25	26	0	26	25	26	0
+0	,	0	,	0	,	26	,	26	,	26	,	25	,	26	,	0	,	0	,	0	,	0	,	0	,	26	,	25	,	26	,	 //	0	0	0	26	26	26	25	26	26	25	26	0	26	25	26	0
+0	,	0	,	0	,	0	,	0	,	26	,	25	,	26	,	0	,	26	,	26	,	26	,	26	,	26	,	25	,	26	,	 //	0	0	0	0	0	26	25	26	26	25	26	0	26	25	26	0
+0	,	26	,	25	,	25	,	25	,	25	,	26	,	26	,	0	,	26	,	26	,	26	,	26	,	26	,	26	,	0	,	 //	0	0	0	0	0	26	25	26	26	25	26	0	26	25	26	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	26	26	26	26	26	25	26	26	25	26	26	26	25	26	0
+26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	 //	0	26	25	25	25	25	26	26	26	26	25	25	25	26	26	0
+26	,	25	,	26	,	0	,	26	,	25	,	26	,	0	,	26	,	25	,	26	,	26	,	26	,	25	,	26	,	0	,	 //	0	26	26	26	26	26	26	0	0	26	26	26	26	26	0	0
+26	,	26	,	25	,	25	,	25	,	26	,	26	,	0	,	0	,	26	,	26	,	26	,	26	,	26	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+}
+
 void GuardarSpritesMemoria(){ 
 	
 int i;
@@ -839,6 +913,28 @@ void MostrarCabezaRriba(int indice, int x, int y)
 	oamUpdate(&oamMain);  
 }
 
+void BorrarCabezaRriba(int indice, int x, int y) //FIXME: Porque se llama Rriba???
+{
+
+	oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		gfx_ciempies_cabeza_arriba,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		true,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
+	); 
+
+	oamUpdate(&oamMain); 
+
+}
+
 void BorrarCabezaRriba(int indice, int x, int y)
 {
 
@@ -859,6 +955,85 @@ void BorrarCabezaRriba(int indice, int x, int y)
 
 	oamUpdate(&oamMain); 
 
+}
+
+void MostrarPuntos(int indice, int x, int y, int cuantosPuntos)
+{
+	u16* grafico = null;
+
+	if(cuantosPuntos==PUNTOS_CIEMPIES_CABEZA) grafico=gfx_puntos_cabeza_ciempies;
+	elseif (cuantosPuntos==PUNTOS_CIEMPIES_CUERPO) grafico=gfx_puntos_centicuerpo;
+	elseif (cuantosPuntos==PUNTOS_SETA) grafico=gfx_puntos_seta;
+	
+	oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		grafico,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		false,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
+	); 
+	  
+	oamUpdate(&oamMain);  
+}
+
+void BorrarPuntos(int indice, int x, int y, int cuantosPuntos)
+{
+	u16* grafico = null;
+
+	if(cuantosPuntos==PUNTOS_CIEMPIES_CABEZA) grafico=gfx_puntos_cabeza_ciempies;
+	elseif (cuantosPuntos==PUNTOS_CIEMPIES_CUERPO) grafico=gfx_puntos_centicuerpo;
+	elseif (cuantosPuntos==PUNTOS_SETA) grafico=gfx_puntos_seta;
+
+	oamSet(&oamMain, // main graphics engine context
+		indice,           // oam index (0 to 127)  
+		x, y,   // x and y pixel location of the sprite
+		0,                    // priority, lower renders last (on top)
+		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+		SpriteSize_16x16,     
+		SpriteColorFormat_256Color, 
+		grafico,// +16*16/2,      // pointer to the loaded graphics
+		-1,                  // sprite rotation data  
+		false,               // double the size when rotating?
+		true,			// hide the sprite?
+		false, false, // vflip, hflip
+		false	// apply mosaic
+	); 
+
+	oamUpdate(&oamMain); 
+
+}
+
+//Comprobar que funciona
+void CrearCabezaCiempies(int id, int oldDir, int X, int Y){
+	u16* grafico = NULL;
+	
+	if (oldDir == DIR_ARRIBA) 			grafico=gfx_ciempies_cabeza_arriba;
+	else if (oldDir == DIR_DERECHA) 		grafico=gfx_ciempies_cabeza_derecha;
+	else if (oldDir == DIR_ABAJO) 		grafico=gfx_ciempies_cabeza_abajo;
+	else if (oldDir == DIR_IZQUIERDA) 	grafico=gfx_ciempies_cabeza_izquierda;
+	
+	oamSet(&oamMain,
+		id,
+		X, Y,
+		0,
+		0,
+		SpriteSize_16x16,
+		SpriteColorFormat_256Color,
+		grafico,
+		-1,
+		false,
+		false,
+		false, false,
+		false
+	);
+	oamUpdate(&oamMain);
 }
 
 void BorrarCabezaCiempies(int id, int oldDir, int X, int Y){
@@ -883,32 +1058,6 @@ void BorrarCabezaCiempies(int id, int oldDir, int X, int Y){
 		false, false,
 		false
 	); 
-}
-
-//Comprobar que funciona
-void CrearCabezaCiempies(int id, int oldDir, int X, int Y){
-	u16* grafico = NULL;
-
-	if (oldDir == DIR_ARRIBA) 			grafico=gfx_ciempies_cabeza_arriba;
-	else if (oldDir == DIR_DERECHA) 		grafico=gfx_ciempies_cabeza_derecha;
-	else if (oldDir == DIR_ABAJO) 		grafico=gfx_ciempies_cabeza_abajo;
-	else if (oldDir == DIR_IZQUIERDA) 	grafico=gfx_ciempies_cabeza_izquierda;
-
-	oamSet(&oamMain,
-		id,
-		X, Y,
-		0,
-		0,
-		SpriteSize_16x16,
-		SpriteColorFormat_256Color,
-		grafico,
-		-1,
-		false,
-		false,
-		false, false,
-		false
-	);
-	oamUpdate(&oamMain);
 }
 
 void ActualizarSpritesCiempiesCabeza(int id, int oldDir, int X, int Y, int newDir, int newX, int newY) {
