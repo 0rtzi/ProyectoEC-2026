@@ -65,6 +65,8 @@ extern void MostrarSeta(int indice, int x, int y);
 /* Esta función borra de la pantalla la seta con el índice que se le indique como parámetro */
 extern void BorrarSeta(int indice, int x, int y);
 
+extern void BorrarSetaMuerte(int indice, int x, int y);
+
 /* Esta función actualiza el sprite de la seta a dibujar dependiendo de las vidas de esta misma*/
 extern void ActualizarSpriteSetas(int ind, int vidas, int x, int y);
 

@@ -208,6 +208,7 @@ void CrearDisparo(){
 
 void DetectarColisionesDisparo(int idDisparo){
 	DetectarColisionesDisparoSetas(idDisparo);
+	if (disparos[idDisparo].activo == 0) return;
 	DetectarColisionesDisparoCiempies(idDisparo);
 }
 
@@ -248,7 +249,7 @@ void InicializarValoresSetas() {
 				}
 				matriz_setas[i][j].sprite_id=ultId;
 				matriz_setas[i][j].vidas=4;
-				MostrarSeta(11+ultId,j*16,i*16);
+				MostrarSeta(SID_SETA+ultId,j*16,i*16);
 				//iprintf("\x1b[23;5HPosición seta: %d",ultId);
 				seta_cont_espera_mostrar = 0;
 				ultId++;
@@ -270,12 +271,13 @@ void DetectarColisionesDisparoSetas(int idDisparo){
 				BorrarDisparo(1+idDisparo, disparos[idDisparo].X, disparos[idDisparo].Y);
 				
 				if(matriz_setas[r][c].vidas<=0){
-					BorrarSeta(SID_SETA+matriz_setas[r][c].sprite_id, c*16, r*16);
+					BorrarSetaMuerte(SID_SETA+matriz_setas[r][c].sprite_id, c*16, r*16);
 					EstablecerPuntos(PUNTOS_SETA, c*16, r*16);
 				}
 				else{
 					ActualizarSpriteSetas(SID_SETA+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
 				}
+				return;
 			}
 		}
 	}
@@ -496,8 +498,9 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
             }
 			if (QuedanCiempiesVivos() == 0){
 				ACCION = ENEMIGOS_MUERTOS;
-				break; 
+				return; 
 			}
+			return;
         }
     }
 }
@@ -519,6 +522,8 @@ void EstablecerPuntos(int cuantosPuntos, int x, int y){
 		if(arrayPuntos[i].tiempo<0) p=i;
 		i++;
 	}
+
+	if (p == -1) return;
 
 	prota.puntos += cuantosPuntos;
 	arrayPuntos[p].tiempo=0;
@@ -576,7 +581,7 @@ void RutAtencionTempo()
 	}
 
 	else if (ESTADO==PARTIDA){
-		if(ACCION != LIMPIANDO_PANTALLA || ACCION != MUERTE){
+		if(ACCION != LIMPIANDO_PANTALLA && ACCION != MUERTE){
 			if (prota_cont_espera_mov < prota_cont_espera_mov_min){
 				prota_cont_espera_mov++;
 			}
