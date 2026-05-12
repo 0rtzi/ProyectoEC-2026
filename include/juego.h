@@ -393,6 +393,9 @@ extern void MoverCiempies();
 //TODO: Documentar función
 extern int QuedanCiempiesVivos();
 
+//TODO: Documentar función
+extern void EstablecerPuntos(int cuantosPuntos, int x, int y);
+
 /*=================================================================================
  * FIN DE JUEGO.H - Curso 2025-2026
  =================================================================================*/

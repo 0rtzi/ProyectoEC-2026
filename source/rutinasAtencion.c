@@ -270,18 +270,8 @@ void DetectarColisionesDisparoSetas(int idDisparo){
 				BorrarDisparo(1+idDisparo, disparos[idDisparo].X, disparos[idDisparo].Y);
 				
 				if(matriz_setas[r][c].vidas<=0){
-					int t=0;
-					int p=-1;
-					while(p==-1){
-						if(arrayPuntos[t].tiempo<0) p=t;
-					}
 					BorrarSeta(SID_SETA+matriz_setas[r][c].sprite_id, c*16, r*16);
-					prota.puntos += PUNTOS_SETA;
-					arrayPuntos[p].tiempo=0;
-					arrayPuntos[p].tipo=PUNTOS_SETA;
-					arrayPuntos[p].X=c*16;
-					arrayPuntos[p].Y=r*16;
-					MostrarPuntos(SID_PUNTOS+p, c*16, r*16, PUNTOS_SETA);
+					EstablecerPuntos(PUNTOS_SETA, c*16, r*16);
 				}
 				else{
 					ActualizarSpriteSetas(SID_SETA+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);
@@ -470,28 +460,13 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
             BorrarDisparo(SID_DISP + idDisparo, dispX, dispY);
             disparos[idDisparo].activo = 0;
 
-			int t=0;
-			int p=-1;
-			while(p==-1){
-				if(arrayPuntos[t].tiempo<0) p=t;
-			}
             // 2. Borrar parte del ciempiés
             if (ciempies[i].parte == 0) {
                 BorrarCabezaCiempies(SID_CIEMPIES + i, ciempDir, ciempX, ciempY);
-				prota.puntos += PUNTOS_CIEMPIES_CABEZA;
-				arrayPuntos[p].tiempo=0;
-				arrayPuntos[p].tipo=PUNTOS_CIEMPIES_CABEZA;
-				arrayPuntos[p].X=ciempX;
-				arrayPuntos[p].Y=ciempY;
-				MostrarPuntos(SID_PUNTOS+p, ciempX, ciempY, PUNTOS_CIEMPIES_CABEZA);
+				EstablecerPuntos(PUNTOS_CIEMPIES_CABEZA, ciempX, ciempY);
             } else {
                 BorrarCenticuerpo(SID_CIEMPIES + i, ciempX, ciempY);
-				prota.puntos += PUNTOS_CENTICUERPO;
-				arrayPuntos[p].tiempo=0;
-				arrayPuntos[p].tipo=PUNTOS_CENTICUERPO;
-				arrayPuntos[p].X=ciempX;
-				arrayPuntos[p].Y=ciempY;
-				MostrarPuntos(SID_PUNTOS+p, ciempX, ciempY, PUNTOS_CENTICUERPO);
+				EstablecerPuntos(PUNTOS_CENTICUERPO, ciempX, ciempY);
             }
             ciempies[i].activo = 0;
 
@@ -537,6 +512,21 @@ int QuedanCiempiesVivos(){
 	return 0;
 }
 
+void EstablecerPuntos(int cuantosPuntos, int x, int y){
+	int i=0;
+	int p=-1;
+	while(p==-1 && i<10){
+		if(arrayPuntos[i].tiempo<0) p=i;
+		i++;
+	}
+
+	prota.puntos += cuantosPuntos;
+	arrayPuntos[p].tiempo=0;
+	arrayPuntos[p].tipo=cuantosPuntos;
+	arrayPuntos[p].X=x;
+	arrayPuntos[p].Y=y;
+	MostrarPuntos(SID_PUNTOS+p, x, y, cuantosPuntos);
+}
 /*=================================================================================
  * RUTINAS DE ATENCIÓN
  =================================================================================*/
