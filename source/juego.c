@@ -73,36 +73,25 @@ void juego()
 	{	
 		if (ESTADO == MENU){
 			touchRead(&PANT_DAT);
-			if (PANT_DAT.px >=50 && PANT_DAT.px <=200 && PANT_DAT.py >=100 && PANT_DAT.py <=180){
-				ESTADO=PARTIDA;
-				ACCION=CARGANDO_FONDO;
-				InicializarVariablesPartida();
+			if (PANT_DAT.px >=40 && PANT_DAT.px <=235 && PANT_DAT.py >=110 && PANT_DAT.py <=180){
+				IniciarPartida();
 			}
 		}
 		else if (ESTADO==GAMEOVER){
 			touchRead(&PANT_DAT);
 			//Botón RESTART
 			if(PANT_DAT.px>=20 && PANT_DAT.px<=110 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
-				ESTADO=PARTIDA;
-				ACCION=CARGANDO_FONDO;
-				InicializarVariablesPartida();
+				IniciarPartida();
 			}
 			//Botón MENU
 			if(PANT_DAT.px>=140 && PANT_DAT.px<=230 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
 				ESTADO=MENU;
 				MostrarMenu();
 			}
-			//Botón START
-			if(TeclaDetectada() && TeclaPulsada()==START){
-				ESTADO=PARTIDA;
-				ACCION=CARGANDO_FONDO;
-				InicializarVariablesPartida();
-			}
 		}
 		else if (ESTADO == PARTIDA){
 			switch(ACCION) {
 				case CARGANDO_FONDO:
-					iprintf("\x1b[22;1H                                ");
 					PonerEnMarchaTempo();
 					visualizarFondoPrueba();
 					ACCION = CARGANDO_PROTA;
@@ -126,7 +115,6 @@ void juego()
 					break;
 				
 				case JUEGO:
-
 					break;
 
 				case MUERTE:
@@ -178,6 +166,12 @@ void MostrarGameOver(){
 	HabilitarInterrupciones();
 	contador_tiempo_gameover=0;
 	visualizarGameOver();
+}
+
+void IniciarPartida(){
+	InicializarVariablesPartida();
+	ESTADO=PARTIDA;
+	ACCION=CARGANDO_FONDO;
 }
 
 /***********************2025-2026*******************************/

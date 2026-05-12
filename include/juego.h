@@ -38,6 +38,8 @@ extern void MostrarMenu();
 
 extern void MostrarGameOver();
 
+extern void IniciarPartida();
+
 extern int contador_tiempo_gameover;
 
 /*=================================================================================

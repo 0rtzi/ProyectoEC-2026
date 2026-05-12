@@ -542,9 +542,7 @@ void RutAtencionTeclado ()
 	switch (ESTADO){
 		case MENU:
 			if(tecla == START){
-				ESTADO = PARTIDA;
-				ACCION = CARGANDO_FONDO;
-				InicializarVariablesPartida();
+				IniciarPartida();
 			}
 			break;
 		case PARTIDA:
@@ -556,9 +554,7 @@ void RutAtencionTeclado ()
 			break;
 		case GAMEOVER:
 			if(tecla == START){
-				ESTADO = PARTIDA;
-				ACCION = CARGANDO_FONDO;
-				InicializarVariablesPartida();
+				IniciarPartida();
 			} else if(tecla == SELECT) {
 				ESTADO = MENU;
 				MostrarMenu();
