@@ -536,6 +536,11 @@ void RutAtencionTeclado ()
 	int tecla = TeclaPulsada();
 	switch (ESTADO){
 		case MENU:
+			if(tecla == START){
+				ESTADO = PARTIDA;
+				ACCION = CARGANDO_FONDO;
+				InicializarVariablesPartida();
+			}
 			break;
 		case PARTIDA:
 			if (ACCION == JUEGO) {
@@ -553,6 +558,7 @@ void RutAtencionTeclado ()
 				ESTADO = MENU;
 				MostrarMenu();
 			}
+			break;
 	}
 	
 }

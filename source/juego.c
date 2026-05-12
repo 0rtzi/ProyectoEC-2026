@@ -72,15 +72,6 @@ void juego()
 	while(1)
 	{	
 		if (ESTADO == MENU){
-			if (TeclaDetectada()) {
-				tecla = TeclaPulsada();
-				//iprintf("\x1b[23;5HSe ha pulsado la tecla: %d", tecla);
-				if (tecla == START){ 
-					ESTADO=PARTIDA;
-					ACCION=CARGANDO_FONDO;
-					InicializarVariablesPartida();
-				}
-			}
 			touchRead(&PANT_DAT);
 			if (PANT_DAT.px >=50 && PANT_DAT.px <=200 && PANT_DAT.py >=100 && PANT_DAT.py <=180){
 				ESTADO=PARTIDA;
