@@ -4,7 +4,7 @@
 fondos.h
 -------------------------------------*/
 
-extern void visualizarFondoPrueba();
+extern void VisualizarFondoPrueba();
 extern void visualizarFondoMenu();
 extern void visualizarFondoMenuPulsado();
 extern void visualizarGameOver();

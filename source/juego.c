@@ -83,8 +83,7 @@ void juego()
 			case PARTIDA:	
 			switch(ACCION) {
 				case CARGANDO_FONDO:
-				PonerEnMarchaTempo();
-				visualizarFondoPrueba();
+				VisualizarFondoPrueba();
 				ACCION = CARGANDO_PROTA;
 				break;
 				

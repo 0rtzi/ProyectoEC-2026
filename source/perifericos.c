@@ -145,6 +145,7 @@ void HabilitarInterrupcionesComunes() {
 	HabilitarIntTeclado();
 	HabilitarIntTempo();
 	HabilitarInterrupciones();
+	PonerEnMarchaTempo();
 }
 
 /***********************2025-2026*******************************/
