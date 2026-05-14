@@ -69,8 +69,6 @@ void juego()
 				case CARGANDO_ENEMIGOS:
 				InicializarValoresCiempies();
 				HabilitarIntTecla(A);
-				iprintf("\x1b[22;4HVIDAS: x%d", prota.vidas);
-				iprintf("\x1b[22;17HPUNTOS: %d", prota.puntos);
 				ACCION=JUEGO;
 				break;
 				
@@ -132,6 +130,8 @@ void MostrarGameOver(){
 
 void IniciarPartida(){
 	InicializarVariablesPartida();
+	iprintf("\x1b[22;4HVIDAS: x%d", prota.vidas);
+	iprintf("\x1b[22;17HPUNTOS: %d", prota.puntos);
 	ESTADO=PARTIDA;
 	ACCION=CARGANDO_FONDO;
 }
