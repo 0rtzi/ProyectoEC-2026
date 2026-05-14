@@ -34,6 +34,7 @@ void juego()
 	ConfigurarTemporizador(61440,0x0041); //Temporizador a 128 ticks por segundo.
 	EstablecerVectorInt();
 	ConfigurarTeclado(0x400D);
+	HabilitarInterrupcionesComunes();
 	MostrarMenu();
 
 	// --- CIEMPIÉS (Lado izquierdo) ---
@@ -156,13 +157,11 @@ void juego()
 
 void MostrarMenu(){
 	iprintf("\x1b[22;1H                                ");
-	HabilitarInterrupcionesComunes();
 	visualizarFondoMenu();
 }
 
 void MostrarGameOver(){
 	InhibirIntTecla(A);
-	HabilitarInterrupcionesComunes();
 	contador_tiempo_gameover=0;
 	visualizarGameOver();
 }
