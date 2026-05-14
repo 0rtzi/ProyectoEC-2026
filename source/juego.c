@@ -93,7 +93,6 @@ void juego()
 				break;
 
 				case CARGANDO_SETAS:
-				HabilitarIntTempo();
 				InicializarValoresSetas();
 				ACCION = CARGANDO_ENEMIGOS;
 				break;
