@@ -6,7 +6,6 @@ extern u16* gfx3;
 extern u16* gfxSub;
 extern u16* gfx_prota;
 extern u16* gfx_disparo;
-extern u16* gfx_spider;
 extern u16* gfx_seta;
 extern u16* gfx_seta3;
 extern u16* gfx_seta2;
@@ -50,13 +49,6 @@ extern void MostrarDisparo(int indice, int x, int y);
 
 /* Esta función borra de la pantalla el disparo con el índice que se le indique como parámetro */
 extern void BorrarDisparo(int indice, int x, int y);
-
-
-/* Esta función dibuja una araña en la posición de pantalla x,y.*/
-extern void MostrarSpider(int indice, int x, int y);
-
-/* Esta función borra de la pantalla la araña con el índice que se le indique como parámetro */
-extern void BorrarSpider(int indice, int x, int y);
 
 
 /* Esta función dibuja una seta en la posición de pantalla x,y.*/

@@ -14,7 +14,6 @@ Código desarrollado basado en el ejemplo "Simple sprite demo" de dovoto y en ot
 
 u16* gfx_prota;
 u16* gfx_disparo;
-u16* gfx_spider;
 //Setas
 u16* gfx_seta;
 u16* gfx_seta3;
@@ -40,7 +39,6 @@ void memoriaReserva()
 	/* Por cada sprite que se quiera incluir en la pantalla principal hay que hacer algo equivalente a lo que sigue */
 	gfx_prota= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfx_disparo= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
-	gfx_spider= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfx_seta= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfx_seta3= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
 	gfx_seta2= oamAllocateGfx(&oamMain, SpriteSize_16x16, SpriteColorFormat_256Color);
@@ -266,27 +264,6 @@ u8 sprite_disparo[256] =
 24	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	24	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
 24	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	24	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
 24	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	24	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	3	3	0	0	0	0	0	0	0
-
-};
-
-u8 sprite_spider[256] = 
-{
-0	,	0	,	0	,	0	,	0	,	0	,	0	,	12	,	0	,	0	,	0	,	0	,	0	,	0	,	12	,	12	,	 //	0	0	0	0	0	0	0	12	12	0	0	0	0	0	0	0
-0	,	12	,	0	,	0	,	0	,	0	,	12	,	12	,	12	,	12	,	12	,	0	,	0	,	2	,	23	,	2	,	 //	0	0	0	0	0	0	12	12	12	12	0	0	0	0	0	0
-12	,	0	,	12	,	12	,	2	,	23	,	2	,	0	,	14	,	0	,	0	,	2	,	23	,	2	,	23	,	2	,	 //	0	12	0	0	0	0	12	12	12	12	0	0	0	0	12	0
-0	,	0	,	0	,	23	,	2	,	23	,	2	,	0	,	0	,	0	,	0	,	2	,	23	,	2	,	23	,	2	,	 //	12	12	12	0	0	2	23	2	23	2	23	0	0	12	12	12
-12	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	12	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	12	0	12	12	2	23	2	23	2	23	2	23	12	12	0	12
-12	,	12	,	0	,	0	,	0	,	0	,	12	,	0	,	23	,	2	,	23	,	0	,	0	,	12	,	12	,	12	,	 //	0	0	0	2	23	2	23	2	23	2	23	2	23	0	0	0
-2	,	23	,	2	,	23	,	12	,	12	,	0	,	12	,	23	,	2	,	23	,	2	,	23	,	0	,	0	,	0	,	 //	0	0	0	23	2	23	2	23	2	23	2	23	2	0	0	0
-2	,	23	,	2	,	23	,	2	,	0	,	0	,	0	,	23	,	2	,	23	,	2	,	23	,	0	,	0	,	0	,	 //	0	0	0	2	23	2	23	2	23	2	23	2	23	0	0	0
-0	,	0	,	0	,	23	,	2	,	23	,	2	,	23	,	0	,	0	,	0	,	2	,	23	,	2	,	23	,	2	,	 //	0	0	0	23	2	23	2	23	2	23	2	23	2	0	0	0
-0	,	0	,	0	,	23	,	2	,	23	,	2	,	23	,	0	,	12	,	0	,	2	,	23	,	2	,	23	,	2	,	 //	0	0	0	2	23	2	23	2	23	2	23	2	23	0	0	0
-12	,	12	,	12	,	12	,	2	,	23	,	2	,	23	,	12	,	0	,	0	,	12	,	12	,	2	,	23	,	2	,	 //	0	0	0	23	2	23	2	23	2	23	2	23	2	0	0	0
-0	,	0	,	0	,	0	,	0	,	0	,	2	,	23	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	2	,	 //	0	12	0	2	23	2	23	2	23	2	23	2	23	0	12	0
-2	,	23	,	2	,	23	,	2	,	0	,	0	,	0	,	23	,	2	,	23	,	2	,	23	,	0	,	0	,	0	,	 //	12	12	12	12	2	23	2	23	2	23	2	23	12	12	12	12
-2	,	23	,	2	,	23	,	2	,	0	,	0	,	0	,	23	,	2	,	23	,	2	,	23	,	0	,	12	,	0	,	 //	12	0	0	12	12	2	23	2	23	2	23	12	12	0	0	12
-2	,	23	,	2	,	23	,	12	,	12	,	12	,	12	,	23	,	2	,	23	,	12	,	12	,	0	,	0	,	12	,	 //	0	0	0	0	0	0	2	23	2	23	0	0	0	0	0	0
-2	,	23	,	0	,	0	,	0	,	0	,	0	,	0	,	23	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,	 //	0	0	0	0	0	0	0	2	23	0	0	0	0	0	0	0
 
 };
 
@@ -538,8 +515,7 @@ int i;
 	for(i = 0; i < 16 * 16 / 2; i++) 
 	{	
 		gfx_prota[i] = sprite_prota[i*2] | (sprite_prota[(i*2)+1]<<8);
-		gfx_disparo[i] = sprite_disparo[i*2] | (sprite_disparo[(i*2)+1]<<8);
-		gfx_spider[i] = sprite_spider[i*2] | (sprite_spider[(i*2)+1]<<8);		
+		gfx_disparo[i] = sprite_disparo[i*2] | (sprite_disparo[(i*2)+1]<<8);	
 		gfx_seta[i] = sprite_seta[i*2] | (sprite_seta[(i*2)+1]<<8);
 		gfx_seta3[i] = sprite_seta_3[i*2] | (sprite_seta_3[(i*2)+1]<<8);
 		gfx_seta2[i] = sprite_seta_2[i*2] | (sprite_seta_2[(i*2)+1]<<8);
@@ -633,51 +609,6 @@ void BorrarDisparo(int indice, int x, int y)
 	); 
 	  
 	oamUpdate(&oamMain);  
-}
-
-/* Esta función dibuja una araña en la posición x, y de pantalla. A cada rombo que se quiera mostrar en pantalla se le debe asignar un índice distinto, un valor entre 0 y 126 */
-
-void MostrarSpider(int indice, int x, int y)
-{ 
- 
-	oamSet(&oamMain, // main graphics engine context
-		indice,           // oam index (0 to 127)  
-		x, y,   // x and y pixel location of the sprite
-		0,                    // priority, lower renders last (on top)
-		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
-		SpriteSize_16x16,     
-		SpriteColorFormat_256Color, 
-		gfx_spider,// +16*16/2,      // pointer to the loaded graphics
-		-1,                  // sprite rotation data  
-		false,               // double the size when rotating?
-		true,			// hide the sprite?
-		false, false, // vflip, hflip
-		false	// apply mosaic
-	); 
-	  
-	oamUpdate(&oamMain);  
-}
-
-/* Esta función borra de la pantalla la araña con el índice indicado */
-void BorrarSpider(int indice, int x, int y)
-{
-
-	oamSet(&oamMain, // main graphics engine context
-		indice,           // oam index (0 to 127)  
-		x, y,   // x and y pixel location of the sprite
-		0,                    // priority, lower renders last (on top)
-		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
-		SpriteSize_16x16,     
-		SpriteColorFormat_256Color, 
-		gfx_spider,// +16*16/2,      // pointer to the loaded graphics
-		-1,                  // sprite rotation data  
-		false,               // double the size when rotating?
-		true,			// hide the sprite?
-		false, false, // vflip, hflip
-		false	// apply mosaic
-	); 
-	oamUpdate(&oamMain); 
-
 }
 
 void MostrarSeta(int indice, int x, int y)
