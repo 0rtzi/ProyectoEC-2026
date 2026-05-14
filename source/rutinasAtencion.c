@@ -392,7 +392,7 @@ void MoverCiempies(){
 					ciempies[i].Y = newY;
 				}
 				else if (oldY < BORDE_SUPERIOR){
-					if (i==0 || (ciempies[i-1].Y == 0 && ciempies[i-1].X != oldX) || oldX <= BORDE_IZQUIERDO){
+					if (i==0 || (ciempies[i-1].Y == BORDE_SUPERIOR && ciempies[i-1].X != oldX) || oldX <= BORDE_IZQUIERDO){
 						newY = oldY + ciempies_pixel_mov;
 						ciempies[i].Y = newY;
 					}
