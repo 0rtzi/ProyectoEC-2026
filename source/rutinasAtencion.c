@@ -283,7 +283,7 @@ void DetectarColisionesDisparoSetas(int idDisparo){
 	}
 }
 
-int primerIdSinSeta() {
+int PrimerIdSinSeta() {
     int idCandidato;
     int r, c;
     int encontrado;
@@ -487,7 +487,7 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
                 if (fila >= 0 && fila < 9 && col >= 0 && col < 16) {
                     // Solo creamos la seta si no hay una ya allí
                     if (matriz_setas[fila][col].vidas <= 0) {
-                        int idSetaLibre = primerIdSinSeta();
+                        int idSetaLibre = PrimerIdSinSeta();
                         if (idSetaLibre != -1) {
                             matriz_setas[fila][col].vidas = 4;
                             matriz_setas[fila][col].sprite_id = idSetaLibre;

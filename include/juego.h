@@ -29,15 +29,106 @@ extern void LimpiarPantalla();
  */
 extern int RandomInt(int min, int max);
 
-//TODO: COMENTAR ESTA FUNCIÓN
+/**
+ * @brief Detecta colisión entre dos objetos basándose en su posición en píxeles
+ * 
+ * Comprueba si dos objetos comparten la misma celda de la matriz (16×16 píxeles).
+ * Convierte las coordenadas de píxeles a índices de matriz (dividiendo entre 16)
+ * y compara si pertenecen a la misma celda.
+ * 
+ * @param[in] x1 Posición horizontal del primer objeto en píxeles
+ * @param[in] y1 Posición vertical del primer objeto en píxeles
+ * @param[in] x2 Posición horizontal del segundo objeto en píxeles
+ * @param[in] y2 Posición vertical del segundo objeto en píxeles
+ * 
+ * @return 1 si hay colisión (en la misma celda), 0 si no hay colisión
+ */
 extern int DetectarColision(int x1, int y1, int x2, int y2);
 
+/**
+ * @brief Inicializa todas las variables necesarias para el comienzo de una nueva partida
+ * 
+ * Establece los valores iniciales de:
+ * 
+ * - prota.vidas = 3 (número máximo de vidas)
+ * 
+ * - prota.puntos = 0 (reinicia la puntuación)
+ * 
+ * - prota.nivel = 0 (nivel inicial)
+ * 
+ * - prota.X = CENTRO_HORIZONTAL (posición horizontal central)
+ * 
+ * - prota.Y = CENTRO_VERTICAL_PROTA (posición vertical inferior)
+ * 
+ * - Reinicia los contadores de movimiento de enemigos
+ * 
+ * - Inicia el temporizador del juego mediante PonerEnMarchaTempo()
+ * 
+ * @note Debe llamarse al inicio de cada partida nueva antes de cambiar a estado PARTIDA
+ */
 extern void InicializarVariablesPartida();
 
+/**
+ * @brief Muestra la pantalla del menú principal y habilita las interrupciones necesarias
+ * 
+ * Realiza las siguientes operaciones:
+ * 
+ * - Habilita interrupciones del teclado mediante HabilitarIntTeclado()
+ * 
+ * - Habilita el temporizador mediante HabilitarIntTempo()
+ * 
+ * - Habilita el controlador general de interrupciones mediante HabilitarInterrupciones()
+ * 
+ * - Visualiza el fondo del menú principal mediante visualizarFondoMenu()
+ * 
+ * El menú permanece activo hasta que el jugador toque el área de inicio o presione START.
+ * Se ejecuta dentro del bucle principal cuando ESTADO == MENU.
+ * 
+ * @note Debe llamarse para mostrar el menú inicial o después de un game over
+ */
 extern void MostrarMenu();
 
+/**
+ * @brief Muestra la pantalla de fin de juego y habilita entrada del jugador
+ * 
+ * Realiza las siguientes operaciones:
+ * 
+ * - Inhibe la tecla A mediante InhibirIntTecla(A) para evitar disparos accidentales
+ * 
+ * - Habilita interrupciones del teclado mediante HabilitarIntTeclado()
+ * 
+ * - Habilita el temporizador mediante HabilitarIntTempo() para contar tiempo
+ * 
+ * - Habilita el controlador general de interrupciones mediante HabilitarInterrupciones()
+ * 
+ * - Reinicia el contador_tiempo_gameover a 0
+ * 
+ * - Visualiza la pantalla final mediante visualizarGameOver()
+ * 
+ * El jugador puede reiniciar una partida (START), volver al menú (SELECT),
+ * o esperar a que contador_tiempo_gameover alcance contador_tiempo_gameover_max
+ * para retornar automáticamente al menú.
+ * 
+ * @note Se llama cuando prota.vidas llega a 0. Se ejecuta dentro de ESTADO == GAMEOVER
+ */
 extern void MostrarGameOver();
 
+/**
+ * @brief Inicia una nueva partida desde cero
+ * 
+ * Ejecuta la secuencia de inicialización de una nueva partida:
+ * 
+ * - Llama a InicializarVariablesPartida() para resetear todos los datos
+ * 
+ * - Cambia ESTADO a PARTIDA para iniciar el estado de juego
+ * 
+ * - Establece ACCION a CARGANDO_FONDO para iniciar la máquina de estados de partida
+ * 
+ * Después de esta llamada, el bucle principal comienza a cargar progresivamente:
+ * CARGANDO_FONDO → CARGANDO_PROTA → CARGANDO_SETAS → CARGANDO_ENEMIGOS → JUEGO
+ * 
+ * @note Se llama cuando el jugador presiona START en el menú o reinicia desde game over
+ */
 extern void IniciarPartida();
 
 extern int contador_tiempo_gameover;
@@ -57,15 +148,20 @@ typedef struct {
     int X;          /**< Posición horizontal del protagonista en píxeles */
     int Y;          /**< Posición vertical del protagonista en píxeles */
     int puntos;     /**< Puntuación acumulada durante la partida. Comienza en 0 */
-    int nivel;
+    int nivel;      /**< Nivel actual del juego. Incrementa cada vez que se eliminan todos los ciempiés */
 } protagonista;
 
-
+/**
+ * @brief Estructura que representa un indicador de puntos flotante en pantalla
+ * 
+ * Almacena los datos de un indicador visual temporal que muestra la cantidad
+ * de puntos otorgados al jugador cuando destruye setas o ciempiés.
+ */
 typedef struct {
-    int tiempo;
-    int tipo;
-    int X;
-    int Y;
+    int tiempo;     /**< Contador de tiempo de visualización. Rango: -1 a TIEMPO_CARTEL_PUNTOS. -1 indica slot inactivo */
+    int tipo;       /**< Tipo de puntos (PUNTOS_SETA, PUNTOS_CIEMPIES_CABEZA, PUNTOS_CENTICUERPO) */
+    int X;          /**< Posición horizontal en píxeles donde se muestra el indicador */
+    int Y;          /**< Posición vertical en píxeles donde se muestra el indicador */
 } puntos;
 
 /**
@@ -128,6 +224,24 @@ extern void InicializarValoresProta();
  */
 extern void ActualizarPosicionProta();
 
+/**
+ * @brief Detecta colisiones entre el protagonista y todos los segmentos del ciempiés
+ * 
+ * Itera sobre todos los ciempiés activos en el array y verifica si alguno colisiona
+ * con el protagonista utilizando DetectarColision() en los centros de ambas entidades
+ * (offset +8 píxeles).
+ * 
+ * Si hay colisión:
+ * 
+ * - Decrementa prota.vidas en 1
+ * 
+ * - Cambia ACCION a MUERTE para iniciar la secuencia de pérdida de vida
+ * 
+ * - Interrumpe la búsqueda (break) ya que solo se procesa una colisión por tick
+ * 
+ * @note Debe llamarse desde RutAtencionTempo() durante ESTADO == PARTIDA && ACCION == JUEGO
+ * @see DetectarColision
+ */
 extern void DetectarColisionProtaCiempies();
 
 /*=================================================================================
@@ -215,7 +329,22 @@ extern void CrearDisparo();
  */
 extern void MoverDisparos();
 
-//TODO: COMENTAR ESTA FUNCIÓN
+/**
+ * @brief Detecta colisiones de un disparo con setas y ciempiés
+ * 
+ * Realiza las detecciones de colisión en orden:
+ * 
+ * 1. Verifica colisión con setas
+ * 
+ * 2. Si el disparo está activo, verifica colisión con ciempiés
+ * 
+ * Este orden es importante porque un disparo puede colisionar con una seta
+ * y desactivarse antes de verificar colisiones con ciempiés.
+ * 
+ * @param[in] idDisparo Índice del disparo a verificar (0-9)
+ * 
+ * @note Debe llamarse después de mover los disparos cada tick
+ */
 extern void DetectarColisionesDisparo(int idDisparo);
 
 /**
@@ -309,6 +438,31 @@ extern int seta_cont_espera_mostrar_max;
  */
 extern void InicializarValoresSetas();
 
+/**
+ * @brief Busca el primer identificador de sprite disponible para crear una nueva seta
+ * 
+ * Recorre secuencialmente todos los IDs de sprite posibles (desde 0 hasta SID_SETA_MAX - SID_SETA)
+ * y verifica en la matriz de setas (9×16) si alguno está siendo utilizado actualmente por una seta activa.
+ * 
+ * Para cada ID candidato:
+ * 
+ * - Itera sobre toda la matriz de setas buscando una celda con vidas > 0 y sprite_id igual al candidato
+ * 
+ * - Si encuentra una coincidencia, marca el ID como encontrado y pasa al siguiente candidato
+ * 
+ * - Si recorre toda la matriz sin encontrar coincidencias, retorna ese ID disponible
+ * 
+ * Esto permite reutilizar IDs de setas que fueron eliminadas (con vidas <= 0) sin causar
+ * conflictos de recursos gráficos.
+ * 
+ * @return ID de sprite disponible (0 a SID_SETA_MAX-SID_SETA-1), o -1 si no hay espacios disponibles
+ * 
+ * @note Se utiliza en DetectarColisionesDisparoCiempies() cuando el jugador dispara a un ciempiés
+ * no-cabeza para crear la seta que surge del cuerpo eliminado. Sin este mecanismo de reutilización,
+ * se agotarían rápidamente los IDs de sprites disponibles después de eliminar varias setas.
+ */
+extern int PrimerIdSinSeta();
+
 /*=================================================================================
  * ENEMIGOS
  =================================================================================*/
@@ -392,10 +546,43 @@ extern void InicializarValoresCiempies();
  */
 extern void MoverCiempies();
 
-//TODO: Documentar función
+/**
+ * @brief Verifica si quedan ciempiés activos en el juego
+ * 
+ * Recorre el array de ciempiés y busca al menos un segmento con activo=1.
+ * 
+ * @return 1 si hay al menos un ciempiés vivo, 0 si todos han sido eliminados
+ * 
+ * @note Se utiliza para detectar la victoria en una pantalla
+ */
 extern int QuedanCiempiesVivos();
 
-//TODO: Documentar función
+/**
+ * @brief Establece puntos en una posición de pantalla y actualiza la puntuación
+ * 
+ * Busca un slot disponible en el array arrayPuntos[10] (slot con tiempo < 0).
+ * Si encuentra disponibilidad:
+ * 
+ * - Incrementa prota.puntos por cuantosPuntos
+ * 
+ * - Establece el contador de tiempo del punto a 0 (visibilidad actual)
+ * 
+ * - Almacena el tipo de punto y posición (x, y)
+ * 
+ * - Dibuja el indicador visual mediante MostrarPuntos()
+ * 
+ * El indicador permanece visible mientras arrayPuntos[i].tiempo < TIEMPO_CARTEL_PUNTOS.
+ * Cuando se alcanza el tiempo máximo, la rutina de atención (RutAtencionTempo) borra 
+ * el indicador visual mediante BorrarPuntos() y reinicia el slot (tiempo = -1).
+ * 
+ * @param[in] cuantosPuntos Cantidad de puntos a otorgar (PUNTOS_SETA, PUNTOS_CIEMPIES_CABEZA, PUNTOS_CENTICUERPO)
+ * @param[in] x Posición horizontal en píxeles donde mostrar el indicador
+ * @param[in] y Posición vertical en píxeles donde mostrar el indicador
+ * 
+ * @note Se llama desde DetectarColisionesDisparoSetas() y DetectarColisionesDisparoCiempies()
+ * cuando el jugador destruye setas o ciempiés respectivamente
+ * @see RutAtencionTempo
+ */
 extern void EstablecerPuntos(int cuantosPuntos, int x, int y);
 
 /*=================================================================================
