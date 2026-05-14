@@ -653,11 +653,10 @@ void RutAtencionTempo()
 			case MUERTE:
 			contador_animacion_muerte++;
 
-			//FIXME: Muestra y borra el personaje cada tick aunque no ya esté borrado o ya se esté mostrando
-			if (contador_animacion_muerte % 16 < 8){
+			if (contador_animacion_muerte % 16 == 8){
 				BorrarProta(SID_PROTA, prota.X, prota.Y);
 			}
-			else{
+			else if (contador_animacion_muerte % 16 == 0){
 				MostrarProta(SID_PROTA, prota.X, prota.Y);
 			}
 
