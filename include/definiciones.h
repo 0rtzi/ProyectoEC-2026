@@ -32,16 +32,16 @@ touchPosition PANT_DAT;
 
 // Nombres asignados a las teclas para facilitar la comprensión de nuestro código
 
-#define A			            0
-#define B			            1
-#define SELECT			        2 
-#define START			        3
-#define DERECHA		            4 
-#define IZQUIERDA		        5
-#define ARRIBA			        6 
-#define ABAJO			        7
-#define R			            8 
-#define L			            9
+#define A			                  0
+#define B			                  1
+#define SELECT			            2 
+#define START			              3
+#define DERECHA		              4 
+#define IZQUIERDA		            5
+#define ARRIBA			            6 
+#define ABAJO			              7
+#define R			                  8 
+#define L			                  9
 
 // Nombres asignados a los estados
 #define MENU                    0
