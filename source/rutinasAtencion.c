@@ -515,6 +515,10 @@ int QuedanCiempiesVivos(){
 	return 0;
 }
 
+/*=================================================================================
+ * FUNCIONES DE PUNTOS
+ =================================================================================*/
+
 void EstablecerPuntos(int cuantosPuntos, int x, int y){
 	int i=0;
 	int p=-1;
@@ -532,6 +536,7 @@ void EstablecerPuntos(int cuantosPuntos, int x, int y){
 	arrayPuntos[p].Y=y;
 	MostrarPuntos(SID_PUNTOS+p, x, y, cuantosPuntos);
 }
+
 /*=================================================================================
  * RUTINAS DE ATENCIÓN
  =================================================================================*/
@@ -642,13 +647,14 @@ void RutAtencionTempo()
 				break;
 
 		}
-	} else if (ESTADO==GAMEOVER){
+	} 
+	
+	else if (ESTADO==GAMEOVER){
 		contador_tiempo_gameover++;
 		if(contador_tiempo_gameover>=contador_tiempo_gameover_max){
 			ESTADO=MENU;
 			MostrarMenu();
 		}
-		iprintf("\x1b[22;8HPUNTUACION: %d", prota.puntos);
 	}
 }
 

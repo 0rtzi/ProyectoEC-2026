@@ -513,6 +513,13 @@ typedef struct {
 } parteCiempies;
 
 /**
+ * @brief Array global que almacena todas las partes de ciempies del juego.
+ * 
+ * Es un array de 50 elementos que almacena estructuras parteCiempies.
+ */
+extern parteCiempies ciempies[50];
+
+/**
  * @brief Inicializa todos los valores del ciempiés al comenzar una pantalla
  * 
  * Crea y posiciona el ciempiés en la pantalla con su configuración inicial:

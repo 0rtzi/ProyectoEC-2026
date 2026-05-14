@@ -100,23 +100,23 @@ void juego()
 					
 				case CARGANDO_ENEMIGOS:
 				InicializarValoresCiempies();
-				ACCION=JUEGO;
 				HabilitarIntTecla(A);
+				ACCION=JUEGO;
 				break;
 				
 				case JUEGO:
 					break;
 
 				case MUERTE:
-				ACCION=LIMPIANDO_PANTALLA;
 				prota.X=CENTRO_HORIZONTAL;
 				prota.Y=CENTRO_VERTICAL_PROTA;
+				ACCION=LIMPIANDO_PANTALLA;
 				break;
 
 				case ENEMIGOS_MUERTOS:
-				ACCION=LIMPIANDO_PANTALLA;
 				CambiarPaleta();
 				prota.nivel++;
+				ACCION=LIMPIANDO_PANTALLA;
 				break;
 
 				case LIMPIANDO_PANTALLA:
@@ -127,9 +127,10 @@ void juego()
 					ACCION=CARGANDO_FONDO;
 				}
 				else {
-					ESTADO=GAMEOVER;
 					iprintf("\x1b[22;1H                                ");
+					iprintf("\x1b[22;8HPUNTUACION: %d", prota.puntos);
 					MostrarGameOver();
+					ESTADO=GAMEOVER;
 				}
 				break;
 			}
