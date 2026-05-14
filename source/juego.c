@@ -69,6 +69,8 @@ void juego()
 				case CARGANDO_ENEMIGOS:
 				InicializarValoresCiempies();
 				HabilitarIntTecla(A);
+				iprintf("\x1b[22;4HVIDAS: x%d", prota.vidas);
+				iprintf("\x1b[22;17HPUNTOS: %d", prota.puntos);
 				ACCION=JUEGO;
 				break;
 				

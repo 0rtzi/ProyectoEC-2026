@@ -131,6 +131,8 @@ extern void MostrarGameOver();
  */
 extern void IniciarPartida();
 
+extern void MostrarASCIIArt();
+
 extern int contador_tiempo_gameover;
 extern int timer_pTactil_gameover;
 

@@ -181,6 +181,7 @@ void DetectarColisionProtaCiempies(){
 		if(DetectarColision(centroProtaX, centroProtaY, centroCiempX, centroCiempY)){
 			//Si existe una colision, el prota pierde 1 vida
 			prota.vidas--;
+			iprintf("\x1b[22;4HVIDAS: x%d", prota.vidas);
 			ACCION=MUERTE;
 			contador_animacion_muerte = 0;
 			break;
@@ -541,6 +542,7 @@ void EstablecerPuntos(int cuantosPuntos, int x, int y){
 	arrayPuntos[p].X=x;
 	arrayPuntos[p].Y=y;
 	MostrarPuntos(SID_PUNTOS+p, x, y, cuantosPuntos);
+	iprintf("\x1b[22;17HPUNTOS: %d", prota.puntos);
 }
 
 /*=================================================================================
@@ -645,9 +647,6 @@ void RutAtencionTempo()
 				DetectarColisionProtaCiempies();
 				//NO BORRAR(IMPORTANTE)
 				oamUpdate(&oamMain);
-
-				iprintf("\x1b[22;4HVIDAS: x%d", prota.vidas);
-				iprintf("\x1b[22;17HPUNTOS: %d", prota.puntos);
 				break;
 			
 			case MUERTE:
