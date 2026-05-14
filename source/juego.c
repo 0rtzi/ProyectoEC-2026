@@ -110,9 +110,6 @@ void juego()
 					break;
 
 				case MUERTE:
-				prota.X=CENTRO_HORIZONTAL;
-				prota.Y=CENTRO_VERTICAL_PROTA;
-				ACCION=LIMPIANDO_PANTALLA;
 				break;
 
 				case ENEMIGOS_MUERTOS:

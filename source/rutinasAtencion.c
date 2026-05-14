@@ -28,6 +28,7 @@ protagonista prota;
 int prota_cont_espera_mov = 0;
 int prota_cont_espera_mov_min = 1;
 int prota_pixel_mov = 2;
+int contador_animacion_muerte = 0;
 
 //DISPAROS
 disparo disparos[10] = {{0}};
@@ -105,7 +106,7 @@ void LimpiarPantalla(){
 }
 
 void InicializarVariablesPartida(){
-	prota.vidas=1;
+	prota.vidas=3;
 	prota.puntos=0;
 	prota.nivel=0;
 	prota.X=CENTRO_HORIZONTAL;
@@ -181,6 +182,7 @@ void DetectarColisionProtaCiempies(){
 			//Si existe una colision, el prota pierde 1 vida
 			prota.vidas--;
 			ACCION=MUERTE;
+			contador_animacion_muerte = 0;
 			break;
 		}
 	}
@@ -646,6 +648,21 @@ void RutAtencionTempo()
 				break;
 			
 			case MUERTE:
+			contador_animacion_muerte++;
+
+			if (contador_animacion_muerte % 16 < 8){
+				BorrarProta(SID_PROTA, prota.X, prota.Y);
+			}
+			else{
+				MostrarProta(SID_PROTA, prota.X, prota.Y);
+			}
+
+			if(contador_animacion_muerte >= 128){
+				prota.X = CENTRO_HORIZONTAL;
+				prota.Y = CENTRO_VERTICAL_PROTA;
+				ACCION = LIMPIANDO_PANTALLA;
+			}
+
 				break;
 
 		}
