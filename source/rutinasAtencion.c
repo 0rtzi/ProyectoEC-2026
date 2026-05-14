@@ -21,6 +21,7 @@ int ESTADO;
 int ACCION;
 int tick = 0;
 int contador_tiempo_gameover=0;
+int timer_pTactil_gameover;
 
 //PROTAGONISTA
 protagonista prota;
@@ -104,7 +105,7 @@ void LimpiarPantalla(){
 }
 
 void InicializarVariablesPartida(){
-	prota.vidas=3;
+	prota.vidas=1;
 	prota.puntos=0;
 	prota.nivel=0;
 	prota.X=CENTRO_HORIZONTAL;
@@ -577,8 +578,9 @@ void RutAtencionTempo()
 	}
 
 	if (ESTADO == MENU){
-		InhibirIntTempo();
-		iprintf("\x1b[22;1H                                ");
+		if (timer_pTactil_gameover > 0){
+			timer_pTactil_gameover--;
+		}
 	}
 
 	else if (ESTADO==PARTIDA){

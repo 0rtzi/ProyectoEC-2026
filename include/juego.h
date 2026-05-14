@@ -132,6 +132,7 @@ extern void MostrarGameOver();
 extern void IniciarPartida();
 
 extern int contador_tiempo_gameover;
+extern int timer_pTactil_gameover;
 
 /*=================================================================================
  * PROTAGONISTA (NAVE DEL JUGADOR)

@@ -73,6 +73,7 @@ void juego()
 	{	
 		switch (ESTADO){
 			case MENU:
+			if (timer_pTactil_gameover > 0) break;
 			touchRead(&PANT_DAT);
 			if (PANT_DAT.px >=40 && PANT_DAT.px <=235 && PANT_DAT.py >=110 && PANT_DAT.py <=180){
 				IniciarPartida();
@@ -120,7 +121,6 @@ void juego()
 				break;
 
 				case LIMPIANDO_PANTALLA:
-				InhibirIntTempo();
 				LimpiarPantalla();
 
 				if (prota.vidas>0){
@@ -144,8 +144,9 @@ void juego()
 			}
 			//Botón MENU
 			if(PANT_DAT.px>=140 && PANT_DAT.px<=230 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
-				ESTADO=MENU;
 				MostrarMenu();
+				timer_pTactil_gameover = 256;
+				ESTADO=MENU;
 			}				
 			break;
 		}
@@ -154,6 +155,7 @@ void juego()
 }
 
 void MostrarMenu(){
+	iprintf("\x1b[22;1H                                ");
 	HabilitarInterrupcionesComunes();
 	visualizarFondoMenu();
 }
