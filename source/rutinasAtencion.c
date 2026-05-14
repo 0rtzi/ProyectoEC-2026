@@ -45,7 +45,7 @@ int disp_cont_espera_min = 40;
 casillaSeta matriz_setas[9][16] = {{{0}}};
 
 volatile int seta_cont_espera_mostrar = 0;
-int seta_cont_espera_mostrar_max = 32; //4 veces por segundo aparece una seta
+int seta_cont_espera_mostrar_min = 32; //4 veces por segundo aparece una seta
 
 //ENEMIGOS
 int enem_cont_espera_mov=0;
@@ -247,8 +247,8 @@ void InicializarValoresSetas() {
 		int j;
 		for (j=0; j<16; j++){
 			if (RandomInt(0,6)==0){
-				while (seta_cont_espera_mostrar < seta_cont_espera_mostrar_max){
-					//Hasta que el valor de seta_cont_espera_mostrar sea mayor o igual que seta_cont_espera_mostrar_max
+				while (seta_cont_espera_mostrar < seta_cont_espera_mostrar_min){
+					//Hasta que el valor de seta_cont_espera_mostrar sea mayor o igual que seta_cont_espera_mostrar_min
 				}
 				matriz_setas[i][j].sprite_id=ultId;
 				matriz_setas[i][j].vidas=4;
@@ -599,7 +599,7 @@ void RutAtencionTempo()
 
 		switch (ACCION){
 			case CARGANDO_SETAS:
-				if (seta_cont_espera_mostrar <=seta_cont_espera_mostrar_max){
+				if (seta_cont_espera_mostrar <=seta_cont_espera_mostrar_min){
 					seta_cont_espera_mostrar++;
 				}
 				break;

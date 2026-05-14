@@ -427,7 +427,7 @@ extern volatile int seta_cont_espera_mostrar;
  * Define cada cuántos ticks se debe actualizar la visualización de las setas.
  * Controla la velocidad de refresco visual de los obstáculos.
  */
-extern int seta_cont_espera_mostrar_max;
+extern int seta_cont_espera_mostrar_min;
 
 /**
  * @brief Inicializa la matriz de setas limpiando todas las celdas
