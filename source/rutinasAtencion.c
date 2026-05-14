@@ -500,6 +500,7 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
                     }
                 }
             }
+			//FIXME: Bucle dentro de bucle?
 			if (QuedanCiempiesVivos() == 0){
 				ACCION = ENEMIGOS_MUERTOS;
 				return; 
@@ -509,6 +510,7 @@ void DetectarColisionesDisparoCiempies(int idDisparo) {
     }
 }
 
+//TODO: Esto está comentado?
 int QuedanCiempiesVivos(){
 	int i;
 	for(i=0;i<50;i++){
@@ -651,6 +653,7 @@ void RutAtencionTempo()
 			case MUERTE:
 			contador_animacion_muerte++;
 
+			//FIXME: Muestra y borra el personaje cada tick aunque no ya esté borrado o ya se esté mostrando
 			if (contador_animacion_muerte % 16 < 8){
 				BorrarProta(SID_PROTA, prota.X, prota.Y);
 			}
