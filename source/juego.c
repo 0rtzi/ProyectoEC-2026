@@ -36,38 +36,7 @@ void juego()
 	ConfigurarTeclado(0x400D);
 	HabilitarInterrupcionesComunes();
 	MostrarMenu();
-
-	// --- CIEMPIÉS (Lado izquierdo) ---
-	iprintf("\x1b[2;3H\\ /");
-	iprintf("\x1b[3;2H(O.O)");
-	iprintf("\x1b[4;2H,( )");
-	iprintf("\x1b[5;3H( ),");
-	iprintf("\x1b[6;4H( ),");
-	iprintf("\x1b[7;5H( ),");
-	iprintf("\x1b[8;4H( ),");
-	iprintf("\x1b[9;3H( ),");
-	iprintf("\x1b[10;2H,( )");
-	iprintf("\x1b[11;1H,( )");
-	iprintf("\x1b[12;2H,( )");
-	iprintf("\x1b[13;3H( ),");
-	iprintf("\x1b[14;4H( )");
-	iprintf("\x1b[15;4H( )");
-	iprintf("\x1b[16;3H( )");
-	iprintf("\x1b[17;3H v");
-
-	// --- TÍTULO "CENTI" (Lado derecho superior) ---
-	iprintf("\x1b[5;11H ### ### # # ### ###");
-	iprintf("\x1b[6;11H #   #   # #  #   # ");
-	iprintf("\x1b[7;11H #   ##  ###  #   # ");
-	iprintf("\x1b[8;11H #   #   # #  #   # ");
-	iprintf("\x1b[9;11H ### ### # #  #  ###");
-
-	// --- TÍTULO "PEDE" (Lado derecho inferior) ---
-	iprintf("\x1b[11;13H ### ### ### ###");
-	iprintf("\x1b[12;13H # # #   # # #  ");
-	iprintf("\x1b[13;13H ### ##  # # ## ");
-	iprintf("\x1b[14;13H #   #   # # #  ");
-	iprintf("\x1b[15;13H #   ### ### ###");
+	MostrarASCIIArt();
 
 
 	while(1)
@@ -163,6 +132,40 @@ void IniciarPartida(){
 	InicializarVariablesPartida();
 	ESTADO=PARTIDA;
 	ACCION=CARGANDO_FONDO;
+}
+
+void MostrarASCIIArt(){
+// --- CIEMPIÉS (Lado izquierdo) ---
+	iprintf("\x1b[2;3H\\ /");
+	iprintf("\x1b[3;2H(O.O)");
+	iprintf("\x1b[4;2H,( )");
+	iprintf("\x1b[5;3H( ),");
+	iprintf("\x1b[6;4H( ),");
+	iprintf("\x1b[7;5H( ),");
+	iprintf("\x1b[8;4H( ),");
+	iprintf("\x1b[9;3H( ),");
+	iprintf("\x1b[10;2H,( )");
+	iprintf("\x1b[11;1H,( )");
+	iprintf("\x1b[12;2H,( )");
+	iprintf("\x1b[13;3H( ),");
+	iprintf("\x1b[14;4H( )");
+	iprintf("\x1b[15;4H( )");
+	iprintf("\x1b[16;3H( )");
+	iprintf("\x1b[17;3H v");
+
+	// --- TÍTULO "CENTI" (Lado derecho superior) ---
+	iprintf("\x1b[5;11H ### ### # # ### ###");
+	iprintf("\x1b[6;11H #   #   # #  #   # ");
+	iprintf("\x1b[7;11H #   ##  ###  #   # ");
+	iprintf("\x1b[8;11H #   #   # #  #   # ");
+	iprintf("\x1b[9;11H ### ### # #  #  ###");
+
+	// --- TÍTULO "PEDE" (Lado derecho inferior) ---
+	iprintf("\x1b[11;13H ### ### ### ###");
+	iprintf("\x1b[12;13H # # #   # # #  ");
+	iprintf("\x1b[13;13H ### ##  # # ## ");
+	iprintf("\x1b[14;13H #   #   # # #  ");
+	iprintf("\x1b[15;13H #   ### ### ###");
 }
 
 /***********************2025-2026*******************************/
