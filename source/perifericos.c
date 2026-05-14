@@ -140,5 +140,12 @@ void PararTempo()
 	TIMER0_CNT &=~ 0x0080;
 }
 
+// Función auxiliar para habilitar interrupciones comunes
+void HabilitarInterrupcionesComunes() {
+	HabilitarIntTeclado();
+	HabilitarIntTempo();
+	HabilitarInterrupciones();
+}
+
 /***********************2025-2026*******************************/
 

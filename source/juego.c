@@ -71,13 +71,71 @@ void juego()
 
 	while(1)
 	{	
-		if (ESTADO == MENU){
+		switch (ESTADO){
+			case MENU:
 			touchRead(&PANT_DAT);
 			if (PANT_DAT.px >=40 && PANT_DAT.px <=235 && PANT_DAT.py >=110 && PANT_DAT.py <=180){
 				IniciarPartida();
 			}
-		}
-		else if (ESTADO==GAMEOVER){
+			break;
+
+			case PARTIDA:	
+			switch(ACCION) {
+				case CARGANDO_FONDO:
+				PonerEnMarchaTempo();
+				visualizarFondoPrueba();
+				ACCION = CARGANDO_PROTA;
+				break;
+				
+				case CARGANDO_PROTA:
+				InicializarValoresProta();
+				ACCION = CARGANDO_SETAS;
+				break;
+
+				case CARGANDO_SETAS:
+				HabilitarIntTempo();
+				InicializarValoresSetas();
+				ACCION = CARGANDO_ENEMIGOS;
+				break;
+					
+				case CARGANDO_ENEMIGOS:
+				InicializarValoresCiempies();
+				ACCION=JUEGO;
+				HabilitarIntTecla(A);
+				break;
+				
+				case JUEGO:
+					break;
+
+				case MUERTE:
+				ACCION=LIMPIANDO_PANTALLA;
+				prota.X=CENTRO_HORIZONTAL;
+				prota.Y=CENTRO_VERTICAL_PROTA;
+				break;
+
+				case ENEMIGOS_MUERTOS:
+				ACCION=LIMPIANDO_PANTALLA;
+				CambiarPaleta();
+				prota.nivel++;
+				break;
+
+				case LIMPIANDO_PANTALLA:
+				InhibirIntTempo();
+				LimpiarPantalla();
+
+				if (prota.vidas>0){
+					ACCION=CARGANDO_FONDO;
+				}
+				else {
+					ESTADO=GAMEOVER;
+					iprintf("\x1b[22;1H                                ");
+					MostrarGameOver();
+				}
+				break;
+			}
+			break;
+
+			case GAMEOVER:
 			touchRead(&PANT_DAT);
 			//Botón RESTART
 			if(PANT_DAT.px>=20 && PANT_DAT.px<=110 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
@@ -87,83 +145,21 @@ void juego()
 			if(PANT_DAT.px>=140 && PANT_DAT.px<=230 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
 				ESTADO=MENU;
 				MostrarMenu();
-			}
-		}
-		else if (ESTADO == PARTIDA){
-			switch(ACCION) {
-				case CARGANDO_FONDO:
-					PonerEnMarchaTempo();
-					visualizarFondoPrueba();
-					ACCION = CARGANDO_PROTA;
-					break;
-				
-				case CARGANDO_PROTA:
-					InicializarValoresProta();
-					ACCION = CARGANDO_SETAS;
-					break;
-
-				case CARGANDO_SETAS:
-					HabilitarIntTempo();
-					InicializarValoresSetas();
-					ACCION = CARGANDO_ENEMIGOS;
-					break;
-					
-				case CARGANDO_ENEMIGOS:
-					InicializarValoresCiempies();
-					ACCION=JUEGO;
-					HabilitarIntTecla(A);
-					break;
-				
-				case JUEGO:
-					break;
-
-				case MUERTE:
-					ACCION=LIMPIANDO_PANTALLA;
-					prota.X=CENTRO_HORIZONTAL;
-					prota.Y=CENTRO_VERTICAL_PROTA;
-					break;
-
-				case ENEMIGOS_MUERTOS:
-					ACCION=LIMPIANDO_PANTALLA;
-					CambiarPaleta();
-					prota.nivel++;
-					break;
-
-				case LIMPIANDO_PANTALLA:
-					//Pause temporario
-					InhibirIntTempo();
-
-					//Limpia los sprites y arrays
-					LimpiarPantalla();
-
-					if (prota.vidas>0){
-						ACCION=CARGANDO_FONDO;
-					}
-					else {
-						ESTADO=GAMEOVER;
-						iprintf("\x1b[22;1H                                ");
-						MostrarGameOver();
-					}
-					break;
-			}
+			}				
+			break;
 		}
 	}
 	DeshabilitarInterrupciones();
 }
 
 void MostrarMenu(){
-	
-	HabilitarIntTeclado();
-	HabilitarIntTempo();
-	HabilitarInterrupciones();
+	HabilitarInterrupcionesComunes();
 	visualizarFondoMenu();
 }
 
 void MostrarGameOver(){
 	InhibirIntTecla(A);
-	HabilitarIntTeclado();
-	HabilitarIntTempo();
-	HabilitarInterrupciones();
+	HabilitarInterrupcionesComunes();
 	contador_tiempo_gameover=0;
 	visualizarGameOver();
 }
