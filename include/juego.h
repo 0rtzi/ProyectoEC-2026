@@ -79,7 +79,7 @@ extern void InicializarVariablesPartida();
  * 
  * - Habilita el controlador general de interrupciones mediante HabilitarInterrupciones()
  * 
- * - Visualiza el fondo del menú principal mediante visualizarFondoMenu()
+ * - Visualiza el fondo del menú principal mediante VisualizarFondoMenu()
  * 
  * El menú permanece activo hasta que el jugador toque el área de inicio o presione START.
  * Se ejecuta dentro del bucle principal cuando ESTADO == MENU.
@@ -103,7 +103,7 @@ extern void MostrarMenu();
  * 
  * - Reinicia el contador_tiempo_gameover a 0
  * 
- * - Visualiza la pantalla final mediante visualizarGameOver()
+ * - Visualiza la pantalla final mediante VisualizarGameOver()
  * 
  * El jugador puede reiniciar una partida (START), volver al menú (SELECT),
  * o esperar a que contador_tiempo_gameover alcance contador_tiempo_gameover_max

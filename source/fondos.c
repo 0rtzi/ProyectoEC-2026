@@ -26,14 +26,14 @@ void VisualizarFondoPrueba() {
                      FondoPruebaBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
 }
 
-void visualizarFondoMenu() {
+void VisualizarFondoMenu() {
 	dmaCopyHalfWords(DMA_CHANNEL,
                      FondoMenuBitmap, // Variable que se genera automáticamente 
                      (uint16 *)BG_BMP_RAM(0), // Dirección del fondo principal 
                      FondoMenuBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
 }
 
-void visualizarGameOver() {
+void VisualizarGameOver() {
 	
 	dmaCopyHalfWords(DMA_CHANNEL,
                      GameOverBitmap, // Variable que se genera automáticamente 

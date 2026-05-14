@@ -119,13 +119,13 @@ void juego()
 
 void MostrarMenu(){
 	iprintf("\x1b[22;1H                                ");
-	visualizarFondoMenu();
+	VisualizarFondoMenu();
 }
 
 void MostrarGameOver(){
 	InhibirIntTecla(A);
 	contador_tiempo_gameover=0;
-	visualizarGameOver();
+	VisualizarGameOver();
 }
 
 void IniciarPartida(){
