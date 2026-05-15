@@ -135,6 +135,7 @@ extern void MostrarASCIIArt();
 
 extern int contador_tiempo_gameover;
 extern int timer_pTactil_gameover;
+extern int contador_animacion_muerte;
 
 /*=================================================================================
  * PROTAGONISTA (NAVE DEL JUGADOR)
