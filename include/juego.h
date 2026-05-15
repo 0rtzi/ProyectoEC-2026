@@ -155,6 +155,11 @@ typedef struct {
 } protagonista;
 
 /**
+ * @brief Instancia global del protagonista
+ */
+extern protagonista prota;
+
+/**
  * @brief Estructura que representa un indicador de puntos flotante en pantalla
  * 
  * Almacena los datos de un indicador visual temporal que muestra la cantidad
@@ -168,9 +173,11 @@ typedef struct {
 } puntos;
 
 /**
- * @brief Instancia global del protagonista
+ * @brief Array global de los puntos mostrados en pantalla.
+ * 
+ *  Almacena hasta 10 estructuras puntos.
  */
-extern protagonista prota;
+extern puntos arrayPuntos[10];
 
 /**
  * @brief Contador de ticks actual de espera para el movimiento del protagonista
