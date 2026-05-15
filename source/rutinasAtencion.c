@@ -276,8 +276,7 @@ void DetectarColisionesDisparoSetas(int idDisparo){
 				
 				if(matriz_setas[r][c].vidas<=0){
 					BorrarSetaMuerte(SID_SETA+matriz_setas[r][c].sprite_id, c*16, r*16);
-					// FIXME: El sprite no sale bien para las setas. Cuando esté arreglado lo activaremos
-					//EstablecerPuntos(PUNTOS_SETA, c*16, r*16);
+					EstablecerPuntos(PUNTOS_SETA, c*16, r*16);
 				}
 				else{
 					ActualizarSpriteSetas(SID_SETA+matriz_setas[r][c].sprite_id, matriz_setas[r][c].vidas, c*16, r*16);

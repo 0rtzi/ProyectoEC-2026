@@ -527,7 +527,7 @@ int i;
 		gfx_ciempies_cabeza_arriba[i]=sprite_ciempies_cabeza_arriba[i*2] | (sprite_ciempies_cabeza_arriba[(i*2)+1]<<8);
 		gfx_puntos_cabeza_ciempies[i]=sprite_puntos_cabeza_ciempies[i*2] | (sprite_puntos_cabeza_ciempies[(i*2)+1]<<8);
 		gfx_puntos_centicuerpo[i]=sprite_puntos_centicuerpo[i*2] | (sprite_puntos_centicuerpo[(i*2)+1]<<8);
-		gfx_puntos_seta[i]=sprite_seta[i*2] | (sprite_puntos_seta[(i*2)+1]<<8);
+		gfx_puntos_seta[i]=sprite_puntos_seta[i*2] | (sprite_puntos_seta[(i*2)+1]<<8);
 	}
 }
 
