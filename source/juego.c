@@ -23,7 +23,6 @@ y en otro ejemplo de Jaeden Ameronen
 void juego()
 {	
 	// Definiciones de variables
-	int tecla=0;
 	ESTADO=MENU;
 	ACCION=CARGANDO_FONDO;
 	PALETA=PALETA1;
