@@ -43,7 +43,8 @@ void juego()
 		switch (ESTADO){
 			case MENU:
 			if (timer_pTactil_gameover > 0) break;
-			if (touchRead(&PANT_DAT) && PANT_DAT.px >=40 && PANT_DAT.px <=235 && PANT_DAT.py >=110 && PANT_DAT.py <=180){
+			touchRead(&PANT_DAT);
+			if (PANT_DAT.px >=40 && PANT_DAT.px <=235 && PANT_DAT.py >=110 && PANT_DAT.py <=180){
 				IniciarPartida();
 			}
 			break;
@@ -100,12 +101,13 @@ void juego()
 			break;
 
 			case GAMEOVER:
+			touchRead(&PANT_DAT);
 			//Botón RESTART
-			if(touchRead(&PANT_DAT) && PANT_DAT.px>=20 && PANT_DAT.px<=110 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
+			if(PANT_DAT.px>=20 && PANT_DAT.px<=110 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
 				IniciarPartida();
 			}
 			//Botón MENU
-			if(touchRead(&PANT_DAT) && PANT_DAT.px>=140 && PANT_DAT.px<=230 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
+			if(PANT_DAT.px>=140 && PANT_DAT.px<=230 && PANT_DAT.py>=120 && PANT_DAT.py<=170){
 				MostrarMenu();
 				timer_pTactil_gameover = 256;
 				ESTADO=MENU;
